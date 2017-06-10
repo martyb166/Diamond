@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,7 @@
 #include "script/script.h"
 #include "script/sign.h"
 #include "spork.h"
-#include "swifttx.h"
+#include "quicktx.h"
 #include "timedata.h"
 #include "util.h"
 #include "utilmoneystr.h"
@@ -805,8 +805,8 @@ CAmount CWallet::GetDebit(const CTxIn& txin, const isminefilter& filter) const
     return 0;
 }
 
-// Recursively determine the rounds of a given input (How deep is the Obfuscation chain for a given input)
-int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
+// Recursively determine the rounds of a given input (How deep is the mixTX chain for a given input)
+int CWallet::GetRealInputmixTXRounds(CTxIn in, int rounds) const
 {
     static std::map<uint256, CMutableTransaction> mDenomWtxes;
 
@@ -820,7 +820,7 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         std::map<uint256, CMutableTransaction>::const_iterator mdwi = mDenomWtxes.find(hash);
         // not known yet, let's add it
         if (mdwi == mDenomWtxes.end()) {
-            LogPrint("obfuscation", "GetInputObfuscationRounds INSERTING %s\n", hash.ToString());
+            LogPrint("mixTX", "GetInputmixTXRounds INSERTING %s\n", hash.ToString());
             mDenomWtxes[hash] = CMutableTransaction(*wtx);
         }
         // found and it's not an initial value, just return it
@@ -832,13 +832,13 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         // bounds check
         if (nout >= wtx->vout.size()) {
             // should never actually hit this
-            LogPrint("obfuscation", "GetInputObfuscationRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, -4);
+            LogPrint("mixTX", "GetInputmixTXRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, -4);
             return -4;
         }
 
         if (pwalletMain->IsCollateralAmount(wtx->vout[nout].nValue)) {
             mDenomWtxes[hash].vout[nout].nRounds = -3;
-            LogPrint("obfuscation", "GetInputObfuscationRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
+            LogPrint("mixTX", "GetInputmixTXRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
             return mDenomWtxes[hash].vout[nout].nRounds;
         }
 
@@ -846,7 +846,7 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         if (/*rounds == 0 && */ !IsDenominatedAmount(wtx->vout[nout].nValue)) //NOT DENOM
         {
             mDenomWtxes[hash].vout[nout].nRounds = -2;
-            LogPrint("obfuscation", "GetInputObfuscationRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
+            LogPrint("mixTX", "GetInputmixTXRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
             return mDenomWtxes[hash].vout[nout].nRounds;
         }
 
@@ -857,7 +857,7 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         // this one is denominated but there is another non-denominated output found in the same tx
         if (!fAllDenoms) {
             mDenomWtxes[hash].vout[nout].nRounds = 0;
-            LogPrint("obfuscation", "GetInputObfuscationRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
+            LogPrint("mixTX", "GetInputmixTXRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
             return mDenomWtxes[hash].vout[nout].nRounds;
         }
 
@@ -866,7 +866,7 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         // only denoms here so let's look up
         BOOST_FOREACH (CTxIn in2, wtx->vin) {
             if (IsMine(in2)) {
-                int n = GetRealInputObfuscationRounds(in2, rounds + 1);
+                int n = GetRealInputmixTXRounds(in2, rounds + 1);
                 // denom found, find the shortest chain or initially assign nShortest with the first found value
                 if (n >= 0 && (n < nShortest || nShortest == -10)) {
                     nShortest = n;
@@ -877,7 +877,7 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
         mDenomWtxes[hash].vout[nout].nRounds = fDenomFound ? (nShortest >= 15 ? 16 : nShortest + 1) // good, we a +1 to the shortest one but only 16 rounds max allowed
                                                              :
                                                              0; // too bad, we are the fist one in that chain
-        LogPrint("obfuscation", "GetInputObfuscationRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
+        LogPrint("mixTX", "GetInputmixTXRounds UPDATED   %s %3d %3d\n", hash.ToString(), nout, mDenomWtxes[hash].vout[nout].nRounds);
         return mDenomWtxes[hash].vout[nout].nRounds;
     }
 
@@ -885,11 +885,11 @@ int CWallet::GetRealInputObfuscationRounds(CTxIn in, int rounds) const
 }
 
 // respect current settings
-int CWallet::GetInputObfuscationRounds(CTxIn in) const
+int CWallet::GetInputmixTXRounds(CTxIn in) const
 {
     LOCK(cs_wallet);
-    int realObfuscationRounds = GetRealInputObfuscationRounds(in, 0);
-    return realObfuscationRounds > nObfuscationRounds ? nObfuscationRounds : realObfuscationRounds;
+    int realmixTXRounds = GetRealInputmixTXRounds(in, 0);
+    return realmixTXRounds > nmixTXRounds ? nmixTXRounds : realmixTXRounds;
 }
 
 bool CWallet::IsDenominated(const CTxIn& txin) const
@@ -922,7 +922,7 @@ bool CWallet::IsDenominated(const CTransaction& tx) const
 
 bool CWallet::IsDenominatedAmount(int64_t nInputAmount) const
 {
-    BOOST_FOREACH (int64_t d, obfuScationDenominations)
+    BOOST_FOREACH (int64_t d, miXtxDenominations)
         if (nInputAmount == d)
             return true;
     return false;
@@ -1292,7 +1292,7 @@ double CWallet::GetAverageAnonymizedRounds() const
 
                 if (IsSpent(hash, i) || IsMine(pcoin->vout[i]) != ISMINE_SPENDABLE || !IsDenominated(vin)) continue;
 
-                int rounds = GetInputObfuscationRounds(vin);
+                int rounds = GetInputmixTXRounds(vin);
                 fTotal += (float)rounds;
                 fCount += 1;
             }
@@ -1325,8 +1325,8 @@ CAmount CWallet::GetNormalizedAnonymizedBalance() const
                 if (IsSpent(hash, i) || IsMine(pcoin->vout[i]) != ISMINE_SPENDABLE || !IsDenominated(vin)) continue;
                 if (pcoin->GetDepthInMainChain() < 0) continue;
 
-                int rounds = GetInputObfuscationRounds(vin);
-                nTotal += pcoin->vout[i].nValue * rounds / nObfuscationRounds;
+                int rounds = GetInputmixTXRounds(vin);
+                nTotal += pcoin->vout[i].nValue * rounds / nmixTXRounds;
             }
         }
     }
@@ -1551,7 +1551,7 @@ bool less_then_denom(const COutput& out1, const COutput& out2)
 
     bool found1 = false;
     bool found2 = false;
-    BOOST_FOREACH (int64_t d, obfuScationDenominations) // loop through predefined denoms
+    BOOST_FOREACH (int64_t d, miXtxDenominations) // loop through predefined denoms
     {
         if (pcoin1->vout[out1.i].nValue == d) found1 = true;
         if (pcoin2->vout[out2.i].nValue == d) found2 = true;
@@ -1726,9 +1726,9 @@ bool CWallet::SelectCoins(const CAmount& nTargetValue, set<pair<const CWalletTx*
 
             if (coin_type == ONLY_DENOMINATED) {
                 CTxIn vin = CTxIn(out.tx->GetHash(), out.i);
-                int rounds = GetInputObfuscationRounds(vin);
+                int rounds = GetInputmixTXRounds(vin);
                 // make sure it's actually anonymized
-                if (rounds < nObfuscationRounds) continue;
+                if (rounds < nmixTXRounds) continue;
             }
 
             nValueRet += out.tx->vout[out.i].nValue;
@@ -1737,18 +1737,18 @@ bool CWallet::SelectCoins(const CAmount& nTargetValue, set<pair<const CWalletTx*
         return (nValueRet >= nTargetValue);
     }
 
-    //if we're doing only denominated, we need to round up to the nearest .1 PIV
+    //if we're doing only denominated, we need to round up to the nearest .1 DMD
     if (coin_type == ONLY_DENOMINATED) {
         // Make outputs by looping through denominations, from large to small
-        BOOST_FOREACH (int64_t v, obfuScationDenominations) {
+        BOOST_FOREACH (int64_t v, miXtxDenominations) {
             BOOST_FOREACH (const COutput& out, vCoins) {
                 if (out.tx->vout[out.i].nValue == v                                               //make sure it's the denom we're looking for
-                    && nValueRet + out.tx->vout[out.i].nValue < nTargetValue + (0.1 * COIN) + 100 //round the amount up to .1 PIV over
+                    && nValueRet + out.tx->vout[out.i].nValue < nTargetValue + (0.1 * COIN) + 100 //round the amount up to .1 DMD over
                     ) {
                     CTxIn vin = CTxIn(out.tx->GetHash(), out.i);
-                    int rounds = GetInputObfuscationRounds(vin);
+                    int rounds = GetInputmixTXRounds(vin);
                     // make sure it's actually anonymized
-                    if (rounds < nObfuscationRounds) continue;
+                    if (rounds < nmixTXRounds) continue;
                     nValueRet += out.tx->vout[out.i].nValue;
                     setCoinsRet.insert(make_pair(out.tx, out.i));
                 }
@@ -1770,7 +1770,7 @@ struct CompareByPriority {
     }
 };
 
-bool CWallet::SelectCoinsByDenominations(int nDenom, int64_t nValueMin, int64_t nValueMax, std::vector<CTxIn>& vCoinsRet, std::vector<COutput>& vCoinsRet2, int64_t& nValueRet, int nObfuscationRoundsMin, int nObfuscationRoundsMax)
+bool CWallet::SelectCoinsByDenominations(int nDenom, int64_t nValueMin, int64_t nValueMax, std::vector<CTxIn>& vCoinsRet, std::vector<COutput>& vCoinsRet2, int64_t& nValueRet, int nmixTXRoundsMin, int nmixTXRoundsMax)
 {
     vCoinsRet.clear();
     nValueRet = 0;
@@ -1805,18 +1805,18 @@ bool CWallet::SelectCoinsByDenominations(int nDenom, int64_t nValueMin, int64_t 
 
             // Function returns as follows:
             //
-            // bit 0 - 10000 PIV+1 ( bit on if present )
-            // bit 1 - 1000 PIV+1
-            // bit 2 - 100 PIV+1
-            // bit 3 - 10 PIV+1
-            // bit 4 - 1 PIV+1
-            // bit 5 - .1 PIV+1
+            // bit 0 - 10000 DMD+1 ( bit on if present )
+            // bit 1 - 1000 DMD+1
+            // bit 2 - 100 DMD+1
+            // bit 3 - 10 DMD+1
+            // bit 4 - 1 DMD+1
+            // bit 5 - .1 DMD+1
 
             CTxIn vin = CTxIn(out.tx->GetHash(), out.i);
 
-            int rounds = GetInputObfuscationRounds(vin);
-            if (rounds >= nObfuscationRoundsMax) continue;
-            if (rounds < nObfuscationRoundsMin) continue;
+            int rounds = GetInputmixTXRounds(vin);
+            if (rounds >= nmixTXRoundsMax) continue;
+            if (rounds < nmixTXRoundsMin) continue;
 
             if (fFound10000 && fFound1000 && fFound100 && fFound10 && fFound1 && fFoundDot1) { //if fulfilled
                 //we can return this for submission
@@ -1875,7 +1875,7 @@ bool CWallet::SelectCoinsByDenominations(int nDenom, int64_t nValueMin, int64_t 
     return (nValueRet >= nValueMin && fFound10000 && fFound1000 && fFound100 && fFound10 && fFound1 && fFoundDot1);
 }
 
-bool CWallet::SelectCoinsDark(CAmount nValueMin, CAmount nValueMax, std::vector<CTxIn>& setCoinsRet, CAmount& nValueRet, int nObfuscationRoundsMin, int nObfuscationRoundsMax) const
+bool CWallet::SelectCoinsDark(CAmount nValueMin, CAmount nValueMax, std::vector<CTxIn>& setCoinsRet, CAmount& nValueRet, int nmixTXRoundsMin, int nmixTXRoundsMax) const
 {
     CCoinControl* coinControl = NULL;
 
@@ -1883,7 +1883,7 @@ bool CWallet::SelectCoinsDark(CAmount nValueMin, CAmount nValueMax, std::vector<
     nValueRet = 0;
 
     vector<COutput> vCoins;
-    AvailableCoins(vCoins, true, coinControl, nObfuscationRoundsMin < 0 ? ONLY_NONDENOMINATED_NOT10000IFMN : ONLY_DENOMINATED);
+    AvailableCoins(vCoins, true, coinControl, nmixTXRoundsMin < 0 ? ONLY_NONDENOMINATED_NOT10000IFMN : ONLY_DENOMINATED);
 
     set<pair<const CWalletTx*, unsigned int> > setCoinsRet2;
 
@@ -1900,9 +1900,9 @@ bool CWallet::SelectCoinsDark(CAmount nValueMin, CAmount nValueMax, std::vector<
         if (nValueRet + out.tx->vout[out.i].nValue <= nValueMax) {
             CTxIn vin = CTxIn(out.tx->GetHash(), out.i);
 
-            int rounds = GetInputObfuscationRounds(vin);
-            if (rounds >= nObfuscationRoundsMax) continue;
-            if (rounds < nObfuscationRoundsMin) continue;
+            int rounds = GetInputmixTXRounds(vin);
+            if (rounds >= nmixTXRoundsMax) continue;
+            if (rounds < nmixTXRoundsMin) continue;
 
             vin.prevPubKey = out.tx->vout[out.i].scriptPubKey; // the inputs PubKey
             nValueRet += out.tx->vout[out.i].nValue;
@@ -1985,7 +1985,7 @@ bool CWallet::HasCollateralInputs(bool fOnlyConfirmed) const
 
 bool CWallet::IsCollateralAmount(int64_t nInputAmount) const
 {
-    return nInputAmount != 0 && nInputAmount % OBFUSCATION_COLLATERAL == 0 && nInputAmount < OBFUSCATION_COLLATERAL * 5 && nInputAmount > OBFUSCATION_COLLATERAL;
+    return nInputAmount != 0 && nInputAmount % MIXTX_COLLATERAL == 0 && nInputAmount < MIXTX_COLLATERAL * 5 && nInputAmount > MIXTX_COLLATERAL;
 }
 
 bool CWallet::CreateCollateralTransaction(CMutableTransaction& txCollateral, std::string& strReason)
@@ -2004,7 +2004,7 @@ bool CWallet::CreateCollateralTransaction(CMutableTransaction& txCollateral, std
     std::vector<CTxIn> vCoinsCollateral;
 
     if (!SelectCoinsCollateral(vCoinsCollateral, nValueIn2)) {
-        strReason = "Error: Obfuscation requires a collateral transaction and could not locate an acceptable input!";
+        strReason = "Error: mixTX requires a collateral transaction and could not locate an acceptable input!";
         return false;
     }
 
@@ -2018,9 +2018,9 @@ bool CWallet::CreateCollateralTransaction(CMutableTransaction& txCollateral, std
     BOOST_FOREACH (CTxIn v, vCoinsCollateral)
         txCollateral.vin.push_back(v);
 
-    if (nValueIn2 - OBFUSCATION_COLLATERAL - nFeeRet > 0) {
+    if (nValueIn2 - MIXTX_COLLATERAL - nFeeRet > 0) {
         //pay collateral charge in fees
-        CTxOut vout3 = CTxOut(nValueIn2 - OBFUSCATION_COLLATERAL, scriptChange);
+        CTxOut vout3 = CTxOut(nValueIn2 - MIXTX_COLLATERAL, scriptChange);
         txCollateral.vout.push_back(vout3);
     }
 
@@ -2030,7 +2030,7 @@ bool CWallet::CreateCollateralTransaction(CMutableTransaction& txCollateral, std
             BOOST_FOREACH (CTxIn v, vCoinsCollateral)
                 UnlockCoin(v.prevout);
 
-            strReason = "CObfuscationPool::Sign - Unable to sign collateral transaction! \n";
+            strReason = "CmixTXPool::Sign - Unable to sign collateral transaction! \n";
             return false;
         }
         vinNumber++;
@@ -2169,16 +2169,16 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, CAmount> >& vecSend,
                     if (coin_type == ALL_COINS) {
                         strFailReason = _("Insufficient funds.");
                     } else if (coin_type == ONLY_NOT10000IFMN) {
-                        strFailReason = _("Unable to locate enough funds for this transaction that are not equal 10000 PIV.");
+                        strFailReason = _("Unable to locate enough funds for this transaction that are not equal 10000 DMD.");
                     } else if (coin_type == ONLY_NONDENOMINATED_NOT10000IFMN) {
-                        strFailReason = _("Unable to locate enough Obfuscation non-denominated funds for this transaction that are not equal 10000 PIV.");
+                        strFailReason = _("Unable to locate enough mixTX non-denominated funds for this transaction that are not equal 10000 DMD.");
                     } else {
-                        strFailReason = _("Unable to locate enough Obfuscation denominated funds for this transaction.");
-                        strFailReason += " " + _("Obfuscation uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.");
+                        strFailReason = _("Unable to locate enough mixTX denominated funds for this transaction.");
+                        strFailReason += " " + _("mixTX uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.");
                     }
 
                     if (useIX) {
-                        strFailReason += " " + _("SwiftTX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.");
+                        strFailReason += " " + _("quickTX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.");
                     }
 
                     return false;
@@ -2209,7 +2209,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, CAmount> >& vecSend,
                 if (nChange > 0) {
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
-                    // change transaction isn't always pay-to-pivx-address
+                    // change transaction isn't always pay-to-diamond-address
                     CScript scriptChange;
 
                     // coin control: send change to custom address
@@ -2585,14 +2585,14 @@ int64_t CWallet::GetTotalValue(std::vector<CTxIn> vCoins)
     return nTotalValue;
 }
 
-string CWallet::PrepareObfuscationDenominate(int minRounds, int maxRounds)
+string CWallet::PreparemixTXDenominate(int minRounds, int maxRounds)
 {
     if (IsLocked())
         return _("Error: Wallet locked, unable to create transaction!");
 
-    if (obfuScationPool.GetState() != POOL_STATUS_ERROR && obfuScationPool.GetState() != POOL_STATUS_SUCCESS)
-        if (obfuScationPool.GetEntriesCount() > 0)
-            return _("Error: You already have pending entries in the Obfuscation pool");
+    if (miXtxPool.GetState() != POOL_STATUS_ERROR && miXtxPool.GetState() != POOL_STATUS_SUCCESS)
+        if (miXtxPool.GetEntriesCount() > 0)
+            return _("Error: You already have pending entries in the mixTX pool");
 
     // ** find the coins we'll use
     std::vector<CTxIn> vCoins;
@@ -2607,11 +2607,11 @@ string CWallet::PrepareObfuscationDenominate(int minRounds, int maxRounds)
         if minRounds >= 0 it means only denominated inputs are going in and coming out
     */
     if (minRounds >= 0) {
-        if (!SelectCoinsByDenominations(obfuScationPool.sessionDenom, 0.1 * COIN, OBFUSCATION_POOL_MAX, vCoins, vCoins2, nValueIn, minRounds, maxRounds))
+        if (!SelectCoinsByDenominations(miXtxPool.sessionDenom, 0.1 * COIN, MIXTX_POOL_MAX, vCoins, vCoins2, nValueIn, minRounds, maxRounds))
             return _("Error: Can't select current denominated inputs");
     }
 
-    LogPrintf("PrepareObfuscationDenominate - preparing obfuscation denominate . Got: %d \n", nValueIn);
+    LogPrintf("PreparemixTXDenominate - preparing mixTX denominate . Got: %d \n", nValueIn);
 
     {
         LOCK(cs_wallet);
@@ -2633,20 +2633,20 @@ string CWallet::PrepareObfuscationDenominate(int minRounds, int maxRounds)
     int nStep = 0;
     int nStepsMax = 5 + GetRandInt(5);
     while (nStep < nStepsMax) {
-        BOOST_FOREACH (int64_t v, obfuScationDenominations) {
+        BOOST_FOREACH (int64_t v, miXtxDenominations) {
             // only use the ones that are approved
             bool fAccepted = false;
-            if ((obfuScationPool.sessionDenom & (1 << 0)) && v == ((10000 * COIN) + 10000000)) {
+            if ((miXtxPool.sessionDenom & (1 << 0)) && v == ((10000 * COIN) + 10000000)) {
                 fAccepted = true;
-            } else if ((obfuScationPool.sessionDenom & (1 << 1)) && v == ((1000 * COIN) + 1000000)) {
+            } else if ((miXtxPool.sessionDenom & (1 << 1)) && v == ((1000 * COIN) + 1000000)) {
                 fAccepted = true;
-            } else if ((obfuScationPool.sessionDenom & (1 << 2)) && v == ((100 * COIN) + 100000)) {
+            } else if ((miXtxPool.sessionDenom & (1 << 2)) && v == ((100 * COIN) + 100000)) {
                 fAccepted = true;
-            } else if ((obfuScationPool.sessionDenom & (1 << 3)) && v == ((10 * COIN) + 10000)) {
+            } else if ((miXtxPool.sessionDenom & (1 << 3)) && v == ((10 * COIN) + 10000)) {
                 fAccepted = true;
-            } else if ((obfuScationPool.sessionDenom & (1 << 4)) && v == ((1 * COIN) + 1000)) {
+            } else if ((miXtxPool.sessionDenom & (1 << 4)) && v == ((1 * COIN) + 1000)) {
                 fAccepted = true;
-            } else if ((obfuScationPool.sessionDenom & (1 << 5)) && v == ((.1 * COIN) + 100)) {
+            } else if ((miXtxPool.sessionDenom & (1 << 5)) && v == ((.1 * COIN) + 100)) {
                 fAccepted = true;
             }
             if (!fAccepted) continue;
@@ -2699,7 +2699,7 @@ string CWallet::PrepareObfuscationDenominate(int minRounds, int maxRounds)
             UnlockCoin(v.prevout);
     }
 
-    if (obfuScationPool.GetDenominations(vOut) != obfuScationPool.sessionDenom) {
+    if (miXtxPool.GetDenominations(vOut) != miXtxPool.sessionDenom) {
         // unlock used coins on failure
         LOCK(cs_wallet);
         BOOST_FOREACH (CTxIn v, vCoinsResult)
@@ -2711,7 +2711,7 @@ string CWallet::PrepareObfuscationDenominate(int minRounds, int maxRounds)
     std::random_shuffle(vOut.begin(), vOut.end());
 
     // We also do not care about full amount as long as we have right denominations, just pass what we found
-    obfuScationPool.SendObfuscationDenominate(vCoinsResult, vOut, nValueIn - nValueLeft);
+    miXtxPool.SendmixTXDenominate(vCoinsResult, vOut, nValueIn - nValueLeft);
 
     return "";
 }
@@ -3588,8 +3588,8 @@ int CMerkleTx::GetDepthInMainChain(const CBlockIndex*& pindexRet, bool enableIX)
     if (enableIX) {
         if (nResult < 6) {
             int signatures = GetTransactionLockSignatures();
-            if (signatures >= SWIFTTX_SIGNATURES_REQUIRED) {
-                return nSwiftTXDepth + nResult;
+            if (signatures >= QUICKTX_SIGNATURES_REQUIRED) {
+                return nquickTXDepth + nResult;
             }
         }
     }
@@ -3614,8 +3614,8 @@ bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, bool fRejectInsaneFee, bool 
 int CMerkleTx::GetTransactionLockSignatures() const
 {
     if (fLargeWorkForkFound || fLargeWorkInvalidChainFound) return -2;
-    if (!IsSporkActive(SPORK_2_SWIFTTX)) return -3;
-    if (!fEnableSwiftTX) return -1;
+    if (!IsSporkActive(SPORK_2_QUICKTX)) return -3;
+    if (!fEnablequickTX) return -1;
 
     //compile consessus vote
     std::map<uint256, CTransactionLock>::iterator i = mapTxLocks.find(GetHash());
@@ -3628,7 +3628,7 @@ int CMerkleTx::GetTransactionLockSignatures() const
 
 bool CMerkleTx::IsTransactionLockTimedOut() const
 {
-    if (!fEnableSwiftTX) return 0;
+    if (!fEnablequickTX) return 0;
 
     //compile consessus vote
     std::map<uint256, CTransactionLock>::iterator i = mapTxLocks.find(GetHash());

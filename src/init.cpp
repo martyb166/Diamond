@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/pivx-config.h"
+#include "config/diamond-config.h"
 #endif
 
 #include "init.h"
@@ -171,7 +171,7 @@ void PrepareShutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("pivx-shutoff");
+    RenameThread("diamond-shutoff");
     mempool.AddTransactionsUpdated(1);
     StopRPCThreads();
 #ifdef ENABLE_WALLET
@@ -305,7 +305,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blocknotify=<cmd>", _("Execute command when the best block changes (%s in cmd is replaced by block hash)"));
     strUsage += HelpMessageOpt("-checkblocks=<n>", strprintf(_("How many blocks to check at startup (default: %u, 0 = all)"), 500));
     strUsage += HelpMessageOpt("-checklevel=<n>", strprintf(_("How thorough the block verification of -checkblocks is (0-4, default: %u)"), 3));
-    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), "pivx.conf"));
+    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), "diamond.conf"));
     if (mode == HMM_BITCOIND) {
 #if !defined(WIN32)
         strUsage += HelpMessageOpt("-daemon", _("Run in the background as a daemon and accept commands"));
@@ -317,7 +317,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-maxorphantx=<n>", strprintf(_("Keep at most <n> unconnectable transactions in memory (default: %u)"), DEFAULT_MAX_ORPHAN_TRANSACTIONS));
     strUsage += HelpMessageOpt("-par=<n>", strprintf(_("Set the number of script verification threads (%u to %d, 0 = auto, <0 = leave that many cores free, default: %d)"), -(int)boost::thread::hardware_concurrency(), MAX_SCRIPTCHECK_THREADS, DEFAULT_SCRIPTCHECK_THREADS));
 #ifndef WIN32
-    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "pivxd.pid"));
+    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "diamondd.pid"));
 #endif
     strUsage += HelpMessageOpt("-reindex", _("Rebuild block chain index from current blk000??.dat files") + " " + _("on startup"));
 #if !defined(WIN32)
@@ -367,9 +367,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-disablewallet", _("Do not load the wallet and disable wallet RPC calls"));
     strUsage += HelpMessageOpt("-keypool=<n>", strprintf(_("Set key pool size to <n> (default: %u)"), 100));
     if (GetBoolArg("-help-debug", false))
-        strUsage += HelpMessageOpt("-mintxfee=<amt>", strprintf(_("Fees (in PIV/Kb) smaller than this are considered zero fee for transaction creation (default: %s)"),
+        strUsage += HelpMessageOpt("-mintxfee=<amt>", strprintf(_("Fees (in DMD/Kb) smaller than this are considered zero fee for transaction creation (default: %s)"),
             FormatMoney(CWallet::minTxFee.GetFeePerK())));
-    strUsage += HelpMessageOpt("-paytxfee=<amt>", strprintf(_("Fee (in PIV/kB) to add to transactions you send (default: %s)"), FormatMoney(payTxFee.GetFeePerK())));
+    strUsage += HelpMessageOpt("-paytxfee=<amt>", strprintf(_("Fee (in DMD/kB) to add to transactions you send (default: %s)"), FormatMoney(payTxFee.GetFeePerK())));
     strUsage += HelpMessageOpt("-rescan", _("Rescan the block chain for missing wallet transactions") + " " + _("on startup"));
     strUsage += HelpMessageOpt("-salvagewallet", _("Attempt to recover private keys from a corrupt wallet.dat") + " " + _("on startup"));
     strUsage += HelpMessageOpt("-sendfreetransactions", strprintf(_("Send transactions as zero-fee transactions if possible (default: %u)"), 0));
@@ -390,10 +390,10 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageGroup(_("ZeroMQ notification options:"));
     strUsage += HelpMessageOpt("-zmqpubhashblock=<address>", _("Enable publish hash block in <address>"));
     strUsage += HelpMessageOpt("-zmqpubhashtx=<address>", _("Enable publish hash transaction in <address>"));
-    strUsage += HelpMessageOpt("-zmqpubhashtxlock=<address>", _("Enable publish hash transaction (locked via SwiftTX) in <address>"));
+    strUsage += HelpMessageOpt("-zmqpubhashtxlock=<address>", _("Enable publish hash transaction (locked via quickTX) in <address>"));
     strUsage += HelpMessageOpt("-zmqpubrawblock=<address>", _("Enable publish raw block in <address>"));
     strUsage += HelpMessageOpt("-zmqpubrawtx=<address>", _("Enable publish raw transaction in <address>"));
-    strUsage += HelpMessageOpt("-zmqpubrawtxlock=<address>", _("Enable publish raw transaction (locked via SwiftTX) in <address>"));
+    strUsage += HelpMessageOpt("-zmqpubrawtxlock=<address>", _("Enable publish raw transaction (locked via quickTX) in <address>"));
 #endif
 
     strUsage += HelpMessageGroup(_("Debugging/Testing options:"));
@@ -410,7 +410,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-stopafterblockimport", strprintf(_("Stop running after importing blocks from disk (default: %u)"), 0));
         strUsage += HelpMessageOpt("-sporkkey=<privkey>", _("Enable spork administration functionality with the appropriate private key."));
     }
-    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, mempool, net, pivx, (obfuscation, swifttx, masternode, mnpayments, mnbudget)"; // Don't translate these and qt below
+    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, mempool, net, diamond, (mixTX, quicktx, masternode, mnpayments, mnbudget)"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
@@ -429,7 +429,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-relaypriority", strprintf(_("Require high priority for relaying free or low-fee transactions (default:%u)"), 1));
         strUsage += HelpMessageOpt("-maxsigcachesize=<n>", strprintf(_("Limit size of signature cache to <n> entries (default: %u)"), 50000));
     }
-    strUsage += HelpMessageOpt("-minrelaytxfee=<amt>", strprintf(_("Fees (in PIV/Kb) smaller than this are considered zero fee for relaying (default: %s)"), FormatMoney(::minRelayTxFee.GetFeePerK())));
+    strUsage += HelpMessageOpt("-minrelaytxfee=<amt>", strprintf(_("Fees (in DMD/Kb) smaller than this are considered zero fee for relaying (default: %s)"), FormatMoney(::minRelayTxFee.GetFeePerK())));
     strUsage += HelpMessageOpt("-printtoconsole", strprintf(_("Send trace/debug info to console instead of debug.log file (default: %u)"), 0));
     if (GetBoolArg("-help-debug", false)) {
         strUsage += HelpMessageOpt("-printpriority", strprintf(_("Log transaction priority and fee per kB when mining blocks (default: %u)"), 0));
@@ -440,7 +440,7 @@ std::string HelpMessage(HelpMessageMode mode)
     }
     strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on client startup (default: 1 when no -debug)"));
     strUsage += HelpMessageOpt("-testnet", _("Use the test network"));
-    strUsage += HelpMessageOpt("-litemode=<n>", strprintf(_("Disable all PIVX specific functionality (Masternodes, Obfuscation, SwiftTX, Budgeting) (0-1, default: %u)"), 0));
+    strUsage += HelpMessageOpt("-litemode=<n>", strprintf(_("Disable all DMD specific functionality (Masternodes, mixTX, quickTX, Budgeting) (0-1, default: %u)"), 0));
 
 #ifdef ENABLE_WALLET
     strUsage += HelpMessageGroup(_("Staking options:"));
@@ -460,15 +460,15 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-masternodeaddr=<n>", strprintf(_("Set external address:port to get to this masternode (example: %s)"), "128.127.106.235:51472"));
     strUsage += HelpMessageOpt("-budgetvotemode=<mode>", _("Change automatic finalized budget voting behavior. mode=auto: Vote for only exact finalized budget match to my generated budget. (string, default: auto)"));
 
-    strUsage += HelpMessageGroup(_("Obfuscation options:"));
-    strUsage += HelpMessageOpt("-enableobfuscation=<n>", strprintf(_("Enable use of automated obfuscation for funds stored in this wallet (0-1, default: %u)"), 0));
-    strUsage += HelpMessageOpt("-obfuscationrounds=<n>", strprintf(_("Use N separate masternodes to anonymize funds  (2-8, default: %u)"), 2));
-    strUsage += HelpMessageOpt("-anonymizepivxamount=<n>", strprintf(_("Keep N PIV anonymized (default: %u)"), 0));
-    strUsage += HelpMessageOpt("-liquidityprovider=<n>", strprintf(_("Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)"), 0));
+    strUsage += HelpMessageGroup(_("mixTX options:"));
+    strUsage += HelpMessageOpt("-enablemixTX=<n>", strprintf(_("Enable use of automated mixTX for funds stored in this wallet (0-1, default: %u)"), 0));
+    strUsage += HelpMessageOpt("-mixTXrounds=<n>", strprintf(_("Use N separate masternodes to anonymize funds  (2-8, default: %u)"), 2));
+    strUsage += HelpMessageOpt("-anonymizediamondamount=<n>", strprintf(_("Keep N DMD anonymized (default: %u)"), 0));
+    strUsage += HelpMessageOpt("-liquidityprovider=<n>", strprintf(_("Provide liquidity to mixTX by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)"), 0));
 
-    strUsage += HelpMessageGroup(_("SwiftTX options:"));
-    strUsage += HelpMessageOpt("-enableswifttx=<n>", strprintf(_("Enable swifttx, show confirmations for locked transactions (bool, default: %s)"), "true"));
-    strUsage += HelpMessageOpt("-swifttxdepth=<n>", strprintf(_("Show N confirmations for a successfully locked transaction (0-9999, default: %u)"), nSwiftTXDepth));
+    strUsage += HelpMessageGroup(_("quickTX options:"));
+    strUsage += HelpMessageOpt("-enablequicktx=<n>", strprintf(_("Enable quicktx, show confirmations for locked transactions (bool, default: %s)"), "true"));
+    strUsage += HelpMessageOpt("-quicktxdepth=<n>", strprintf(_("Show N confirmations for a successfully locked transaction (0-9999, default: %u)"), nquickTXDepth));
 
     strUsage += HelpMessageGroup(_("Node relay options:"));
     strUsage += HelpMessageOpt("-datacarrier", strprintf(_("Relay and mine data carrier transactions (default: %u)"), 1));
@@ -508,7 +508,7 @@ std::string LicenseInfo()
            "\n" +
            FormatParagraph(strprintf(_("Copyright (C) 2014-%i The Dash Core Developers"), COPYRIGHT_YEAR)) + "\n" +
            "\n" +
-           FormatParagraph(strprintf(_("Copyright (C) 2015-%i The PIVX Core Developers"), COPYRIGHT_YEAR)) + "\n" +
+           FormatParagraph(strprintf(_("Copyright (C) 2015-%i The DMD Core Developers"), COPYRIGHT_YEAR)) + "\n" +
            "\n" +
            FormatParagraph(_("This is experimental software.")) + "\n" +
            "\n" +
@@ -542,7 +542,7 @@ struct CImportingNow {
 
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 {
-    RenameThread("pivx-loadblk");
+    RenameThread("diamond-loadblk");
 
     // -reindex
     if (fReindex) {
@@ -600,7 +600,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 }
 
 /** Sanity checks
- *  Ensure that PIVX is running in a usable environment with all
+ *  Ensure that DMD is running in a usable environment with all
  *  necessary library support.
  */
 bool InitSanityCheck(void)
@@ -617,7 +617,7 @@ bool InitSanityCheck(void)
 }
 
 
-/** Initialize pivx.
+/** Initialize diamond.
  *  @pre Parameters should be parsed and config file should be read.
  */
 bool AppInit2(boost::thread_group& threadGroup)
@@ -745,9 +745,9 @@ bool AppInit2(boost::thread_group& threadGroup)
             LogPrintf("AppInit2 : parameter interaction: -zapwallettxes=<mode> -> setting -rescan=1\n");
     }
 
-    if (!GetBoolArg("-enableswifttx", fEnableSwiftTX)) {
-        if (SoftSetArg("-swifttxdepth", 0))
-            LogPrintf("AppInit2 : parameter interaction: -enableswifttx=false -> setting -nSwiftTXDepth=0\n");
+    if (!GetBoolArg("-enablequicktx", fEnablequickTX)) {
+        if (SoftSetArg("-quicktxdepth", 0))
+            LogPrintf("AppInit2 : parameter interaction: -enablequicktx=false -> setting -nquickTXDepth=0\n");
     }
 
     if (mapArgs.count("-reservebalance")) {
@@ -886,7 +886,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // Sanity check
     if (!InitSanityCheck())
-        return InitError(_("Initialization sanity check failed. PIVX Core is shutting down."));
+        return InitError(_("Initialization sanity check failed. DMD Core is shutting down."));
 
     std::string strDataDir = GetDataDir().string();
 #ifdef ENABLE_WALLET
@@ -894,7 +894,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     if (strWalletFile != boost::filesystem::basename(strWalletFile) + boost::filesystem::extension(strWalletFile))
         return InitError(strprintf(_("Wallet %s resides outside data directory %s"), strWalletFile, strDataDir));
 #endif
-    // Make sure only a single PIVX process is using the data directory.
+    // Make sure only a single DMD process is using the data directory.
     boost::filesystem::path pathLockFile = GetDataDir() / ".lock";
     FILE* file = fopen(pathLockFile.string().c_str(), "a"); // empty lock file; created if it doesn't exist.
     if (file) fclose(file);
@@ -902,7 +902,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // Wait maximum 10 seconds if an old wallet is still running. Avoids lockup during restart
     if (!lock.timed_lock(boost::get_system_time() + boost::posix_time::seconds(10)))
-        return InitError(strprintf(_("Cannot obtain a lock on data directory %s. PIVX Core is probably already running."), strDataDir));
+        return InitError(strprintf(_("Cannot obtain a lock on data directory %s. DMD Core is probably already running."), strDataDir));
 
 #ifndef WIN32
     CreatePidFile(GetPidFile(), getpid());
@@ -910,7 +910,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     if (GetBoolArg("-shrinkdebugfile", !fDebug))
         ShrinkDebugFile();
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("PIVX version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
+    LogPrintf("DMD version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
     LogPrintf("Using OpenSSL version %s\n", SSLeay_version(SSLEAY_VERSION));
 #ifdef ENABLE_WALLET
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
@@ -1345,9 +1345,9 @@ bool AppInit2(boost::thread_group& threadGroup)
                              " or address book entries might be missing or incorrect."));
                 InitWarning(msg);
             } else if (nLoadWalletRet == DB_TOO_NEW)
-                strErrors << _("Error loading wallet.dat: Wallet requires newer version of PIVX Core") << "\n";
+                strErrors << _("Error loading wallet.dat: Wallet requires newer version of DMD Core") << "\n";
             else if (nLoadWalletRet == DB_NEED_REWRITE) {
-                strErrors << _("Wallet needed to be rewritten: restart PIVX Core to complete") << "\n";
+                strErrors << _("Wallet needed to be rewritten: restart DMD Core to complete") << "\n";
                 LogPrintf("%s", strErrors.str());
                 return InitError(strErrors.str());
             } else
@@ -1453,7 +1453,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             MilliSleep(10);
     }
 
-    // ********************************************************* Step 10: setup ObfuScation
+    // ********************************************************* Step 10: setup miXtx
 
     uiInterface.InitMessage(_("Loading masternode cache..."));
 
@@ -1512,7 +1512,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     }
 
     if (fMasterNode) {
-        LogPrintf("IS OBFUSCATION MASTER NODE\n");
+        LogPrintf("IS MIXTX MASTER NODE\n");
         strMasterNodeAddr = GetArg("-masternodeaddr", "");
 
         LogPrintf(" addr %s\n", strMasterNodeAddr.c_str());
@@ -1531,7 +1531,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             CKey key;
             CPubKey pubkey;
 
-            if (!obfuScationSigner.SetKey(strMasterNodePrivKey, errorMessage, key, pubkey)) {
+            if (!miXtxSigner.SetKey(strMasterNodePrivKey, errorMessage, key, pubkey)) {
                 return InitError(_("Invalid masternodeprivkey. Please see documenation."));
             }
 
@@ -1557,62 +1557,62 @@ bool AppInit2(boost::thread_group& threadGroup)
         }
     }
 
-    fEnableObfuscation = GetBoolArg("-enableobfuscation", false);
+    fEnablemixTX = GetBoolArg("-enablemixTX", false);
 
-    nObfuscationRounds = GetArg("-obfuscationrounds", 2);
-    if (nObfuscationRounds > 16) nObfuscationRounds = 16;
-    if (nObfuscationRounds < 1) nObfuscationRounds = 1;
+    nmixTXRounds = GetArg("-mixTXrounds", 2);
+    if (nmixTXRounds > 16) nmixTXRounds = 16;
+    if (nmixTXRounds < 1) nmixTXRounds = 1;
 
     nLiquidityProvider = GetArg("-liquidityprovider", 0); //0-100
     if (nLiquidityProvider != 0) {
-        obfuScationPool.SetMinBlockSpacing(std::min(nLiquidityProvider, 100) * 15);
-        fEnableObfuscation = true;
-        nObfuscationRounds = 99999;
+        miXtxPool.SetMinBlockSpacing(std::min(nLiquidityProvider, 100) * 15);
+        fEnablemixTX = true;
+        nmixTXRounds = 99999;
     }
 
-    nAnonymizePivxAmount = GetArg("-anonymizepivxamount", 0);
-    if (nAnonymizePivxAmount > 999999) nAnonymizePivxAmount = 999999;
-    if (nAnonymizePivxAmount < 2) nAnonymizePivxAmount = 2;
+    nAnonymizeDiamondAmount = GetArg("-anonymizediamondamount", 0);
+    if (nAnonymizeDiamondAmount > 999999) nAnonymizeDiamondAmount = 999999;
+    if (nAnonymizeDiamondAmount < 2) nAnonymizeDiamondAmount = 2;
 
-    fEnableSwiftTX = GetBoolArg("-enableswifttx", fEnableSwiftTX);
-    nSwiftTXDepth = GetArg("-swifttxdepth", nSwiftTXDepth);
-    nSwiftTXDepth = std::min(std::max(nSwiftTXDepth, 0), 60);
+    fEnablequickTX = GetBoolArg("-enablequicktx", fEnablequickTX);
+    nquickTXDepth = GetArg("-quicktxdepth", nquickTXDepth);
+    nquickTXDepth = std::min(std::max(nquickTXDepth, 0), 60);
 
-    //lite mode disables all Masternode and Obfuscation related functionality
+    //lite mode disables all Masternode and mixTX related functionality
     fLiteMode = GetBoolArg("-litemode", false);
     if (fMasterNode && fLiteMode) {
         return InitError("You can not start a masternode in litemode");
     }
 
     LogPrintf("fLiteMode %d\n", fLiteMode);
-    LogPrintf("nSwiftTXDepth %d\n", nSwiftTXDepth);
-    LogPrintf("Obfuscation rounds %d\n", nObfuscationRounds);
-    LogPrintf("Anonymize PIVX Amount %d\n", nAnonymizePivxAmount);
+    LogPrintf("nquickTXDepth %d\n", nquickTXDepth);
+    LogPrintf("mixTX rounds %d\n", nmixTXRounds);
+    LogPrintf("Anonymize DMD Amount %d\n", nAnonymizeDiamondAmount);
     LogPrintf("Budget Mode %s\n", strBudgetMode.c_str());
 
     /* Denominations
 
-       A note about convertability. Within Obfuscation pools, each denomination
+       A note about convertability. Within mixTX pools, each denomination
        is convertable to another.
 
        For example:
-       1PIV+1000 == (.1PIV+100)*10
-       10PIV+10000 == (1PIV+1000)*10
+       1DMD+1000 == (.1DMD+100)*10
+       10DMD+10000 == (1DMD+1000)*10
     */
-    obfuScationDenominations.push_back((10000 * COIN) + 10000000);
-    obfuScationDenominations.push_back((1000 * COIN) + 1000000);
-    obfuScationDenominations.push_back((100 * COIN) + 100000);
-    obfuScationDenominations.push_back((10 * COIN) + 10000);
-    obfuScationDenominations.push_back((1 * COIN) + 1000);
-    obfuScationDenominations.push_back((.1 * COIN) + 100);
+    miXtxDenominations.push_back((10000 * COIN) + 10000000);
+    miXtxDenominations.push_back((1000 * COIN) + 1000000);
+    miXtxDenominations.push_back((100 * COIN) + 100000);
+    miXtxDenominations.push_back((10 * COIN) + 10000);
+    miXtxDenominations.push_back((1 * COIN) + 1000);
+    miXtxDenominations.push_back((.1 * COIN) + 100);
     /* Disabled till we need them
-    obfuScationDenominations.push_back( (.01      * COIN)+10 );
-    obfuScationDenominations.push_back( (.001     * COIN)+1 );
+    miXtxDenominations.push_back( (.01      * COIN)+10 );
+    miXtxDenominations.push_back( (.001     * COIN)+1 );
     */
 
-    obfuScationPool.InitCollateralAddress();
+    miXtxPool.InitCollateralAddress();
 
-    threadGroup.create_thread(boost::bind(&ThreadCheckObfuScationPool));
+    threadGroup.create_thread(boost::bind(&ThreadCheckmiXtxPool));
 
     // ********************************************************* Step 11: start node
 

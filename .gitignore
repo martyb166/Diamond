@@ -7,12 +7,12 @@ reset-files.bash
 *.tar.gz
 
 *.exe
-src/pivx
-src/pivxd
-src/pivx-cli
-src/pivx-tx
-src/test/test_pivx
-src/qt/test/test_pivx-qt
+src/diamond
+src/diamondd
+src/diamond-cli
+src/diamond-tx
+src/test/test_diamond
+src/qt/test/test_diamond-qt
 
 # autoreconf
 Makefile.in
@@ -35,8 +35,8 @@ config.log
 config.status
 configure
 libtool
-src/config/pivx-config.h
-src/config/pivx-config.h.in
+src/config/diamond-config.h
+src/config/diamond-config.h.in
 src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
@@ -62,7 +62,7 @@ src/qt/test/moc*.cpp
 *.o
 *.o-*
 *.patch
-.pivx
+.diamond
 *.a
 *.pb.cc
 *.pb.h
@@ -81,12 +81,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-pivx-qt
-PIVX-Qt.app
+diamond-qt
+DMD-Qt.app
 
 # Unit-tests
 Makefile.test
-pivx-qt_test
+diamond-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -102,7 +102,7 @@ build
 #lcov
 *.gcno
 /*.info
-test_pivx.coverage/
+test_diamond.coverage/
 total.coverage/
 coverage_percent.txt
 

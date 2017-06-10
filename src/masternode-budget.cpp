@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,7 @@
 #include "masternode-sync.h"
 #include "masternode.h"
 #include "masternodeman.h"
-#include "obfuscation.h"
+#include "mixTX.h"
 #include "util.h"
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
@@ -85,7 +85,7 @@ bool IsBudgetCollateralValid(uint256 nTxCollateralHash, uint256 nExpectedHash, s
 
     nConf = conf;
 
-    //if we're syncing we won't have swiftTX information, so accept 1 confirmation
+    //if we're syncing we won't have quickTX information, so accept 1 confirmation
     if (conf >= BUDGET_FEE_CONFIRMATIONS) {
         return true;
     } else {
@@ -1621,12 +1621,12 @@ bool CBudgetVote::Sign(CKey& keyMasternode, CPubKey& pubKeyMasternode)
     std::string errorMessage;
     std::string strMessage = vin.prevout.ToStringShort() + nProposalHash.ToString() + boost::lexical_cast<std::string>(nVote) + boost::lexical_cast<std::string>(nTime);
 
-    if (!obfuScationSigner.SignMessage(strMessage, errorMessage, vchSig, keyMasternode)) {
+    if (!miXtxSigner.SignMessage(strMessage, errorMessage, vchSig, keyMasternode)) {
         LogPrintf("CBudgetVote::Sign - Error upon calling SignMessage");
         return false;
     }
 
-    if (!obfuScationSigner.VerifyMessage(pubKeyMasternode, vchSig, strMessage, errorMessage)) {
+    if (!miXtxSigner.VerifyMessage(pubKeyMasternode, vchSig, strMessage, errorMessage)) {
         LogPrintf("CBudgetVote::Sign - Error upon calling VerifyMessage");
         return false;
     }
@@ -1648,7 +1648,7 @@ bool CBudgetVote::SignatureValid(bool fSignatureCheck)
 
     if (!fSignatureCheck) return true;
 
-    if (!obfuScationSigner.VerifyMessage(pmn->pubKeyMasternode, vchSig, strMessage, errorMessage)) {
+    if (!miXtxSigner.VerifyMessage(pmn->pubKeyMasternode, vchSig, strMessage, errorMessage)) {
         LogPrintf("CBudgetVote::SignatureValid() - Verify message failed\n");
         return false;
     }
@@ -1956,7 +1956,7 @@ void CFinalizedBudget::SubmitVote()
     CKey keyMasternode;
     std::string errorMessage;
 
-    if (!obfuScationSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode)) {
+    if (!miXtxSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode)) {
         LogPrintf("CFinalizedBudget::SubmitVote - Error upon calling SetKey\n");
         return;
     }
@@ -2049,12 +2049,12 @@ bool CFinalizedBudgetVote::Sign(CKey& keyMasternode, CPubKey& pubKeyMasternode)
     std::string errorMessage;
     std::string strMessage = vin.prevout.ToStringShort() + nBudgetHash.ToString() + boost::lexical_cast<std::string>(nTime);
 
-    if (!obfuScationSigner.SignMessage(strMessage, errorMessage, vchSig, keyMasternode)) {
+    if (!miXtxSigner.SignMessage(strMessage, errorMessage, vchSig, keyMasternode)) {
         LogPrintf("CFinalizedBudgetVote::Sign - Error upon calling SignMessage");
         return false;
     }
 
-    if (!obfuScationSigner.VerifyMessage(pubKeyMasternode, vchSig, strMessage, errorMessage)) {
+    if (!miXtxSigner.VerifyMessage(pubKeyMasternode, vchSig, strMessage, errorMessage)) {
         LogPrintf("CFinalizedBudgetVote::Sign - Error upon calling VerifyMessage");
         return false;
     }
@@ -2077,7 +2077,7 @@ bool CFinalizedBudgetVote::SignatureValid(bool fSignatureCheck)
 
     if (!fSignatureCheck) return true;
 
-    if (!obfuScationSigner.VerifyMessage(pmn->pubKeyMasternode, vchSig, strMessage, errorMessage)) {
+    if (!miXtxSigner.VerifyMessage(pmn->pubKeyMasternode, vchSig, strMessage, errorMessage)) {
         LogPrintf("CFinalizedBudgetVote::SignatureValid() - Verify message failed\n");
         return false;
     }

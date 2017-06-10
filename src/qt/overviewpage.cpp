@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,8 +12,8 @@
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "init.h"
-#include "obfuscation.h"
-#include "obfuscationconfig.h"
+#include "mixTX.h"
+#include "mixTXconfig.h"
 #include "optionsmodel.h"
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
@@ -32,7 +32,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate() : QAbstractItemDelegate(), unit(BitcoinUnits::PIV)
+    TxViewDelegate() : QAbstractItemDelegate(), unit(BitcoinUnits::DMD)
     {
     }
 
@@ -128,25 +128,25 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
 
     // init "out of sync" warning labels
     ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
-    ui->labelObfuscationSyncStatus->setText("(" + tr("out of sync") + ")");
+    ui->labelmixTXSyncStatus->setText("(" + tr("out of sync") + ")");
     ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
 
     if (fLiteMode) {
-        ui->frameObfuscation->setVisible(false);
+        ui->framemixTX->setVisible(false);
     } else {
         if (fMasterNode) {
-            ui->toggleObfuscation->setText("(" + tr("Disabled") + ")");
-            ui->obfuscationAuto->setText("(" + tr("Disabled") + ")");
-            ui->obfuscationReset->setText("(" + tr("Disabled") + ")");
-            ui->frameObfuscation->setEnabled(false);
+            ui->togglemixTX->setText("(" + tr("Disabled") + ")");
+            ui->mixTXAuto->setText("(" + tr("Disabled") + ")");
+            ui->mixTXReset->setText("(" + tr("Disabled") + ")");
+            ui->framemixTX->setEnabled(false);
         } else {
-            if (!fEnableObfuscation) {
-                ui->toggleObfuscation->setText(tr("Start Obfuscation"));
+            if (!fEnablemixTX) {
+                ui->togglemixTX->setText(tr("Start mixTX"));
             } else {
-                ui->toggleObfuscation->setText(tr("Stop Obfuscation"));
+                ui->togglemixTX->setText(tr("Stop mixTX"));
             }
             timer = new QTimer(this);
-            connect(timer, SIGNAL(timeout()), this, SLOT(obfuScationStatus()));
+            connect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
             timer->start(1000);
         }
     }
@@ -163,7 +163,7 @@ void OverviewPage::handleTransactionClicked(const QModelIndex& index)
 
 OverviewPage::~OverviewPage()
 {
-    if (!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(obfuScationStatus()));
+    if (!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
     delete ui;
 }
 
@@ -200,7 +200,7 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     ui->labelImmatureText->setVisible(showImmature || showWatchOnlyImmature);
     ui->labelWatchImmature->setVisible(showWatchOnlyImmature); // show watch-only immature balance
 
-    updateObfuscationProgress();
+    updatemixTXProgress();
 
     static int cachedTxLocks = 0;
 
@@ -263,14 +263,14 @@ void OverviewPage::setWalletModel(WalletModel* model)
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
 
-        connect(ui->obfuscationAuto, SIGNAL(clicked()), this, SLOT(obfuscationAuto()));
-        connect(ui->obfuscationReset, SIGNAL(clicked()), this, SLOT(obfuscationReset()));
-        connect(ui->toggleObfuscation, SIGNAL(clicked()), this, SLOT(toggleObfuscation()));
+        connect(ui->mixTXAuto, SIGNAL(clicked()), this, SLOT(mixTXAuto()));
+        connect(ui->mixTXReset, SIGNAL(clicked()), this, SLOT(mixTXReset()));
+        connect(ui->togglemixTX, SIGNAL(clicked()), this, SLOT(togglemixTX()));
         updateWatchOnlyLabels(model->haveWatchOnly());
         connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
     }
 
-    // update the display unit, to not use the default ("PIV")
+    // update the display unit, to not use the default ("DMD")
     updateDisplayUnit();
 }
 
@@ -298,26 +298,26 @@ void OverviewPage::updateAlerts(const QString& warnings)
 void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
-    ui->labelObfuscationSyncStatus->setVisible(fShow);
+    ui->labelmixTXSyncStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
 }
 
-void OverviewPage::updateObfuscationProgress()
+void OverviewPage::updatemixTXProgress()
 {
     if (!masternodeSync.IsBlockchainSynced() || ShutdownRequested()) return;
 
     if (!pwalletMain) return;
 
     QString strAmountAndRounds;
-    QString strAnonymizePivxAmount = BitcoinUnits::formatHtmlWithUnit(nDisplayUnit, nAnonymizePivxAmount * COIN, false, BitcoinUnits::separatorAlways);
+    QString strAnonymizeDiamondAmount = BitcoinUnits::formatHtmlWithUnit(nDisplayUnit, nAnonymizeDiamondAmount * COIN, false, BitcoinUnits::separatorAlways);
 
     if (currentBalance == 0) {
-        ui->obfuscationProgress->setValue(0);
-        ui->obfuscationProgress->setToolTip(tr("No inputs detected"));
+        ui->mixTXProgress->setValue(0);
+        ui->mixTXProgress->setToolTip(tr("No inputs detected"));
 
         // when balance is zero just show info from settings
-        strAnonymizePivxAmount = strAnonymizePivxAmount.remove(strAnonymizePivxAmount.indexOf("."), BitcoinUnits::decimals(nDisplayUnit) + 1);
-        strAmountAndRounds = strAnonymizePivxAmount + " / " + tr("%n Rounds", "", nObfuscationRounds);
+        strAnonymizeDiamondAmount = strAnonymizeDiamondAmount.remove(strAnonymizeDiamondAmount.indexOf("."), BitcoinUnits::decimals(nDisplayUnit) + 1);
+        strAmountAndRounds = strAnonymizeDiamondAmount + " / " + tr("%n Rounds", "", nmixTXRounds);
 
         ui->labelAmountRounds->setToolTip(tr("No inputs detected"));
         ui->labelAmountRounds->setText(strAmountAndRounds);
@@ -344,25 +344,25 @@ void OverviewPage::updateObfuscationProgress()
     CAmount nMaxToAnonymize = nAnonymizableBalance + currentAnonymizedBalance + nDenominatedUnconfirmedBalance;
 
     // If it's more than the anon threshold, limit to that.
-    if (nMaxToAnonymize > nAnonymizePivxAmount * COIN) nMaxToAnonymize = nAnonymizePivxAmount * COIN;
+    if (nMaxToAnonymize > nAnonymizeDiamondAmount * COIN) nMaxToAnonymize = nAnonymizeDiamondAmount * COIN;
 
     if (nMaxToAnonymize == 0) return;
 
-    if (nMaxToAnonymize >= nAnonymizePivxAmount * COIN) {
+    if (nMaxToAnonymize >= nAnonymizeDiamondAmount * COIN) {
         ui->labelAmountRounds->setToolTip(tr("Found enough compatible inputs to anonymize %1")
-                                              .arg(strAnonymizePivxAmount));
-        strAnonymizePivxAmount = strAnonymizePivxAmount.remove(strAnonymizePivxAmount.indexOf("."), BitcoinUnits::decimals(nDisplayUnit) + 1);
-        strAmountAndRounds = strAnonymizePivxAmount + " / " + tr("%n Rounds", "", nObfuscationRounds);
+                                              .arg(strAnonymizeDiamondAmount));
+        strAnonymizeDiamondAmount = strAnonymizeDiamondAmount.remove(strAnonymizeDiamondAmount.indexOf("."), BitcoinUnits::decimals(nDisplayUnit) + 1);
+        strAmountAndRounds = strAnonymizeDiamondAmount + " / " + tr("%n Rounds", "", nmixTXRounds);
     } else {
         QString strMaxToAnonymize = BitcoinUnits::formatHtmlWithUnit(nDisplayUnit, nMaxToAnonymize, false, BitcoinUnits::separatorAlways);
         ui->labelAmountRounds->setToolTip(tr("Not enough compatible inputs to anonymize <span style='color:red;'>%1</span>,<br>"
                                              "will anonymize <span style='color:red;'>%2</span> instead")
-                                              .arg(strAnonymizePivxAmount)
+                                              .arg(strAnonymizeDiamondAmount)
                                               .arg(strMaxToAnonymize));
         strMaxToAnonymize = strMaxToAnonymize.remove(strMaxToAnonymize.indexOf("."), BitcoinUnits::decimals(nDisplayUnit) + 1);
         strAmountAndRounds = "<span style='color:red;'>" +
                              QString(BitcoinUnits::factor(nDisplayUnit) == 1 ? "" : "~") + strMaxToAnonymize +
-                             " / " + tr("%n Rounds", "", nObfuscationRounds) + "</span>";
+                             " / " + tr("%n Rounds", "", nmixTXRounds) + "</span>";
     }
     ui->labelAmountRounds->setText(strAmountAndRounds);
 
@@ -389,7 +389,7 @@ void OverviewPage::updateObfuscationProgress()
 
     // apply some weights to them ...
     float denomWeight = 1;
-    float anonNormWeight = nObfuscationRounds;
+    float anonNormWeight = nmixTXRounds;
     float anonFullWeight = 2;
     float fullWeight = denomWeight + anonNormWeight + anonFullWeight;
     // ... and calculate the whole progress
@@ -399,105 +399,105 @@ void OverviewPage::updateObfuscationProgress()
     float progress = denomPartCalc + anonNormPartCalc + anonFullPartCalc;
     if (progress >= 100) progress = 100;
 
-    ui->obfuscationProgress->setValue(progress);
+    ui->mixTXProgress->setValue(progress);
 
     QString strToolPip = ("<b>" + tr("Overall progress") + ": %1%</b><br/>" +
                           tr("Denominated") + ": %2%<br/>" +
                           tr("Mixed") + ": %3%<br/>" +
                           tr("Anonymized") + ": %4%<br/>" +
-                          tr("Denominated inputs have %5 of %n rounds on average", "", nObfuscationRounds))
+                          tr("Denominated inputs have %5 of %n rounds on average", "", nmixTXRounds))
                              .arg(progress)
                              .arg(denomPart)
                              .arg(anonNormPart)
                              .arg(anonFullPart)
                              .arg(nAverageAnonymizedRounds);
-    ui->obfuscationProgress->setToolTip(strToolPip);
+    ui->mixTXProgress->setToolTip(strToolPip);
 }
 
 
-void OverviewPage::obfuScationStatus()
+void OverviewPage::miXtxStatus()
 {
     static int64_t nLastDSProgressBlockTime = 0;
 
     int nBestHeight = chainActive.Tip()->nHeight;
 
     // we we're processing more then 1 block per second, we'll just leave
-    if (((nBestHeight - obfuScationPool.cachedNumBlocks) / (GetTimeMillis() - nLastDSProgressBlockTime + 1) > 1)) return;
+    if (((nBestHeight - miXtxPool.cachedNumBlocks) / (GetTimeMillis() - nLastDSProgressBlockTime + 1) > 1)) return;
     nLastDSProgressBlockTime = GetTimeMillis();
 
-    if (!fEnableObfuscation) {
-        if (nBestHeight != obfuScationPool.cachedNumBlocks) {
-            obfuScationPool.cachedNumBlocks = nBestHeight;
-            updateObfuscationProgress();
+    if (!fEnablemixTX) {
+        if (nBestHeight != miXtxPool.cachedNumBlocks) {
+            miXtxPool.cachedNumBlocks = nBestHeight;
+            updatemixTXProgress();
 
-            ui->obfuscationEnabled->setText(tr("Disabled"));
-            ui->obfuscationStatus->setText("");
-            ui->toggleObfuscation->setText(tr("Start Obfuscation"));
+            ui->mixTXEnabled->setText(tr("Disabled"));
+            ui->mixTXStatus->setText("");
+            ui->togglemixTX->setText(tr("Start mixTX"));
         }
 
         return;
     }
 
-    // check obfuscation status and unlock if needed
-    if (nBestHeight != obfuScationPool.cachedNumBlocks) {
+    // check mixTX status and unlock if needed
+    if (nBestHeight != miXtxPool.cachedNumBlocks) {
         // Balance and number of transactions might have changed
-        obfuScationPool.cachedNumBlocks = nBestHeight;
-        updateObfuscationProgress();
+        miXtxPool.cachedNumBlocks = nBestHeight;
+        updatemixTXProgress();
 
-        ui->obfuscationEnabled->setText(tr("Enabled"));
+        ui->mixTXEnabled->setText(tr("Enabled"));
     }
 
-    QString strStatus = QString(obfuScationPool.GetStatus().c_str());
+    QString strStatus = QString(miXtxPool.GetStatus().c_str());
 
-    QString s = tr("Last Obfuscation message:\n") + strStatus;
+    QString s = tr("Last mixTX message:\n") + strStatus;
 
-    if (s != ui->obfuscationStatus->text())
-        LogPrintf("Last Obfuscation message: %s\n", strStatus.toStdString());
+    if (s != ui->mixTXStatus->text())
+        LogPrintf("Last mixTX message: %s\n", strStatus.toStdString());
 
-    ui->obfuscationStatus->setText(s);
+    ui->mixTXStatus->setText(s);
 
-    if (obfuScationPool.sessionDenom == 0) {
+    if (miXtxPool.sessionDenom == 0) {
         ui->labelSubmittedDenom->setText(tr("N/A"));
     } else {
         std::string out;
-        obfuScationPool.GetDenominationsToString(obfuScationPool.sessionDenom, out);
+        miXtxPool.GetDenominationsToString(miXtxPool.sessionDenom, out);
         QString s2(out.c_str());
         ui->labelSubmittedDenom->setText(s2);
     }
 }
 
-void OverviewPage::obfuscationAuto()
+void OverviewPage::mixTXAuto()
 {
-    obfuScationPool.DoAutomaticDenominating();
+    miXtxPool.DoAutomaticDenominating();
 }
 
-void OverviewPage::obfuscationReset()
+void OverviewPage::mixTXReset()
 {
-    obfuScationPool.Reset();
+    miXtxPool.Reset();
 
-    QMessageBox::warning(this, tr("Obfuscation"),
-        tr("Obfuscation was successfully reset."),
+    QMessageBox::warning(this, tr("mixTX"),
+        tr("mixTX was successfully reset."),
         QMessageBox::Ok, QMessageBox::Ok);
 }
 
-void OverviewPage::toggleObfuscation()
+void OverviewPage::togglemixTX()
 {
     QSettings settings;
     // Popup some information on first mixing
     QString hasMixed = settings.value("hasMixed").toString();
     if (hasMixed.isEmpty()) {
-        QMessageBox::information(this, tr("Obfuscation"),
-            tr("If you don't want to see internal Obfuscation fees/transactions select \"Most Common\" as Type on the \"Transactions\" tab."),
+        QMessageBox::information(this, tr("mixTX"),
+            tr("If you don't want to see internal mixTX fees/transactions select \"Most Common\" as Type on the \"Transactions\" tab."),
             QMessageBox::Ok, QMessageBox::Ok);
         settings.setValue("hasMixed", "hasMixed");
     }
-    if (!fEnableObfuscation) {
+    if (!fEnablemixTX) {
         int64_t balance = currentBalance;
         float minAmount = 14.90 * COIN;
         if (balance < minAmount) {
             QString strMinAmount(BitcoinUnits::formatWithUnit(nDisplayUnit, minAmount));
-            QMessageBox::warning(this, tr("Obfuscation"),
-                tr("Obfuscation requires at least %1 to use.").arg(strMinAmount),
+            QMessageBox::warning(this, tr("mixTX"),
+                tr("mixTX requires at least %1 to use.").arg(strMinAmount),
                 QMessageBox::Ok, QMessageBox::Ok);
             return;
         }
@@ -507,29 +507,29 @@ void OverviewPage::toggleObfuscation()
             WalletModel::UnlockContext ctx(walletModel->requestUnlock(false));
             if (!ctx.isValid()) {
                 //unlock was cancelled
-                obfuScationPool.cachedNumBlocks = std::numeric_limits<int>::max();
-                QMessageBox::warning(this, tr("Obfuscation"),
-                    tr("Wallet is locked and user declined to unlock. Disabling Obfuscation."),
+                miXtxPool.cachedNumBlocks = std::numeric_limits<int>::max();
+                QMessageBox::warning(this, tr("mixTX"),
+                    tr("Wallet is locked and user declined to unlock. Disabling mixTX."),
                     QMessageBox::Ok, QMessageBox::Ok);
-                if (fDebug) LogPrintf("Wallet is locked and user declined to unlock. Disabling Obfuscation.\n");
+                if (fDebug) LogPrintf("Wallet is locked and user declined to unlock. Disabling mixTX.\n");
                 return;
             }
         }
     }
 
-    fEnableObfuscation = !fEnableObfuscation;
-    obfuScationPool.cachedNumBlocks = std::numeric_limits<int>::max();
+    fEnablemixTX = !fEnablemixTX;
+    miXtxPool.cachedNumBlocks = std::numeric_limits<int>::max();
 
-    if (!fEnableObfuscation) {
-        ui->toggleObfuscation->setText(tr("Start Obfuscation"));
-        obfuScationPool.UnlockCoins();
+    if (!fEnablemixTX) {
+        ui->togglemixTX->setText(tr("Start mixTX"));
+        miXtxPool.UnlockCoins();
     } else {
-        ui->toggleObfuscation->setText(tr("Stop Obfuscation"));
+        ui->togglemixTX->setText(tr("Stop mixTX"));
 
-        /* show obfuscation configuration if client has defaults set */
+        /* show mixTX configuration if client has defaults set */
 
-        if (nAnonymizePivxAmount == 0) {
-            ObfuscationConfig dlg(this);
+        if (nAnonymizeDiamondAmount == 0) {
+            mixTXConfig dlg(this);
             dlg.setModel(walletModel);
             dlg.exec();
         }

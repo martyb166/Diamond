@@ -1,0 +1,26 @@
+# /etc/conf.d/diamondd: config file for /etc/init.d/diamondd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/diamond/diamond.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/diamondd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/diamondd.pid"
+
+# Where to write diamondd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/diamondd"
+
+# User and group to own diamondd process
+#BITCOIND_USER="diamond"
+#BITCOIND_GROUP="diamond"
+
+# Path to diamondd executable
+#BITCOIND_BIN="/usr/bin/diamondd"
+
+# Nice value to run diamondd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

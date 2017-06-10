@@ -9,8 +9,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between pivx-cli and pivxd)
- * of a given instance of the Pivx system.
+ * CBaseChainParams defines the base parameters (shared between diamond-cli and diamondd)
+ * of a given instance of the Diamond system.
  */
 class CBaseChainParams
 {

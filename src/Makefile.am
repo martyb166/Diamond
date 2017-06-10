@@ -64,15 +64,15 @@ bin_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += pivxd
+  bin_PROGRAMS += diamondd
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += pivx-cli pivx-tx
+  bin_PROGRAMS += diamond-cli diamond-tx
 endif
 
 .PHONY: FORCE
-# pivx core #
+# diamond core #
 BITCOIN_CORE_H = \
   activemasternode.h \
   addrman.h \
@@ -98,15 +98,15 @@ BITCOIN_CORE_H = \
   primitives/transaction.h \
   core_io.h \
   crypter.h \
-  obfuscation.h \
-  obfuscation-relay.h \
+  mixTX.h \
+  mixTX-relay.h \
   db.h \
   eccryptoverify.h \
   ecwrapper.h \
   hash.h \
   init.h \
   kernel.h \
-  swifttx.h \
+  quicktx.h \
   key.h \
   keystore.h \
   leveldbwrapper.h \
@@ -180,8 +180,8 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between pivxd and pivx-qt
-libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS)$(BOOST_CPPFLAGS)
+# server: shared between diamondd and diamond-qt
+libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(BOOST_CPPFLAGS)
 libbitcoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
@@ -224,7 +224,7 @@ libbitcoin_zmq_a_SOURCES = \
   zmq/zmqpublishnotifier.cpp
 endif
 
-# wallet: shared between pivxd and pivx-qt, but only linked
+# wallet: shared between diamondd and diamond-qt, but only linked
 # when wallet enabled
 
 libbitcoin_wallet_a_CFLAGS = -fPIC
@@ -232,11 +232,11 @@ libbitcoin_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
 libbitcoin_wallet_a_SOURCES = \
   activemasternode.cpp \
   bip38.cpp \
-  obfuscation.cpp \
-  obfuscation-relay.cpp \
+  mixTX.cpp \
+  mixTX-relay.cpp \
   db.cpp \
   crypter.cpp \
-  swifttx.cpp \
+  quicktx.cpp \
   masternode.cpp \
   masternode-budget.cpp \
   masternode-payments.cpp \
@@ -253,7 +253,7 @@ libbitcoin_wallet_a_SOURCES = \
 
 # crypto primitives library
 crypto_libbitcoin_crypto_a_CFLAGS = -fPIC
-crypto_libbitcoin_crypto_a_CPPFLAGS = $(BITCOIN_CONFIG_INCLUDES)$(BOOST_CPPFLAGS)
+crypto_libbitcoin_crypto_a_CPPFLAGS = $(BITCOIN_CONFIG_INCLUDES) $(BOOST_CPPFLAGS)
 crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sha1.cpp \
   crypto/sha256.cpp \
@@ -295,7 +295,7 @@ univalue_libbitcoin_univalue_a_SOURCES = \
   univalue/univalue_escapes.h \
   univalue/univalue.h
 
-# common: shared between pivxd, and pivx-qt and non-server tools
+# common: shared between diamondd, and diamond-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
   allocators.cpp \
@@ -351,7 +351,7 @@ libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 libbitcoin_util_a_SOURCES += compat/glibcxx_compat.cpp
 endif
 
-# cli: shared between pivx-cli and pivx-qt
+# cli: shared between diamond-cli and diamond-qt
 libbitcoin_cli_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \
@@ -361,7 +361,7 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-pivxd_LDADD = \
+diamondd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UNIVALUE) \
@@ -372,40 +372,40 @@ pivxd_LDADD = \
   $(LIBSECP256K1)
 
 if ENABLE_ZMQ
-pivxd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+diamondd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-pivxd_LDADD += libbitcoin_wallet.a
+diamondd_LDADD += libbitcoin_wallet.a
 endif
-pivxd_SOURCES = pivxd.cpp
+diamondd_SOURCES = diamondd.cpp
 #
 
 if TARGET_WINDOWS
-pivxd_SOURCES += pivxd-res.rc
+diamondd_SOURCES += diamondd-res.rc
 endif
 
-pivxd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
-pivxd_CPPFLAGS = $(BITCOIN_INCLUDES)
-pivxd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+diamondd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
+diamondd_CPPFLAGS = $(BITCOIN_INCLUDES)
+diamondd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 
-# pivx-cli binary #
-pivx_cli_LDADD = \
+# diamond-cli binary #
+diamond_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBBITCOIN_UTIL) \
   $(BOOST_LIBS) \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS)
 
-pivx_cli_SOURCES = \
-  pivx-cli.cpp
+diamond_cli_SOURCES = \
+  diamond-cli.cpp
 
-pivx_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
+diamond_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
-# pivx-tx binary #
-pivx_tx_LDADD = \
+# diamond-tx binary #
+diamond_tx_LDADD = \
   $(LIBBITCOIN_UNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -414,15 +414,15 @@ pivx_tx_LDADD = \
   $(BOOST_LIBS) \
   $(CRYPTO_LIBS)
 
-pivx_tx_SOURCES = pivx-tx.cpp
-pivx_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
+diamond_tx_SOURCES = diamond-tx.cpp
+diamond_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
-pivx_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+diamond_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-pivx_cli_SOURCES += pivx-cli-res.rc
+diamond_cli_SOURCES += diamond-cli-res.rc
 endif
-pivx_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+diamond_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h
@@ -452,7 +452,7 @@ endif
 
 libbitcoinconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)
 libbitcoinconsensus_la_LIBADD = $(CRYPTO_LIBS) $(BOOST_LIBS)
-libbitcoinconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) -I$(builddir)/obj -DBUILD_BITCOIN_INTERNAL
+libbitcoinconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) $(BOOST_CPPFLAGS) -I$(builddir)/obj -DBUILD_BITCOIN_INTERNAL
 if USE_LIBSECP256K1
 libbitcoinconsensus_la_LIBADD += secp256k1/libsecp256k1.la
 endif

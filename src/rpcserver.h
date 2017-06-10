@@ -95,7 +95,7 @@ public:
 };
 
 /**
- * PIVX RPC command dispatcher.
+ * DMD RPC command dispatcher.
  */
 class CRPCTable
 {
@@ -237,7 +237,7 @@ extern json_spirit::Value verifychain(const json_spirit::Array& params, bool fHe
 extern json_spirit::Value getchaintips(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value invalidateblock(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value reconsiderblock(const json_spirit::Array& params, bool fHelp);
-extern json_spirit::Value obfuscation(const json_spirit::Array& params, bool fHelp);
+extern json_spirit::Value mixTX(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value spork(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value masternode(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value masternodelist(const json_spirit::Array& params, bool fHelp);

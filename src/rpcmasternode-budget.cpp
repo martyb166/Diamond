@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2015 The Dash Developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,9 +32,9 @@ Value mnbudget(const Array& params, bool fHelp)
             "\nAvailable commands:\n"
             "  prepare            - Prepare proposal for network by signing and creating tx\n"
             "  submit             - Submit proposal for network\n"
-            "  vote-many          - Vote on a Pivx initiative\n"
-            "  vote-alias         - Vote on a Pivx initiative\n"
-            "  vote               - Vote on a Pivx initiative/budget\n"
+            "  vote-many          - Vote on a Diamond initiative\n"
+            "  vote-alias         - Vote on a Diamond initiative\n"
+            "  vote               - Vote on a Diamond initiative/budget\n"
             "  getvotes           - Show current masternode budgets\n"
             "  getinfo            - Show current masternode budgets\n"
             "  show               - Show all budgets\n"
@@ -55,7 +55,7 @@ Value mnbudget(const Array& params, bool fHelp)
         CBlockIndex* pindexPrev = chainActive.Tip();
 
         if (params.size() != 7)
-            throw runtime_error("Correct usage is 'mnbudget prepare proposal-name url payment_count block_start pivx_address monthly_payment_pivx'");
+            throw runtime_error("Correct usage is 'mnbudget prepare proposal-name url payment_count block_start diamond_address monthly_payment_diamond'");
 
         std::string strProposalName = params[1].get_str();
         if (strProposalName.size() > 20)
@@ -88,9 +88,9 @@ Value mnbudget(const Array& params, bool fHelp)
 
         CBitcoinAddress address(params[5].get_str());
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Pivx address");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Diamond address");
 
-        // Parse Pivx address
+        // Parse Diamond address
         CScript scriptPubKey = GetScriptForDestination(address.Get());
         CAmount nAmount = AmountFromValue(params[6]);
 
@@ -128,7 +128,7 @@ Value mnbudget(const Array& params, bool fHelp)
         CBlockIndex* pindexPrev = chainActive.Tip();
 
         if (params.size() != 8)
-            throw runtime_error("Correct usage is 'mnbudget submit proposal-name url payment_count block_start pivx_address monthly_payment_pivx fee_tx'");
+            throw runtime_error("Correct usage is 'mnbudget submit proposal-name url payment_count block_start diamond_address monthly_payment_diamond fee_tx'");
 
         // Check these inputs the same way we check the vote commands:
         // **********************************************************
@@ -164,9 +164,9 @@ Value mnbudget(const Array& params, bool fHelp)
 
         CBitcoinAddress address(params[5].get_str());
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Pivx address");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Diamond address");
 
-        // Parse Pivx address
+        // Parse Diamond address
         CScript scriptPubKey = GetScriptForDestination(address.Get());
         CAmount nAmount = AmountFromValue(params[6]);
         uint256 hash = ParseHashV(params[7], "parameter 1");
@@ -226,7 +226,7 @@ Value mnbudget(const Array& params, bool fHelp)
 
             Object statusObj;
 
-            if (!obfuScationSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)) {
+            if (!miXtxSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)) {
                 failed++;
                 statusObj.push_back(Pair("result", "failed"));
                 statusObj.push_back(Pair("errorMessage", "Masternode signing error, could not set key correctly: " + errorMessage));
@@ -314,7 +314,7 @@ if(strCommand == "vote-alias")
 
             Object statusObj;
 
-            if(!obfuScationSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)){
+            if(!miXtxSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)){
                 failed++;
                 statusObj.push_back(Pair("result", "failed"));
                 statusObj.push_back(Pair("errorMessage", "Masternode signing error, could not set key correctly: " + errorMessage));
@@ -379,7 +379,7 @@ if(strCommand == "vote-alias")
         CKey keyMasternode;
         std::string errorMessage;
 
-        if (!obfuScationSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode))
+        if (!miXtxSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode))
             return "Error upon calling SetKey";
 
         CMasternode* pmn = mnodeman.Find(activeMasternode.vin);
@@ -660,7 +660,7 @@ Value mnfinalbudget(const Array& params, bool fHelp)
 
             Object statusObj;
 
-            if (!obfuScationSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)) {
+            if (!miXtxSigner.SetKey(mne.getPrivKey(), errorMessage, keyMasternode, pubKeyMasternode)) {
                 failed++;
                 statusObj.push_back(Pair("result", "failed"));
                 statusObj.push_back(Pair("errorMessage", "Masternode signing error, could not set key correctly: " + errorMessage));
@@ -719,7 +719,7 @@ Value mnfinalbudget(const Array& params, bool fHelp)
         CKey keyMasternode;
         std::string errorMessage;
 
-        if (!obfuScationSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode))
+        if (!miXtxSigner.SetKey(strMasterNodePrivKey, errorMessage, keyMasternode, pubKeyMasternode))
             return "Error upon calling SetKey";
 
         CMasternode* pmn = mnodeman.Find(activeMasternode.vin);

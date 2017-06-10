@@ -9,7 +9,7 @@
 #include "walletmodeltransaction.h"
 
 #include "allocators.h" /* for SecureString */
-#include "swifttx.h"
+#include "quicktx.h"
 #include "wallet.h"
 
 #include <map>
@@ -49,7 +49,7 @@ public:
     QString address;
     QString label;
     AvailableCoinsType inputType;
-    bool useSwiftTX;
+    bool usequickTX;
     CAmount amount;
     // If from a payment request, this is used for storing the memo
     QString message;
@@ -234,7 +234,7 @@ private:
     EncryptionStatus cachedEncryptionStatus;
     int cachedNumBlocks;
     int cachedTxLocks;
-    int cachedObfuscationRounds;
+    int cachedmixTXRounds;
 
     QTimer* pollTimer;
 

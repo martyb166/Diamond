@@ -65,7 +65,7 @@ private:
 private slots:
     void togglemixTX();
     void mixTXAuto();
-    void mixTXReset2();
+    void mixTXReset();
     //void updateDisplayUnit();
     //void handleTransactionClicked(const QModelIndex& index);
     //void updateAlerts(const QString& warnings);

@@ -131,6 +131,8 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
     ui->labelmixTXSyncStatus->setText("(" + tr("out of sync") + ")");
     ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
 
+
+	
     if (fLiteMode) {
         ui->framemixTX->setVisible(false);
     } else 
@@ -156,6 +158,7 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
         }
     }
 	
+	
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
@@ -169,6 +172,7 @@ void OverviewPage::handleTransactionClicked(const QModelIndex& index)
 
 OverviewPage::~OverviewPage()
 {
+	
     if (!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
     delete ui;
 }

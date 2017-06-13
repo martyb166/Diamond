@@ -679,7 +679,7 @@
            <string>Try Mix</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="mixTXReset2">
+         <widget class="QPushButton" name="mixTXReset">
           <property name="geometry">
            <rect>
             <x>230</x>

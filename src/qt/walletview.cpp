@@ -139,9 +139,9 @@ void WalletView::setClientModel(ClientModel* clientModel)
 {
     this->clientModel = clientModel;
 
-    overviewPage->setWalletModel(walletModel);
-	//AAAA
-	coinmix->setWalletModel(walletModel);
+    overviewPage->setClientModel(clientModel);
+	///AAAA
+	//coinmix->setClientModel(clientModel);
     sendCoinsPage->setClientModel(clientModel);
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
@@ -155,9 +155,9 @@ void WalletView::setWalletModel(WalletModel* walletModel)
 
     // Put transaction list in tabs
     transactionView->setModel(walletModel);
-	//AAAA
-	//coinmix->setModel(walletModel);
     overviewPage->setWalletModel(walletModel);
+	//AAAA
+	coinmix->setWalletModel(walletModel);
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setWalletModel(walletModel);

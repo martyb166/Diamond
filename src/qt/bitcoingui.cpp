@@ -3,7 +3,7 @@
 // Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
+//
 #include "bitcoingui.h"
 
 #include "bitcoinunits.h"
@@ -80,6 +80,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             overviewAction(0),
                                                                             historyAction(0),
                                                                             masternodeAction(0),
+																			coinmixAction(0),
                                                                             quitAction(0),
                                                                             sendCoinsAction(0),
                                                                             usedSendingAddressesAction(0),
@@ -323,6 +324,18 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(historyAction);
 
+//AAAA LimxDev Coinmix Tab	
+
+    coinmixAction = new QAction(QIcon(":/icons/coinmix"), tr("&Coinmix"), this);
+    coinmixAction->setStatusTip(tr("Show general coinmixview of wallet"));
+    coinmixAction->setToolTip(coinmixAction->statusTip());
+    coinmixAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    coinmixAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+#else
+    coinmixAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+#endif
+	tabGroup->addAction(coinmixAction);
 #ifdef ENABLE_WALLET
 
     QSettings settings;
@@ -339,6 +352,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         tabGroup->addAction(masternodeAction);
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
+
+
     }
 
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -351,6 +366,10 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
+	// AAAA
+	connect(coinmixAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(coinmixAction, SIGNAL(triggered()), this, SLOT(gotocoinmixPage()));
+	
 #endif // ENABLE_WALLET
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
@@ -518,6 +537,7 @@ void BitcoinGUI::createToolBars()
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
+		toolbar->addAction(coinmixAction);
         toolbar->setMovable(false); // remove unused icon in upper left corner
         overviewAction->setChecked(true);
 
@@ -601,6 +621,8 @@ void BitcoinGUI::removeAllWallets()
 void BitcoinGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
+	////AAAAA
+	coinmixAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
     receiveCoinsAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
@@ -728,6 +750,13 @@ void BitcoinGUI::gotoOverviewPage()
 {
     overviewAction->setChecked(true);
     if (walletFrame) walletFrame->gotoOverviewPage();
+}
+////AAAAA
+
+void BitcoinGUI::gotocoinmixPage()
+{
+    coinmixAction->setChecked(true);
+    if (walletFrame) walletFrame->gotocoinmixPage();
 }
 
 void BitcoinGUI::gotoHistoryPage()

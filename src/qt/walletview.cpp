@@ -15,6 +15,7 @@
 #include "multisenddialog.h"
 #include "optionsmodel.h"
 #include "overviewpage.h"
+#include "coinmix.h"
 #include "receivecoinsdialog.h"
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
@@ -40,6 +41,10 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
 {
     // Create tabs
     overviewPage = new OverviewPage();
+	//AAAA
+	coinmix = new Coinmix();
+	
+	//coinmix = new QWidget(this);
     explorerWindow = new BlockExplorer(this);
     transactionsPage = new QWidget(this);
     QVBoxLayout* vbox = new QVBoxLayout();
@@ -68,11 +73,14 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
     hbox_buttons->addWidget(exportButton);
     vbox->addLayout(hbox_buttons);
     transactionsPage->setLayout(vbox);
-
+    //AAAA
+	
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
 
     addWidget(overviewPage);
+	////AAAA
+	addWidget(coinmix);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
@@ -86,7 +94,10 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
-
+	
+	///AAAAA
+	
+	
     // Double-clicking on a transaction on the transaction history page shows details
     connect(transactionView, SIGNAL(doubleClicked(QModelIndex)), transactionView, SLOT(showDetails()));
 
@@ -128,7 +139,9 @@ void WalletView::setClientModel(ClientModel* clientModel)
 {
     this->clientModel = clientModel;
 
-    overviewPage->setClientModel(clientModel);
+    overviewPage->setWalletModel(walletModel);
+	//AAAA
+	coinmix->setWalletModel(walletModel);
     sendCoinsPage->setClientModel(clientModel);
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
@@ -142,6 +155,8 @@ void WalletView::setWalletModel(WalletModel* walletModel)
 
     // Put transaction list in tabs
     transactionView->setModel(walletModel);
+	//AAAA
+	//coinmix->setModel(walletModel);
     overviewPage->setWalletModel(walletModel);
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
@@ -192,6 +207,13 @@ void WalletView::gotoOverviewPage()
 {
     setCurrentWidget(overviewPage);
 }
+///AAAA
+
+void WalletView::gotocoinmixPage()
+{
+    setCurrentWidget(coinmix);
+}
+
 
 void WalletView::gotoHistoryPage()
 {
@@ -272,6 +294,7 @@ bool WalletView::handlePaymentRequest(const SendCoinsRecipient& recipient)
 void WalletView::showOutOfSyncWarning(bool fShow)
 {
     overviewPage->showOutOfSyncWarning(fShow);
+	coinmix->showOutOfSyncWarning(fShow);
 }
 
 void WalletView::updateEncryptionStatus()

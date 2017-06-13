@@ -3,9 +3,9 @@
 // Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-#include "overviewpage.h"
-#include "ui_overviewpage.h"
+//
+#include "Coinmix.h"
+#include "ui_Coinmix.h"
 
 #include "bitcoinunits.h"
 #include "clientmodel.h"
@@ -28,11 +28,12 @@
 #define ICON_OFFSET 16
 #define NUM_ITEMS 5
 
-class TxViewDelegate : public QAbstractItemDelegate
+/*
+class TxViewDelegate2 : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate() : QAbstractItemDelegate(), unit(BitcoinUnits::DMD)
+    TxViewDelegate2() : QAbstractItemDelegate(), unit(BitcoinUnits::DMD)
     {
     }
 
@@ -66,11 +67,13 @@ public:
         QRect boundingRect;
         painter->drawText(addressRect, Qt::AlignLeft | Qt::AlignVCenter, address, &boundingRect);
 
+		
         if (index.data(TransactionTableModel::WatchonlyRole).toBool()) {
             QIcon iconWatchonly = qvariant_cast<QIcon>(index.data(TransactionTableModel::WatchonlyDecorationRole));
             QRect watchonlyRect(boundingRect.right() + 5, mainRect.top() + ypad + halfheight, 16, halfheight);
             iconWatchonly.paint(painter, watchonlyRect);
         }
+		
 
         if (amount < 0) {
             foreground = COLOR_NEGATIVE;
@@ -99,25 +102,20 @@ public:
 
     int unit;
 };
-#include "overviewpage.moc"
+*/
+#include "Coinmix.moc"
 
-OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
-                                              ui(new Ui::OverviewPage),
+Coinmix::Coinmix(QWidget* parent) : QWidget(parent),
+                                              ui(new Ui::Coinmix),
                                               clientModel(0),
                                               walletModel(0),
-                                              currentBalance(-1),
-                                              currentUnconfirmedBalance(-1),
-                                              currentImmatureBalance(-1),
-                                              currentWatchOnlyBalance(-1),
-                                              currentWatchUnconfBalance(-1),
-                                              currentWatchImmatureBalance(-1),
-                                              txdelegate(new TxViewDelegate()),
                                               filter(0)
 {
     nDisplayUnit = 0; // just make sure it's not unitialized
     ui->setupUi(this);
 
     // Recent transactions
+	/*
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
     ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2));
@@ -125,55 +123,49 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
 
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
-
+	*/
     // init "out of sync" warning labels
-    ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
+    //ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
     ui->labelmixTXSyncStatus->setText("(" + tr("out of sync") + ")");
-    ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
+    //ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
 
     if (fLiteMode) {
         ui->framemixTX->setVisible(false);
-    } else 
-	{
+    } else {
         if (fMasterNode) {
             ui->togglemixTX->setText("(" + tr("Disabled") + ")");
             ui->mixTXAuto->setText("(" + tr("Disabled") + ")");
             ui->mixTXReset->setText("(" + tr("Disabled") + ")");
             ui->framemixTX->setEnabled(false);
-			//AAAA Coinmix Tab
-			ui->framemixTX->setVisible(false);
         } else {
             if (!fEnablemixTX) {
                 ui->togglemixTX->setText(tr("Start mixTX"));
             } else {
                 ui->togglemixTX->setText(tr("Stop mixTX"));
             }
-			//AAAA Coinmix Tab
-			ui->framemixTX->setVisible(false);
             timer = new QTimer(this);
             connect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
             timer->start(1000);
         }
     }
-	
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 }
-
-void OverviewPage::handleTransactionClicked(const QModelIndex& index)
+/*
+void Coinmix::handleTransactionClicked(const QModelIndex& index)
 {
     if (filter)
         emit transactionClicked(filter->mapToSource(index));
 }
-
-OverviewPage::~OverviewPage()
+*/
+Coinmix::~Coinmix()
 {
     if (!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
     delete ui;
 }
-
-void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance, const CAmount& anonymizedBalance, const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
+/*
+void Coinmix::setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance, const CAmount& anonymizedBalance, const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
 {
     currentBalance = balance;
     currentUnconfirmedBalance = unconfirmedBalance;
@@ -216,8 +208,10 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     }
 }
 
+*/
 // show/hide watch-only labels
-void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
+/*
+void Coinmix::updateWatchOnlyLabels(bool showWatchOnly)
 {
     ui->labelSpendable->setVisible(showWatchOnly);      // show spendable label (only when watch-only is active)
     ui->labelWatchonly->setVisible(showWatchOnly);      // show watch-only label
@@ -235,8 +229,9 @@ void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
         ui->labelTotal->setIndent(20);
     }
 }
-
-void OverviewPage::setClientModel(ClientModel* model)
+*/
+/*
+void Coinmix::setClientModel(ClientModel* model)
 {
     this->clientModel = model;
     if (model) {
@@ -245,8 +240,8 @@ void OverviewPage::setClientModel(ClientModel* model)
         updateAlerts(model->getStatusBarWarnings());
     }
 }
-
-void OverviewPage::setWalletModel(WalletModel* model)
+*/
+void Coinmix::setWalletModel(WalletModel* model)
 {
     this->walletModel = model;
     if (model && model->getOptionsModel()) {
@@ -257,58 +252,65 @@ void OverviewPage::setWalletModel(WalletModel* model)
         filter->setDynamicSortFilter(true);
         filter->setSortRole(Qt::EditRole);
         filter->setShowInactive(false);
-        filter->sort(TransactionTableModel::Date, Qt::DescendingOrder);
+        //filter->sort(TransactionTableModel::Date, Qt::DescendingOrder);
 
-        ui->listTransactions->setModel(filter);
-        ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
+       // ui->listTransactions->setModel(filter);
+       // ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
 
         // Keep up to date with wallet
-        setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance(), model->getAnonymizedBalance(),
+       /* setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance(), model->getAnonymizedBalance(),
             model->getWatchBalance(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
-        connect(model, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this, SLOT(setBalance(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
+		*/
+        //connect(model, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this, SLOT(setBalance(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
 
-        connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
+        //connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
 
         connect(ui->mixTXAuto, SIGNAL(clicked()), this, SLOT(mixTXAuto()));
         connect(ui->mixTXReset, SIGNAL(clicked()), this, SLOT(mixTXReset()));
         connect(ui->togglemixTX, SIGNAL(clicked()), this, SLOT(togglemixTX()));
-        updateWatchOnlyLabels(model->haveWatchOnly());
-        connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
+     //  updateWatchOnlyLabels(model->haveWatchOnly());
+        //connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
     }
 
     // update the display unit, to not use the default ("DMD")
-    updateDisplayUnit();
+    //updateDisplayUnit();
 }
 
-void OverviewPage::updateDisplayUnit()
+/*
+void Coinmix::updateDisplayUnit()
 {
     if (walletModel && walletModel->getOptionsModel()) {
         nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
-        if (currentBalance != -1)
+        
+		if (currentBalance != -1)
             setBalance(currentBalance, currentUnconfirmedBalance, currentImmatureBalance, currentAnonymizedBalance,
                 currentWatchOnlyBalance, currentWatchUnconfBalance, currentWatchImmatureBalance);
 
-        // Update txdelegate->unit with the current unit
+         Update txdelegate->unit with the current unit
         txdelegate->unit = nDisplayUnit;
 
         ui->listTransactions->update();
+		
     }
 }
-
-void OverviewPage::updateAlerts(const QString& warnings)
+*/
+/*
+void Coinmix::updateAlerts(const QString& warnings)
 {
     this->ui->labelAlerts->setVisible(!warnings.isEmpty());
     this->ui->labelAlerts->setText(warnings);
 }
+*/
 
-void OverviewPage::showOutOfSyncWarning(bool fShow)
+void Coinmix::showOutOfSyncWarning(bool fShow)
 {
-    ui->labelWalletStatus->setVisible(fShow);
+   // ui->labelWalletStatus->setVisible(fShow);
     ui->labelmixTXSyncStatus->setVisible(fShow);
-    ui->labelTransactionsStatus->setVisible(fShow);
+    //ui->labelTransactionsStatus->setVisible(fShow);
 }
 
-void OverviewPage::updatemixTXProgress()
+
+void Coinmix::updatemixTXProgress()
 {
     if (!masternodeSync.IsBlockchainSynced() || ShutdownRequested()) return;
 
@@ -421,7 +423,7 @@ void OverviewPage::updatemixTXProgress()
 }
 
 
-void OverviewPage::miXtxStatus()
+void Coinmix::miXtxStatus()
 {
     static int64_t nLastDSProgressBlockTime = 0;
 
@@ -472,12 +474,12 @@ void OverviewPage::miXtxStatus()
     }
 }
 
-void OverviewPage::mixTXAuto()
+void Coinmix::mixTXAuto()
 {
     miXtxPool.DoAutomaticDenominating();
 }
 
-void OverviewPage::mixTXReset()
+void Coinmix::mixTXReset()
 {
     miXtxPool.Reset();
 
@@ -486,7 +488,7 @@ void OverviewPage::mixTXReset()
         QMessageBox::Ok, QMessageBox::Ok);
 }
 
-void OverviewPage::togglemixTX()
+void Coinmix::togglemixTX()
 {
     QSettings settings;
     // Popup some information on first mixing
@@ -532,7 +534,7 @@ void OverviewPage::togglemixTX()
     } else {
         ui->togglemixTX->setText(tr("Stop mixTX"));
 
-        /* show mixTX configuration if client has defaults set */
+        //show mixTX configuration if client has defaults set 
 
         if (nAnonymizeDiamondAmount == 0) {
             mixTXConfig dlg(this);

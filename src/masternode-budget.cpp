@@ -793,7 +793,9 @@ CAmount CBudgetManager::GetTotalBudget(int nHeight)
         CAmount nSubsidy = 500 * COIN;
         return ((nSubsidy / 100) * 10) * 146;
     }
+	return 0;
 
+	/*
     //get block value and calculate from that
     CAmount nSubsidy = 0;
     if (nHeight <= Params().LAST_POW_BLOCK() && nHeight >= 151200) {
@@ -828,6 +830,7 @@ CAmount CBudgetManager::GetTotalBudget(int nHeight)
     } else {
         return ((nSubsidy / 100) * 10) * 1440 * 30;
     }
+	*/
 }
 
 void CBudgetManager::NewBlock()

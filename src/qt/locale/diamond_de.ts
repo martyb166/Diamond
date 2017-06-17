@@ -3757,8 +3757,8 @@ zum Beispiel: alertnotify=echo %%s | mail -s \"DarkNet Alert\" admin@foo.com</tr
         <translation>Erlaubte Gegenstellen können nicht wegen DoS ausgeschlossen werden und ihre Transaktionen werden immer weitergeleitet, sogar wenn sie schon im Memory-Pool sind. Dies ist z.B. für Gateways nützlich.</translation>
     </message>
     <message>
-        <source>(51472 could be used only on mainnet)</source>
-        <translation>(51472 kann nur im Standardnetz benutzt werden)</translation>
+        <source>(17771 could be used only on mainnet)</source>
+        <translation>(17771 kann nur im Standardnetz benutzt werden)</translation>
     </message>
     <message>
         <source>(default: %s)</source>
@@ -4176,8 +4176,8 @@ DarkNet Core wird heruntergefahren.</translation>
         <translation>Masternode-Geheimschlüssel (masternodeprivkey) ist ungültig. Siehe Dokumentation. </translation>
     </message>
     <message>
-        <source>(must be51472 for mainnet)</source>
-        <translation>(muss für Standardnetz51472 sein)</translation>
+        <source>(must be17771 for mainnet)</source>
+        <translation>(muss für Standardnetz17771 sein)</translation>
     </message>
     <message>
         <source>Can't find random Masternode.</source>

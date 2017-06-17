@@ -3654,8 +3654,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Aviso: Por favor verifique que a data e a hora do computador está correcta! Se o relógio estiver errado o DarkNet Core não vai funcionar correctamente.</translation>
     </message>
     <message>
-        <source>(51472 could be used only on mainnet)</source>
-        <translation>(51472 apenas pode ser usado para mainnet)</translation>
+        <source>(17771 could be used only on mainnet)</source>
+        <translation>(17771 apenas pode ser usado para mainnet)</translation>
     </message>
     <message>
         <source>(default: %s)</source>
@@ -4064,8 +4064,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>masternodeprivkey inválida. Por favor reveja a documentação.</translation>
     </message>
     <message>
-        <source>(must be51472 for mainnet)</source>
-        <translation>(deve ser51472 para mainnet)</translation>
+        <source>(must be17771 for mainnet)</source>
+        <translation>(deve ser17771 para mainnet)</translation>
     </message>
     <message>
         <source>Can't find random Masternode.</source>

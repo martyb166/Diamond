@@ -75,8 +75,8 @@ int64_t nReserveBalance = 0;
  * We are ~100 times smaller then bitcoin now (2015-06-23), set minRelayTxFee only 10 times higher
  * so it's still 10 times lower comparing to bitcoin.
  */
-CFeeRate minRelayTxFee = CFeeRate(10000);
-
+CFeeRate minRelayTxFee = CFeeRate(1000000);
+//CFeeRate minRelayTxFee = CFeeRate(10000);
 CTxMemPool mempool(::minRelayTxFee);
 
 struct COrphanTx {
@@ -1607,13 +1607,37 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
-    int64_t nSubsidy = 0;
-
+ 
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         if (nHeight < 200 && nHeight > 0)
             return 250000 * COIN;
     }
-
+	
+	int64_t pow_basicreward = 0.1563 * COIN;
+	int64_t nSubsidy = 2.35 * COIN;
+	int64_t var1 = 320000;
+	int64_t var2 = 360000;
+	if( nHeight == 1 ) return 2500000 * COIN;
+	if( nHeight <= 115200 )
+        {
+			return nSubsidy;
+		}
+	if( nHeight > 115200 && nHeight <= 691200 )
+        {
+        nSubsidy = nSubsidy - ((nHeight - 115200 )/var1)*COIN;
+		return nSubsidy;
+		}
+	if( nHeight > 691200 && nHeight <= 2284800 )
+        {
+        nSubsidy = (var2 / nHeight)*COIN;
+		return nSubsidy;
+		}
+	if( nHeight > 2284800 )
+		{
+		nSubsidy= pow_basicreward;
+        return nSubsidy;
+		}
+	/*
     if (nHeight == 0) {
         nSubsidy = 60001 * COIN;
     } else if (nHeight < 86400 && nHeight > 0) {
@@ -1646,6 +1670,9 @@ int64_t GetBlockValue(int nHeight)
         nSubsidy = 0 * COIN;
     }
     return nSubsidy;
+	*/
+	
+	
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount)
@@ -1656,7 +1683,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
         if (nHeight < 200)
             return 0;
     }
-
+	// DMD3 65% for Masternodes
+	ret = blockValue  / 100 * 65;
+	/*
     if (nHeight <= 43200) {
         ret = blockValue / 5;
     } else if (nHeight < 86400 && nHeight > 43200) {
@@ -1889,7 +1918,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
             }
         }
     }
-
+	*/
     return ret;
 }
 

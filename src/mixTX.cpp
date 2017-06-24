@@ -2,7 +2,7 @@
 // Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
+//
 #include "mixTX.h"
 #include "coincontrol.h"
 #include "init.h"
@@ -12,6 +12,7 @@
 #include "quicktx.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "chainparams.h"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -2109,7 +2110,7 @@ bool CmiXtxSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey)
     uint256 hash;
     if (GetTransaction(vin.prevout.hash, txVin, hash, true)) {
         BOOST_FOREACH (CTxOut out, txVin.vout) {
-            if (out.nValue == 10000 * COIN) {
+            if (out.nValue == Params().MasternodeColleteralLimxDev() * COIN) {
                 if (out.scriptPubKey == payee2) return true;
             }
         }

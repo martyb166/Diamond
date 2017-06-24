@@ -22,6 +22,7 @@
 #include "validationinterface.h"
 #include "wallet_ismine.h"
 #include "walletdb.h"
+#include "chainparams.h"
 
 #include <algorithm>
 #include <map>
@@ -243,7 +244,7 @@ public:
 
         // Stake Settings
         nHashDrift = 45;
-        nStakeSplitThreshold = 300;
+        nStakeSplitThreshold = 30;
         nHashInterval = 22;
         nStakeSetUpdateTime = 300; // 5 minutes
 
@@ -979,7 +980,7 @@ public:
             const CTxIn vin = CTxIn(hashTx, i);
 
             if (pwallet->IsSpent(hashTx, i) || pwallet->IsLockedCoin(hashTx, i)) continue;
-            if (fMasterNode && vout[i].nValue == 10000 * COIN) continue; // do not count MN-like outputs
+            if (fMasterNode && vout[i].nValue == Params().MasternodeColleteralLimxDev() * COIN) continue; // do not count MN-like outputs
 
             const int rounds = pwallet->GetInputmixTXRounds(vin);
             if (rounds >= -2 && rounds < nmixTXRounds) {

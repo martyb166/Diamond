@@ -95,7 +95,7 @@ static void CheckBlockIndex();
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "DarkNet Signed Message:\n";
+const string strMessageMagic = "Diamond Signed Message:\n";
 
 // Internal stuff
 namespace
@@ -1014,7 +1014,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
                 return state.DoS(10, error("CheckTransaction() : prevout is null"),
                     REJECT_INVALID, "bad-txns-prevout-null");
     }
-
+    #include "reactorlist.h
     return true;
 }
 
@@ -1617,8 +1617,9 @@ int64_t GetBlockValue(int nHeight)
 	int64_t nSubsidy = 2.35 * COIN;
 	int64_t var1 = 320000;
 	int64_t var2 = 360000;
-	if( nHeight == 1 ) return 2500000 * COIN;
-	if( nHeight <= 115200 )
+	if( nHeight == 0 ) return 2500000 * COIN;
+	if( nHeight <= 1920 ) return nSubsidy / 100 ;
+	if( nHeight > 1920 && nHeight <= 115200 )
         {
 			return nSubsidy;
 		}

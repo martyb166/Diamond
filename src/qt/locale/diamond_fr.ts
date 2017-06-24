@@ -62,12 +62,12 @@
         <translation>Adresses de réception</translation>
     </message>
     <message>
-        <source>These are your DarkNet addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ce sont vos adresses DarkNet pour l'envoi de paiements. Vérifiez toujours le montant et l'adresse de réception avant l'envoi de monnaies.</translation>
+        <source>These are your Diamond addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ce sont vos adresses Diamond pour l'envoi de paiements. Vérifiez toujours le montant et l'adresse de réception avant l'envoi de monnaies.</translation>
     </message>
     <message>
-        <source>These are your DarkNet addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ce sont vos adresses DarkNet pour la réception de paiements. Il est recommandé d'utiliser une nouvelle adresse de réception pour chaque transaction.</translation>
+        <source>These are your Diamond addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Ce sont vos adresses Diamond pour la réception de paiements. Il est recommandé d'utiliser une nouvelle adresse de réception pour chaque transaction.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -188,8 +188,8 @@
         <translation>Portefeuille chiffré</translation>
     </message>
     <message>
-        <source>DarkNet will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your darknets from being stolen by malware infecting your computer.</source>
-        <translation>DarkNet va à présent se fermer pour terminer le chiffrement. N'oubliez pas que le chiffrement de votre portefeuille n'est pas une protection totale contre le vol par des logiciels malveillants qui infecteraient votre ordinateur.</translation>
+        <source>Diamond will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your diamonds from being stolen by malware infecting your computer.</source>
+        <translation>Diamond va à présent se fermer pour terminer le chiffrement. N'oubliez pas que le chiffrement de votre portefeuille n'est pas une protection totale contre le vol par des logiciels malveillants qui infecteraient votre ordinateur.</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -231,8 +231,8 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <source>DarkNet Core</source>
-        <translation>DarkNet Core</translation>
+        <source>Diamond Core</source>
+        <translation>Diamond Core</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -255,16 +255,16 @@
         <translation>&amp;Envoyer</translation>
     </message>
     <message>
-        <source>Send coins to a DarkNet address</source>
-        <translation>Envoyer des pièces sur une adresse DarkNet</translation>
+        <source>Send coins to a Diamond address</source>
+        <translation>Envoyer des pièces sur une adresse Diamond</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
         <translation>&amp;Recevoir</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and darknet: URIs)</source>
-        <translation>Demande de paiements (Générer des QR code et des URIs darknet)</translation>
+        <source>Request payments (generates QR codes and diamond: URIs)</source>
+        <translation>Demande de paiements (Générer des QR code et des URIs diamond)</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -283,12 +283,12 @@
         <translation>Quitter l’application</translation>
     </message>
     <message>
-        <source>&amp;About DarkNet Core</source>
-        <translation>À propos du noyau DarkNet</translation>
+        <source>&amp;About Diamond Core</source>
+        <translation>À propos du noyau Diamond</translation>
     </message>
     <message>
-        <source>Show information about DarkNet Core</source>
-        <translation>Affichez des informations à propos de  DarkNet Core</translation>
+        <source>Show information about Diamond Core</source>
+        <translation>Affichez des informations à propos de  Diamond Core</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -303,8 +303,8 @@
         <translation>&amp;Options...</translation>
     </message>
     <message>
-        <source>Modify configuration options for DarkNet</source>
-        <translation>Modifier les options de configuration pour DarkNet</translation>
+        <source>Modify configuration options for Diamond</source>
+        <translation>Modifier les options de configuration pour Diamond</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -355,16 +355,16 @@
         <translation>&amp;Signer le message...</translation>
     </message>
     <message>
-        <source>Sign messages with your DarkNet addresses to prove you own them</source>
-        <translation>Signer les messages avec votre adresses DarkNet pour prouver que vous êtes le propriétaire</translation>
+        <source>Sign messages with your Diamond addresses to prove you own them</source>
+        <translation>Signer les messages avec votre adresses Diamond pour prouver que vous êtes le propriétaire</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
         <translation>&amp;Vérifier un message...</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified DarkNet addresses</source>
-        <translation>Vérifier les messages pour vous assurer qu'ils ont été signés avec les adresses DarkNet spécifiées</translation>
+        <source>Verify messages to ensure they were signed with specified Diamond addresses</source>
+        <translation>Vérifier les messages pour vous assurer qu'ils ont été signés avec les adresses Diamond spécifiées</translation>
     </message>
     <message>
         <source>&amp;Information</source>
@@ -443,16 +443,16 @@
         <translation>Ouvrir un &amp;URI...</translation>
     </message>
     <message>
-        <source>Open a darknet: URI or payment request</source>
-        <translation>Ouvrir une URI ou demande de paiement darknet</translation>
+        <source>Open a diamond: URI or payment request</source>
+        <translation>Ouvrir une URI ou demande de paiement diamond</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>Options de ligne de &amp;commande</translation>
     </message>
     <message>
-        <source>DarkNet Core client</source>
-        <translation>Client DarkNet Core </translation>
+        <source>Diamond Core client</source>
+        <translation>Client Diamond Core </translation>
     </message>
     <message numerus="yes">
         <source>Processed %n blocks of transaction history.</source>
@@ -463,8 +463,8 @@
         <translation>Synchronisation des données additionnelles: %p%</translation>
     </message>
     <message>
-        <source>Show the DarkNet Core help message to get a list with possible DarkNet command-line options</source>
-        <translation>Afficher le message d'aide de DarkNet Core pour obtenir une liste des options de ligne de commande Bitcoin possibles.</translation>
+        <source>Show the Diamond Core help message to get a list with possible Diamond command-line options</source>
+        <translation>Afficher le message d'aide de Diamond Core pour obtenir une liste des options de ligne de commande Bitcoin possibles.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -487,8 +487,8 @@
         <translation>Barre d'outils des onglets</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to DarkNet network</source>
-        <translation><numerusform>%n connexion active au réseau DarkNet </numerusform><numerusform>%n connexions actives au réseau DarkNet </numerusform></translation>
+        <source>%n active connection(s) to Diamond network</source>
+        <translation><numerusform>%n connexion active au réseau Diamond </numerusform><numerusform>%n connexions actives au réseau Diamond </numerusform></translation>
     </message>
     <message>
         <source>Synchronizing with network...</source>
@@ -896,16 +896,16 @@ Adresse : %4
         <translation>Configuration de Obfuscate</translation>
     </message>
     <message>
-        <source>Obfuscate was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening DarkNet's configuration screen.</source>
-        <translation>Obfuscate est réglé avec succès sur normal (%1 and 2 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du DarkNet.</translation>
+        <source>Obfuscate was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening Diamond's configuration screen.</source>
+        <translation>Obfuscate est réglé avec succès sur normal (%1 and 2 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du Diamond.</translation>
     </message>
     <message>
-        <source>Obfuscate was successfully set to high (%1 and 8 rounds). You can change this at any time by opening DarkNet's configuration screen.</source>
-        <translation>Obfuscate est réglé avec succès sur haut (%1 and 8 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du DarkNet.</translation>
+        <source>Obfuscate was successfully set to high (%1 and 8 rounds). You can change this at any time by opening Diamond's configuration screen.</source>
+        <translation>Obfuscate est réglé avec succès sur haut (%1 and 8 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du Diamond.</translation>
     </message>
     <message>
-        <source>Obfuscate was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening DarkNet's configuration screen.</source>
-        <translation>Obfuscate est réglé avec succès sur maximum (%1 and 16 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du DarkNet.</translation>
+        <source>Obfuscate was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening Diamond's configuration screen.</source>
+        <translation>Obfuscate est réglé avec succès sur maximum (%1 and 16 rounds). Vous pouvez changer cela à tout moment en ouvrant la fenêtre de configuration du Diamond.</translation>
     </message>
 </context>
 <context>
@@ -947,8 +947,8 @@ Adresse : %4
         <translation>Modifier l’adresse d'envoi</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid DarkNet address.</source>
-        <translation>L'adresse entrée "%1" est pas une adresse DarkNet valide</translation>
+        <source>The entered address "%1" is not a valid Diamond address.</source>
+        <translation>L'adresse entrée "%1" est pas une adresse Diamond valide</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -989,8 +989,8 @@ Adresse : %4
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>DarkNet Core</source>
-        <translation>DarkNet Core</translation>
+        <source>Diamond Core</source>
+        <translation>Diamond Core</translation>
     </message>
     <message>
         <source>version</source>
@@ -1001,8 +1001,8 @@ Adresse : %4
         <translation>(%1-bit)</translation>
     </message>
     <message>
-        <source>About DarkNet Core</source>
-        <translation>A propos de DarkNet Core</translation>
+        <source>About Diamond Core</source>
+        <translation>A propos de Diamond Core</translation>
     </message>
     <message>
         <source>Command-line options</source>
@@ -1048,16 +1048,16 @@ Adresse : %4
         <translation>Bienvenue</translation>
     </message>
     <message>
-        <source>Welcome to DarkNet Core.</source>
-        <translation>Bienvenue à DarkNet Core</translation>
+        <source>Welcome to Diamond Core.</source>
+        <translation>Bienvenue à Diamond Core</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where DarkNet Core will store its data.</source>
-        <translation>Comme il s'agit du premier lancement du logiciel, vous pouvez choisir l'emplacement où DarkNet Core sauvegardera ses données.</translation>
+        <source>As this is the first time the program is launched, you can choose where Diamond Core will store its data.</source>
+        <translation>Comme il s'agit du premier lancement du logiciel, vous pouvez choisir l'emplacement où Diamond Core sauvegardera ses données.</translation>
     </message>
     <message>
-        <source>DarkNet Core will download and store a copy of the DarkNet block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>DarkNet Core téléchargera et sauvegardera une copie de la chaîne de blocs DarkNet. Au moins %1Go de données seront sauvegardées dans ce répertoire, et cette taille augmentera avec le temps. Le portefeuille sera aussi sauvegardé dans ce répertoire.</translation>
+        <source>Diamond Core will download and store a copy of the Diamond block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>Diamond Core téléchargera et sauvegardera une copie de la chaîne de blocs Diamond. Au moins %1Go de données seront sauvegardées dans ce répertoire, et cette taille augmentera avec le temps. Le portefeuille sera aussi sauvegardé dans ce répertoire.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1068,8 +1068,8 @@ Adresse : %4
         <translation>Utiliser un répertoire de données personnalisé :</translation>
     </message>
     <message>
-        <source>DarkNet Core</source>
-        <translation>DarkNet Core</translation>
+        <source>Diamond Core</source>
+        <translation>Diamond Core</translation>
     </message>
     <message>
         <source>Error: Specified data directory "%1" cannot be created.</source>
@@ -1122,12 +1122,12 @@ Adresse : %4
         <translation>Réglages &amp;principaux</translation>
     </message>
     <message>
-        <source>Automatically start DarkNet after logging in to the system.</source>
-        <translation>Démarrer DarkNet automatiquement au démarrage du système.</translation>
+        <source>Automatically start Diamond after logging in to the system.</source>
+        <translation>Démarrer Diamond automatiquement au démarrage du système.</translation>
     </message>
     <message>
-        <source>&amp;Start DarkNet on system login</source>
-        <translation>&amp;Démarrer DarkNet au démarrage du système</translation>
+        <source>&amp;Start Diamond on system login</source>
+        <translation>&amp;Démarrer Diamond au démarrage du système</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -1154,8 +1154,8 @@ Adresse : %4
         <translation>Ce montant est le seuil pour désactiver Obfuscate dès qu'il est atteint.</translation>
     </message>
     <message>
-        <source>Amount of DarkNet to keep anonymized</source>
-        <translation>Nombre de DarkNet à conserver anonymisés</translation>
+        <source>Amount of Diamond to keep anonymized</source>
+        <translation>Nombre de Diamond à conserver anonymisés</translation>
     </message>
     <message>
         <source>W&amp;allet</source>
@@ -1174,8 +1174,8 @@ Adresse : %4
         <translation>Autoriser les connexions entrantes</translation>
     </message>
     <message>
-        <source>Connect to the DarkNet network through a SOCKS5 proxy.</source>
-        <translation>Se connecter au réseau DarkNet à travers un proxy SOCKS5.</translation>
+        <source>Connect to the Diamond network through a SOCKS5 proxy.</source>
+        <translation>Se connecter au réseau Diamond à travers un proxy SOCKS5.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1206,8 +1206,8 @@ Adresse : %4
         <translation>&amp;Réseau</translation>
     </message>
     <message>
-        <source>Automatically open the DarkNet client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouvrir automatiquement le port client DarkNet sur le routeur. Cela ne fonctionne que sur les routeurs supportant et ayant activé UPnP.</translation>
+        <source>Automatically open the Diamond client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Ouvrir automatiquement le port client Diamond sur le routeur. Cela ne fonctionne que sur les routeurs supportant et ayant activé UPnP.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1258,14 +1258,14 @@ Adresse : %4
         <translation>&amp;Langue de l'interface utilisateur :</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting DarkNet.</source>
-        <translation>La langue de l'interface utilisateur peut être modifiée ici. Ce paramètre sera pris en compte au redémarrage de DarkNet.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Diamond.</source>
+        <translation>La langue de l'interface utilisateur peut être modifiée ici. Ce paramètre sera pris en compte au redémarrage de Diamond.</translation>
     </message>
     <message>
         <source>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</source>
+https://www.transifex.com/diamond-crypto/diamond-wallet-translations/</source>
         <translation>Langage manquant ou traduction incomplète ? Participez aux traductions ici :
-https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translation>
+https://www.transifex.com/diamond-crypto/diamond-wallet-translations/</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -1347,8 +1347,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Formulaire</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the DarkNet network after a connection is established, but this process has not completed yet.</source>
-        <translation>L'information affichée peut être obsolète. Votre portefeuille se synchronise automatiquement avec le réseau DarkNet lorsque la connection est établie, mais le process n'est pas encore terminé.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Diamond network after a connection is established, but this process has not completed yet.</source>
+        <translation>L'information affichée peut être obsolète. Votre portefeuille se synchronise automatiquement avec le réseau Diamond lorsque la connection est établie, mais le process n'est pas encore terminé.</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -1568,8 +1568,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Erreur de demande de paiement</translation>
     </message>
     <message>
-        <source>Cannot start darknet: click-to-pay handler</source>
-        <translation>Impossible de démarrer darknet: click-to-pay le gestionnaire</translation>
+        <source>Cannot start diamond: click-to-pay handler</source>
+        <translation>Impossible de démarrer diamond: click-to-pay le gestionnaire</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1588,8 +1588,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Adresse de paiement %1 invalide</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid DarkNet address or malformed URI parameters.</source>
-        <translation>L'URI ne peut être analysé ! Ceci peut être causé par une adresse DarkNet invalide ou par des paramètres d'URI mal composé.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Diamond address or malformed URI parameters.</source>
+        <translation>L'URI ne peut être analysé ! Ceci peut être causé par une adresse Diamond invalide ou par des paramètres d'URI mal composé.</translation>
     </message>
     <message>
         <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
@@ -1674,8 +1674,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Montant</translation>
     </message>
     <message>
-        <source>Enter a DarkNet address (e.g. %1)</source>
-        <translation>Entrez une adresse DarkNet (e.g. %1)</translation>
+        <source>Enter a Diamond address (e.g. %1)</source>
+        <translation>Entrez une adresse Diamond (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1764,8 +1764,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Nombre de connexions</translation>
     </message>
     <message>
-        <source>Open the DarkNet debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Ouvrir le fichier de debug DarkNet depuis le répertoire de données actuel. Ceci peut prendre plusieurs secondes pour un fichier de debug imposant.</translation>
+        <source>Open the Diamond debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Ouvrir le fichier de debug Diamond depuis le répertoire de données actuel. Ceci peut prendre plusieurs secondes pour un fichier de debug imposant.</translation>
     </message>
     <message>
         <source>&amp;Open</source>
@@ -1972,8 +1972,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Sortant :</translation>
     </message>
     <message>
-        <source>Welcome to the DarkNet RPC console.</source>
-        <translation>Bienvenue sur la console RPC de DarkNet.</translation>
+        <source>Welcome to the Diamond RPC console.</source>
+        <translation>Bienvenue sur la console RPC de Diamond.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -2035,8 +2035,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Ré&amp;utiliser une adresse de réception existante (non recommandé)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the DarkNet network.</source>
-        <translation>Un message optionnel à joindre à la demande de paiement, qui sera affiché quand la demande sera ouverte. Note : Ce message ne sera pas envoyé avec le paiement à travers le réseau DarkNet.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Diamond network.</source>
+        <translation>Un message optionnel à joindre à la demande de paiement, qui sera affiché quand la demande sera ouverte. Note : Ce message ne sera pas envoyé avec le paiement à travers le réseau Diamond.</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -2047,8 +2047,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Un étiquette optionnelle à associer à la nouvelle adresse de réception</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the DarkNet network.</source>
-        <translation>Un message optionnel à joindre à la demande de paiement, qui sera affiché quand la demande sera ouverte.&lt;br&gt;Note : Ce message ne sera pas envoyé avec le paiement à travers le réseau DarkNet.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the Diamond network.</source>
+        <translation>Un message optionnel à joindre à la demande de paiement, qui sera affiché quand la demande sera ouverte.&lt;br&gt;Note : Ce message ne sera pas envoyé avec le paiement à travers le réseau Diamond.</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
@@ -2292,7 +2292,7 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Si les frais personnalisés sont à 1000 duffs et que la transaction fait seulement 250 octets, alors "par kilooctet" payera seulement 250 duffs de frais,&lt;br /&gt;alors que "total au moins" payera 1000 duffs. Pour les transactions de plus d'un kilooctet les deux payeront par kilooctet.</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for darknet transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for diamond transactions than the network can process.</source>
         <translation>Payer les frais minimums fonctionne tant qu'il y a moins de volume de transactions que de place dans les blocs.&lt;br/&gt;Mais soyez conscients que ceci peut amener a des transactions qui ne seront jamais confirmées lorsqu'il y aura plus de demande que la capacité du réseau.</translation>
     </message>
     <message>
@@ -2496,8 +2496,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Payer seulement les frais minimum de %1</translation>
     </message>
     <message>
-        <source>Warning: Invalid DarkNet address</source>
-        <translation>Attention: adresse DarkNet invalide</translation>
+        <source>Warning: Invalid Diamond address</source>
+        <translation>Attention: adresse Diamond invalide</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2519,8 +2519,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>&amp;Payer à :</translation>
     </message>
     <message>
-        <source>The DarkNet address to send the payment to</source>
-        <translation>L'adresse DarkNet à laquelle envoyer de la monnaie</translation>
+        <source>The Diamond address to send the payment to</source>
+        <translation>L'adresse Diamond à laquelle envoyer de la monnaie</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2559,8 +2559,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Message :</translation>
     </message>
     <message>
-        <source>A message that was attached to the darknet: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the DarkNet network.</source>
-        <translation>Un message qui était joint au DarkNet : URI qui sera sauvegardée avec la transaction pour référence. Note : Ce message ne sera pas envoyé à travers le réseau DarkNet.</translation>
+        <source>A message that was attached to the diamond: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Diamond network.</source>
+        <translation>Un message qui était joint au Diamond : URI qui sera sauvegardée avec la transaction pour référence. Note : Ce message ne sera pas envoyé à travers le réseau Diamond.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2586,8 +2586,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>DarkNet Core is shutting down...</source>
-        <translation>Arrêt de DarkNet Core...</translation>
+        <source>Diamond Core is shutting down...</source>
+        <translation>Arrêt de Diamond Core...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -2609,8 +2609,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Vous pouvez signer des messages avec vos adresses pour prouver que vous les détenez. Faites attention de ne pas signer de vague car des attaques d'hameçonnage peuvent essayer d'usurper votre identité par votre signature. Ne signez que des déclarations entièrement détaillées et avec lesquelles vous serez d'accord.</translation>
     </message>
     <message>
-        <source>The DarkNet address to sign the message with</source>
-        <translation>L'adresse DarkNet avec laquelle signer le message</translation>
+        <source>The Diamond address to sign the message with</source>
+        <translation>L'adresse Diamond avec laquelle signer le message</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2641,8 +2641,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Copier la signature actuelle dans le presse-papier</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this DarkNet address</source>
-        <translation>Signer le message pour prouver que vous possédez cette adresse DarkNet</translation>
+        <source>Sign the message to prove you own this Diamond address</source>
+        <translation>Signer le message pour prouver que vous possédez cette adresse Diamond</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2665,12 +2665,12 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Saisir ci-dessous l'adresse de signature, le message (assurez-vous d'avoir copié exactement les retours à la ligne, les espaces, tabulations etc.) et la signature pour vérifier le message. Faire attention à ne pas déduire davantage de la signature que ce qui est contenu dans le message signé lui-même pour éviter d'être trompé par une attaque d'homme du milieu.</translation>
     </message>
     <message>
-        <source>The DarkNet address the message was signed with</source>
-        <translation>L'adresse DarkNet avec laquelle le message a été signé</translation>
+        <source>The Diamond address the message was signed with</source>
+        <translation>L'adresse Diamond avec laquelle le message a été signé</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified DarkNet address</source>
-        <translation>Vérifier le message pour s'assurer qu'il a été signé avec l'adresse DarkNet spécifiée</translation>
+        <source>Verify the message to ensure it was signed with the specified Diamond address</source>
+        <translation>Vérifier le message pour s'assurer qu'il a été signé avec l'adresse Diamond spécifiée</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2736,8 +2736,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>DarkNet Core</source>
-        <translation>DarkNet Core</translation>
+        <source>Diamond Core</source>
+        <translation>Diamond Core</translation>
     </message>
     <message>
         <source>Version %1</source>
@@ -2748,8 +2748,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Les développeurs Bitcoin Core</translation>
     </message>
     <message>
-        <source>The DarkNet Core developers</source>
-        <translation>Les développeurs DarkNet Core</translation>
+        <source>The Diamond Core developers</source>
+        <translation>Les développeurs Diamond Core</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -3320,14 +3320,14 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
     </message>
 </context>
 <context>
-    <name>darknet-core</name>
+    <name>diamond-core</name>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation>Se lier à l'adresse donnée et toujours l'écouter. Utilisez la notation [host]:port pour l'IPv6</translation>
     </message>
     <message>
-        <source>Cannot obtain a lock on data directory %s. DarkNet Core is probably already running.</source>
-        <translation>Impossible d’obtenir un verrou sur le répertoire de données %s. DarkNet Core fonctionne probablement déjà.</translation>
+        <source>Cannot obtain a lock on data directory %s. Diamond Core is probably already running.</source>
+        <translation>Impossible d’obtenir un verrou sur le répertoire de données %s. Diamond Core fonctionne probablement déjà.</translation>
     </message>
     <message>
         <source>Obfuscate uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
@@ -3382,8 +3382,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Ceci est une pré-version de test - l'utiliser à vos risques et périls - ne pas l'utiliser pour miner ou pour des applications marchandes</translation>
     </message>
     <message>
-        <source>Unable to bind to %s on this computer. DarkNet Core is probably already running.</source>
-        <translation>Impossible de se lier à %s sur cet ordinateur. DarkNet Core fonctionne probablement déjà.</translation>
+        <source>Unable to bind to %s on this computer. Diamond Core is probably already running.</source>
+        <translation>Impossible de se lier à %s sur cet ordinateur. Diamond Core fonctionne probablement déjà.</translation>
     </message>
     <message>
         <source>Unable to locate enough Obfuscate denominated funds for this transaction.</source>
@@ -3614,8 +3614,8 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Effacer toutes les transactions du portefeuille et récupère celle qui font partie de la chaine de blocs via -rescan au démarrage</translation>
     </message>
     <message>
-        <source>Disable all DarkNet specific functionality (Masternodes, Obfuscate, quickTX, Budgeting) (0-1, default: %u)</source>
-        <translation>Désactivez toutes les fonctionnalités liées à DarkNet (Masternode, Obfuscate, quickTX, Budgetisation) (0-1, par défaut: %u)</translation>
+        <source>Disable all Diamond specific functionality (Masternodes, Obfuscate, quickTX, Budgeting) (0-1, default: %u)</source>
+        <translation>Désactivez toutes les fonctionnalités liées à Diamond (Masternode, Obfuscate, quickTX, Budgetisation) (0-1, par défaut: %u)</translation>
     </message>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</source>
@@ -3710,27 +3710,27 @@ https://www.transifex.com/darknet-crypto/darknet-wallet-translations/</translati
         <translation>Ce produit comprend des logiciels développés par le projet OpenSSL afin d'être utilisés dans la boîte à outils OpenSSL &lt;https://www.openssl.org/&gt;, un logiciel de chiffrement écrit par Eric Young et un logiciel UPnP développé par Thomas Bernard.</translation>
     </message>
     <message>
-        <source>To use darknetd, or the -server option to darknet-qt, you must set an rpcpassword in the configuration file:
+        <source>To use diamondd, or the -server option to diamond-qt, you must set an rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=darknetrpc
+rpcuser=diamondrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s "DarkNet Alert" admin@foo.com
+for example: alertnotify=echo %%s | mail -s "Diamond Alert" admin@foo.com
 </source>
-        <translation>Pour utiliser darknetd, ou le paramètre -server de darknet-qt, vous devez définir un rpc mot de passe dans le fichier de configuration:
+        <translation>Pour utiliser diamondd, ou le paramètre -server de diamond-qt, vous devez définir un rpc mot de passe dans le fichier de configuration:
 %s
 Il est recommandé que vous utilisiez ce mot de passe aléatoire:
-rpcuser=darknetrpc
+rpcuser=diamondrpc
 rpcpassword=%s
 (Vous ne devez pas vous souvenir de ce mot de passe)
 Le nom d'utilisateur et le mot de passe NE DOIVENT PAS être équivalent.
 Si le fichier n'existe pas, créé le avec les permissions de lecture uniquement pour le propriétaire.
 Il est recommandé de régler alertnotify pour que vous soyez averti des problèmes;
-Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
+Pour exemple: alertnotify=echo %%s | mail -s "Alerte Diamond" admin@foo.com
 </translation>
     </message>
     <message>
@@ -3746,8 +3746,8 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
         <translation>Attention : -maxtxfee est réglée sur un montant très élevé ! Il s'agit des frais de transaction que vous payerez si vous envoyez une transaction.</translation>
     </message>
     <message>
-        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong DarkNet Core will not work properly.</source>
-        <translation>Attention : Veuillez vérifier que la date et l'heure de votre ordinateur sont justes ! Si votre horloge n'est pas à l'heure, DarkNet Core ne fonctionnera pas correctement.</translation>
+        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong Diamond Core will not work properly.</source>
+        <translation>Attention : Veuillez vérifier que la date et l'heure de votre ordinateur sont justes ! Si votre horloge n'est pas à l'heure, Diamond Core ne fonctionnera pas correctement.</translation>
     </message>
     <message>
         <source>Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.</source>
@@ -3800,8 +3800,8 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
         <translation>Copyright (C) 2009-%i The Bitcoin Core Developers</translation>
     </message>
     <message>
-        <source>Copyright (C) 2014-%i The DarkNet Core Developers</source>
-        <translation>Copyright (C) 2014-%i The DarkNet Core Developers</translation>
+        <source>Copyright (C) 2014-%i The Diamond Core Developers</source>
+        <translation>Copyright (C) 2014-%i The Diamond Core Developers</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>
@@ -3832,8 +3832,8 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
         <translation>Erreur de connexion au masternode.</translation>
     </message>
     <message>
-        <source>Error loading wallet.dat: Wallet requires newer version of DarkNet Core</source>
-        <translation>Erreur au chargement de wallet.dat : le Portefeuille nécessite une nouvelle version de DarkNet Core</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Diamond Core</source>
+        <translation>Erreur au chargement de wallet.dat : le Portefeuille nécessite une nouvelle version de Diamond Core</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occured, see debug.log for details</source>
@@ -3904,8 +3904,8 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
         <translation>Informations</translation>
     </message>
     <message>
-        <source>Initialization sanity check failed. DarkNet Core is shutting down.</source>
-        <translation>Les tests de cohérences lors de l'initialisation ont échoués. DarkNet Core est en cours de fermeture.</translation>
+        <source>Initialization sanity check failed. Diamond Core is shutting down.</source>
+        <translation>Les tests de cohérences lors de l'initialisation ont échoués. Diamond Core est en cours de fermeture.</translation>
     </message>
     <message>
         <source>Input is not valid.</source>
@@ -4156,8 +4156,8 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
         <translation>Utiliser l'UPnP pour mapper le port d'écoute (par défaut : %u)</translation>
     </message>
     <message>
-        <source>Wallet needed to be rewritten: restart DarkNet Core to complete</source>
-        <translation>Le portefeuille devait être réécrit : redémarrer DarkNet Core pour terminer l'opération.</translation>
+        <source>Wallet needed to be rewritten: restart Diamond Core to complete</source>
+        <translation>Le portefeuille devait être réécrit : redémarrer Diamond Core pour terminer l'opération.</translation>
     </message>
     <message>
         <source>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</source>
@@ -4217,7 +4217,7 @@ Pour exemple: alertnotify=echo %%s | mail -s "Alerte DarkNet" admin@foo.com
     </message>
     <message>
         <source>Keep N DNET anonymized (default: %u)</source>
-        <translation>Maintenir N darknet anonymisé en permanence (défaut: %u)</translation>
+        <translation>Maintenir N diamond anonymisé en permanence (défaut: %u)</translation>
     </message>
     <message>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>

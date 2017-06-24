@@ -102,19 +102,20 @@ public:
         pchMessageStart[2] = 0xbd;
         pchMessageStart[3] = 0xfd;
         vAlertPubKey = ParseHex("0000098d3ba6ba6e7423fa5cbd6a89e0a9a5348f88d332b44a5cb1a8b7ed2c1eaa335fc8dc4f012cb8241cc0bdafd6ca70c5f5448916e4e6f511bcd746ed57dc50");
-        nDefaultPort = 17771;  //
-        bnProofOfWorkLimit = ~uint256(0) >> 20; // DMD starting difficulty is 1 / 2^12  //20
+        nDefaultPort = 17772;  //17771
+        bnProofOfWorkLimit = ~uint256(0) >> 4; // DMD starting difficulty is 1 / 2^12  //20
         nSubsidyHalvingInterval = 210000;
         nMaxReorganizationDepth = 100;
         nEnforceBlockUpgradeMajority = 750;
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 0;
-        nTargetTimespan = 1 * 135; // DMD: 1 day
-        nTargetSpacing = 1 * 135;  // DMD: 1 minute
-        nLastPOWBlock = 1000;
+        nTargetTimespan = 1 * 135; // DMD: 3 hours // 1 day
+        nTargetSpacing = 1 * 135;  // DMD: 135 sec
+        nLastPOWBlock = 1920;
         nMaturity = 100;
         nMasternodeCountDrift = 20;
+		nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
 
         /**
@@ -198,7 +199,7 @@ public:
         strSporkKey = "049DAC995F6CF5A3ECFC63BF1BA51DEDE08ED42F3713075F145853C8CA51D3374870C2D32FFD76B5D754EB9BFDF5B1C01B0666D2A71EDE10166094063FBE010C87";
         //strSporkKey = "04B433E6598390C992F4F022F20D3B4CBBE691652EE7C48243B81701CBDB7CC7D7BF0EE09E154E6FCBF2043D65AF4E9E97B89B5DBAF830D83B9B7F469A6C45A717";
         strmixTXPoolDummyAddress = "dYUzB9RFMUznBqnbH4bjzXr9ezLFURgAGE";
-        nStartMasternodePayments = 1403728576; //Wed, 25 Jun 2014 20:36:16 GMT
+        nStartMasternodePayments = 1498348800; //06/25/2017 @ 12:00am (UTC)
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const

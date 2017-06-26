@@ -301,7 +301,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
         //miners reward /**TODO replace 1000 with LAST_POW_BLOCK
     if (!fProofOfStake && pindexPrev->nHeight < Params().LAST_POW_BLOCK()) 
 	{ //TODO:Do something to turn fProofOfStake off, by consensus method. Otherwise one could keep mining.
-		txNew.vout[0].nValue = nFees + blockValue;
+		txNew.vout[0].nValue = blockValue;
 		LogPrintf("CreateNewBlock: blockvalue to pay value %u\n", blockValue);
 	}
 	

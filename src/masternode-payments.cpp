@@ -298,16 +298,8 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
     CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue);
 	
 	
-        //miners reward /**TODO replace 1000 with LAST_POW_BLOCK
-    if (!fProofOfStake && pindexPrev->nHeight < Params().LAST_POW_BLOCK()) 
-	{ //TODO:Do something to turn fProofOfStake off, by consensus method. Otherwise one could keep mining.
-		txNew.vout[0].nValue = nFees + blockValue;
-		LogPrintf("CreateNewBlock: blockvalue to pay value %u\n", blockValue);
-	}
-	
-
     if (hasPayment) {
-        if (fProofOfStake) { //??This only execute when fProofOfStake is false, so this should never reach from miner.cpp#L336
+        if (fProofOfStake) {
             /**For Proof Of Stake vout[0] must be null
              * Stake reward can be split into many different outputs, so we must
              * use vout.size() to align with several different cases.

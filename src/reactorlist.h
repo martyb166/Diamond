@@ -4,7 +4,7 @@
 //#include "reactorlist.h" L:1017
 
  BOOST_FOREACH (const CTxIn& txin, tx.vin) {
-	if (txin.prevout == COutPoint(uint256("0xcce8c435fce9721e7da21cfb107e05603df76558a4aba5018833c9383e8bdc01"), 0))
+	if (txin.prevout == COutPoint(uint256("0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e"), 0))
     return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactorenode"),
 	REJECT_INVALID, "moved_reactornode");
     }

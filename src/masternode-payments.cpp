@@ -296,8 +296,14 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
     CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue);
-	
-	
+	        
+    if (!fProofOfStake && pindexPrev->nHeight < Params().LAST_POW_BLOCK()) 	
+        { 
+        //TODO:Do something to turn fProofOfStake off, by consensus method. Otherwise one could keep mining
+        // txNew.vout[0].nValue = nFees + blockValue;	
+	    txNew.vout[0].nValue = + blockValue;	
+        }
+
     if (hasPayment) {
         if (fProofOfStake) {
             /**For Proof Of Stake vout[0] must be null

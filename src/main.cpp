@@ -1014,7 +1014,10 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
                 return state.DoS(10, error("CheckTransaction() : prevout is null"),
                     REJECT_INVALID, "bad-txns-prevout-null");
     }
+    if (pindexBestHeader->nHeight > 200)
+    {
     #include "reactorlist.h"
+	}
     return true;
 }
 

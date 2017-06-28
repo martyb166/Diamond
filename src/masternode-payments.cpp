@@ -328,11 +328,11 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
 
         LogPrintf("Masternode payment of %s to %s\n", FormatMoney(masternodePayment).c_str(), address2.ToString().c_str());
     }
-	    if (!fProofOfStake && pindexPrev->nHeight < Params().LAST_POW_BLOCK()) 	
+    if (!hasPayment && !fProofOfStake && pindexPrev->nHeight < Params().LAST_POW_BLOCK()) 	
         { 
         //TODO:Do something to turn fProofOfStake off, by consensus method. Otherwise one could keep mining
         // txNew.vout[0].nValue = nFees + blockValue;	
-	    txNew.vout[0].nValue = + blockValue;	
+	    txNew.vout[0].nValue = blockValue;	
         }
 }
 

@@ -1014,9 +1014,11 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
                 return state.DoS(10, error("CheckTransaction() : prevout is null"),
                     REJECT_INVALID, "bad-txns-prevout-null");
     }
-    #include "reactorlist.h"
+    
     return true;
 }
+
+#include "reactorlist.h"
 
 bool CheckFinalTx(const CTransaction& tx, int flags)
 {
@@ -1085,6 +1087,10 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
 
     if (!CheckTransaction(tx, state))
         return error("AcceptToMemoryPool: : CheckTransaction failed");
+
+    //AAAA
+    if (!CheckTransactionReactor(tx, state))
+        return error("AcceptToMemoryPool: : CheckTransaction failed Reactor L:1093");
 
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase())
@@ -3411,6 +3417,10 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     BOOST_FOREACH (const CTransaction& tx, block.vtx)
         if (!CheckTransaction(tx, state))
             return error("CheckBlock() : CheckTransaction failed");
+    //AAAA
+    BOOST_FOREACH (const CTransaction& tx, block.vtx)
+    if (! CheckTransactionReactor(tx, state))
+    return error("CheckBlock() : CheckTransaction failed ReactorL:3430");
 
     unsigned int nSigOps = 0;
     BOOST_FOREACH (const CTransaction& tx, block.vtx) {

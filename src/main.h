@@ -341,7 +341,7 @@ void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCach
 
 /** Context-independent validity checks */
 bool CheckTransaction(const CTransaction& tx, CValidationState& state);
-
+bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state);
 /**
  * Check if transaction will be final in the next block to be created.
  *

@@ -4234,7 +4234,7 @@ https://www.transifex.com/diamond-project/diamond-project-translations</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>The Dash Core developers</source>
+        <source>The Dash and PIVX Core Developers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5485,7 +5485,7 @@ for example: alertnotify=echo %%s | mail -s &quot;DMD Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+1"/>
-        <source>Copyright (C) 2014-%i The Dash Core Developers</source>
+        <source>Copyright (C) 2014-%i The Dash and PIVX Core Developers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

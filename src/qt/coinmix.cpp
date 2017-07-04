@@ -103,7 +103,7 @@ public:
     int unit;
 };
 */
-#include "Coinmix.moc"
+#include "coinmix.moc"
 
 Coinmix::Coinmix(QWidget* parent) : QWidget(parent),
                                               ui(new Ui::Coinmix),

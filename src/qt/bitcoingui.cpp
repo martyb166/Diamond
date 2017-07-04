@@ -113,7 +113,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
 
     GUIUtil::restoreWindowGeometry("nWindow", QSize(880, 550), this);
 
-    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.1") + " - ";
+    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.2") + " - ";
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
     enableWallet = !GetBoolArg("-disablewallet", false);
@@ -330,12 +330,21 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     coinmixAction->setStatusTip(tr("Show general coinmixview of wallet"));
     coinmixAction->setToolTip(coinmixAction->statusTip());
     coinmixAction->setCheckable(true);
+
+	
 #ifdef Q_OS_MAC
     coinmixAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
 #else
     coinmixAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
 	tabGroup->addAction(coinmixAction);
+	
+	///	Unlock
+	unlockWalletAction = new QAction(QIcon(":/icons/coinmix"),tr("&Unlock Wallet..."), this);
+    unlockWalletAction->setToolTip(tr("Unlock wallet"));
+	unlockWalletAction->setToolTip(unlockWalletAction->statusTip());
+	unlockWalletAction->setCheckable(true);
+	tabGroup->addAction(unlockWalletAction);
 #ifdef ENABLE_WALLET
 
     QSettings settings;
@@ -369,6 +378,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 	// AAAA
 	connect(coinmixAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(coinmixAction, SIGNAL(triggered()), this, SLOT(gotocoinmixPage()));
+	connect(unlockWalletAction, SIGNAL(triggered()),this, SLOT(unlockWallet()));
 	
 #endif // ENABLE_WALLET
 
@@ -433,8 +443,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     usedSendingAddressesAction->setStatusTip(tr("Show the list of used sending addresses and labels"));
     usedReceivingAddressesAction = new QAction(QIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
-
-    openAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_FileIcon), tr("Open &URI..."), this);
+	
+	///AAAA
+    openAction = new QAction(QIcon(":/icons/editpaste"), tr("Open &URI..."), this);
     openAction->setStatusTip(tr("Open a DMD: URI or payment request"));
     openBlockExplorerAction = new QAction(QIcon(":/icons/explorer"), tr("&Blockchain explorer"), this);
     openBlockExplorerAction->setStatusTip(tr("Block explorer window"));
@@ -538,6 +549,7 @@ void BitcoinGUI::createToolBars()
             toolbar->addAction(masternodeAction);
         }
 		toolbar->addAction(coinmixAction);
+		toolbar->addAction(unlockWalletAction);
         toolbar->setMovable(false); // remove unused icon in upper left corner
         overviewAction->setChecked(true);
 
@@ -623,6 +635,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     overviewAction->setEnabled(enabled);
 	////AAAAA
 	coinmixAction->setEnabled(enabled);
+	unlockWalletAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
     receiveCoinsAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);

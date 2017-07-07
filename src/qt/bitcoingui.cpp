@@ -3,7 +3,7 @@
 // Copyright (c) 2015-2017 The DMD developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-//
+///
 #include "bitcoingui.h"
 
 #include "bitcoinunits.h"
@@ -1178,7 +1178,7 @@ void BitcoinGUI::setEncryptionStatus(int status)
         unlockWalletAction->setVisible(false);
         lockWalletAction->setVisible(true);
 		lockWalletAction2->setVisible(true);
-		lockWalletAction2->setIcon(QIcon(":/icons/bluelock"));
+		lockWalletAction2->setIcon(QIcon(":/icons/blueunlock"));
         encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported
         break;
     case WalletModel::UnlockedForAnonymizationOnly:
@@ -1188,10 +1188,10 @@ void BitcoinGUI::setEncryptionStatus(int status)
         encryptWalletAction->setChecked(true);
         changePassphraseAction->setEnabled(true);
         unlockWalletAction->setVisible(true);
-		unlockWalletAction->setIcon(QIcon(":/icons/blueunlock"));
+		unlockWalletAction->setIcon(QIcon(":/icons/bluelock"));
         lockWalletAction->setVisible(true);
 		lockWalletAction2->setVisible(false);
-		lockWalletAction2->setIcon(QIcon(":/icons/bluelock"));
+		lockWalletAction2->setIcon(QIcon(":/icons/blueunlock"));
         encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported
         break;
     case WalletModel::Locked:
@@ -1201,7 +1201,7 @@ void BitcoinGUI::setEncryptionStatus(int status)
         encryptWalletAction->setChecked(true);
         changePassphraseAction->setEnabled(true);
         unlockWalletAction->setVisible(true);
-		unlockWalletAction->setIcon(QIcon(":/icons/blueunlock"));
+		unlockWalletAction->setIcon(QIcon(":/icons/bluelock"));
         lockWalletAction->setVisible(false);
 		lockWalletAction2->setVisible(false);
 		encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported

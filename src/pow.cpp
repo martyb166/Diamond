@@ -34,9 +34,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
     if (pindexLast->nHeight > Params().LAST_POW_BLOCK()) {
         uint256 bnTargetLimit = (~uint256(0) >> 4);
+		
         int64_t nTargetSpacing = Params().TargetSpacing();
         int64_t nTargetTimespan = Params().TargetTimespan()*40;
-
+ 
         int64_t nActualSpacing = 0;
         if (pindexLast->nHeight != 0)
             nActualSpacing = pindexLast->GetBlockTime() - pindexLast->pprev->GetBlockTime();
@@ -48,14 +49,14 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         // ppcoin: retarget with exponential moving toward target spacing
         uint256 bnNew;
         bnNew.SetCompact(pindexLast->nBits);
-
+		
         int64_t nInterval = nTargetTimespan / nTargetSpacing;
         bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing);
         bnNew /= ((nInterval + 1) * nTargetSpacing);
-
+		
+		if (pindexLast->nHeight == Params().LAST_POW_BLOCK() || pindexLast->nHeight <= Params().LAST_POW_BLOCK() +2 ) bnNew = bnTargetLimit;
         if (bnNew <= 0 || bnNew > bnTargetLimit)
             bnNew = bnTargetLimit;
-
         return bnNew.GetCompact();
     }
 
@@ -100,10 +101,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     bnNew *= nActualTimespan;
     bnNew /= _nTargetTimespan;
 	
-    // Set the Diff Down for POS LimxDev 02-07-2017
-    if (pindexLast->nHeight == Params().LAST_POW_BLOCK()) bnNew = Params().ProofOfWorkLimit();
-
-
+	
+	// Set the Diff Down for POS LimxDev 02-07-2017
+	if (pindexLast->nHeight == Params().LAST_POW_BLOCK()) bnNew = Params().ProofOfWorkLimit();
+	
     if (bnNew > Params().ProofOfWorkLimit()) {
         bnNew = Params().ProofOfWorkLimit();
     }

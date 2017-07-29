@@ -75,8 +75,8 @@ int64_t nReserveBalance = 0;
  * We are ~100 times smaller then bitcoin now (2015-06-23), set minRelayTxFee only 10 times higher
  * so it's still 10 times lower comparing to bitcoin.
  */
-CFeeRate minRelayTxFee = CFeeRate(250000);
-//CFeeRate minRelayTxFee = CFeeRate(10000);
+//CFeeRate minRelayTxFee = CFeeRate(250000);
+CFeeRate minRelayTxFee = CFeeRate(10000);
 CTxMemPool mempool(::minRelayTxFee);
 
 struct COrphanTx {
@@ -1014,11 +1014,12 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
                 return state.DoS(10, error("CheckTransaction() : prevout is null"),
                     REJECT_INVALID, "bad-txns-prevout-null");
     }
-    
+
     return true;
 }
 
 #include "reactorlist.h"
+
 
 bool CheckFinalTx(const CTransaction& tx, int flags)
 {
@@ -1087,10 +1088,10 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
 
     if (!CheckTransaction(tx, state))
         return error("AcceptToMemoryPool: : CheckTransaction failed");
-
-    //AAAA
-    if (!CheckTransactionReactor(tx, state))
+	//AAAA
+	if (!CheckTransactionReactor(tx, state))
         return error("AcceptToMemoryPool: : CheckTransaction failed Reactor L:1093");
+
 
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase())
@@ -1277,13 +1278,19 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
 
 bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree, bool* pfMissingInputs, bool fRejectInsaneFee, bool isDSTX)
 {
+	//AAAA
     AssertLockHeld(cs_main);
     if (pfMissingInputs)
         *pfMissingInputs = false;
-
-    if (!CheckTransaction(tx, state))
+	//if (txin.prevout == COutPoint(uint256("0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e"), 0))
+    /*
+	BOOST_FOREACH (const CTxIn& txin, tx.vin) {
+    if (!CheckTransaction(tx, state) && (txin.prevout != COutPoint(uint256("0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e"), 0)))
         return error("AcceptableInputs: : CheckTransaction failed");
-
+	}
+	*/
+	if (!CheckTransaction(tx, state))
+       return error("AcceptableInputs: : CheckTransaction failed");
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase())
         return state.DoS(100, error("AcceptableInputs: : coinbase as individual tx"),
@@ -1931,7 +1938,8 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
 bool IsInitialBlockDownload()
 {
-    LOCK(cs_main);
+    return false;
+	LOCK(cs_main);
     if (fImporting || fReindex || chainActive.Height() < Checkpoints::GetTotalBlocksEstimate())
         return true;
     static bool lockIBDState = false;
@@ -2120,7 +2128,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
 
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase() || coins->IsCoinStake()) {
-                if (nSpendHeight - coins->nHeight < Params().COINBASE_MATURITY())
+                if (nSpendHeight - coins->nHeight < Params().COINBASE_MATURITY() || nSpendHeight - coins->nHeight > Params().COINBASE_MATURITYMAX() )
                     return state.Invalid(
                         error("CheckInputs() : tried to spend coinbase at depth %d, coinstake=%d", nSpendHeight - coins->nHeight, coins->IsCoinStake()),
                         REJECT_INVALID, "bad-txns-premature-spend-of-coinbase");
@@ -3306,10 +3314,17 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     // Check that the header is valid (particularly PoW).  This is mostly
     // redundant with the call in AcceptBlockHeader.
-    if (!CheckBlockHeader(block, state, fCheckPOW))//block.IsProofOfWork())
-        return state.DoS(100, error("CheckBlock() : CheckBlockHeader failed"),
-            REJECT_INVALID, "bad-header", true);
 
+    if(block.IsProofOfWork()){
+		if (!CheckBlockHeader(block, state, fCheckPOW))
+			return state.DoS(100, error("CheckBlock() : CheckBlockHeader failed"),
+				REJECT_INVALID, "bad-header", true);
+}
+			/*
+			    if (!CheckBlockHeader(block, state, block.IsProofOfWork()))
+        return state.DoS(100, error("CheckBlock() : CheckBlockHeader failed"),
+REJECT_INVALID, "bad-header", true);
+*/
     // Check timestamp
     LogPrint("debug", "%s: block=%s  is proof of stake=%d\n", __func__, block.GetHash().ToString().c_str(), block.IsProofOfStake());
     if (block.GetBlockTime() > GetAdjustedTime() + (block.IsProofOfStake() ? 180 : 7200)) // 3 minute future drift for PoS
@@ -3412,15 +3427,17 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     }
 
     // -------------------------------------------
-
+   //if (!CheckTransaction(tx, state) != (block.vtx == COutPoint(uint256("0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e"), 0)) )
     // Check transactions
-    BOOST_FOREACH (const CTransaction& tx, block.vtx)
-        if (!CheckTransaction(tx, state))
-            return error("CheckBlock() : CheckTransaction failed");
-    //AAAA
-    BOOST_FOREACH (const CTransaction& tx, block.vtx)
-    if (! CheckTransactionReactor(tx, state))
-    return error("CheckBlock() : CheckTransaction failed ReactorL:3430");
+     BOOST_FOREACH (const CTransaction& tx, block.vtx)
+     if (!CheckTransaction(tx, state))
+     return error("CheckBlock() : CheckTransaction failed");
+     //AAAA
+      BOOST_FOREACH (const CTransaction& tx, block.vtx)
+     if (! CheckTransactionReactor(tx, state))
+     return error("CheckBlock() : CheckTransaction failed ReactorL:3430");
+ 
+ 
 
     unsigned int nSigOps = 0;
     BOOST_FOREACH (const CTransaction& tx, block.vtx) {
@@ -3439,7 +3456,7 @@ bool CheckWork(const CBlock block, CBlockIndex* const pindexPrev)
         return error("%s : null pindexPrev for block %s", __func__, block.GetHash().ToString().c_str());
 
     unsigned int nBitsRequired = GetNextWorkRequired(pindexPrev, &block);
-
+/*
     if (block.IsProofOfWork() && (pindexPrev->nHeight + 1 <= 68589)) {
         double n1 = ConvertBitsToDouble(block.nBits);
         double n2 = ConvertBitsToDouble(nBitsRequired);
@@ -3449,7 +3466,7 @@ bool CheckWork(const CBlock block, CBlockIndex* const pindexPrev)
 
         return true;
     }
-
+*/
     if (block.nBits != nBitsRequired)
         return error("%s : incorrect proof of work at %d", __func__, pindexPrev->nHeight + 1);
 
@@ -3525,15 +3542,17 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
         if (!IsFinalTx(tx, nHeight, block.GetBlockTime())) {
             return state.DoS(10, error("%s : contains a non-final transaction", __func__), REJECT_INVALID, "bad-txns-nonfinal");
         }
-
+	
+	//Script expect = CScript() << nHeight;
+	//AAAA
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
     if (block.nVersion >= 2 &&
         CBlockIndex::IsSuperMajority(2, pindexPrev, Params().EnforceBlockUpgradeMajority())) {
         CScript expect = CScript() << nHeight;
-        if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
-            !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin())) {
-            return state.DoS(100, error("%s : block height mismatch in coinbase", __func__), REJECT_INVALID, "bad-cb-height");
+        if (block.vtx[0].vin[0].scriptSig.size() < expect.size() || !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin())) {
+		//	LogPrintf("SuperMajorityCheck(): Script size %d, except size %d,block.vtx[0].vin[0].scriptSig.size(), expect.size() );
+           return state.DoS(100, error("%s : block height mismatch in coinbase", __func__), REJECT_INVALID, "bad-cb-height");
         }
     }
 
@@ -3796,8 +3815,11 @@ bool TestBlockValidity(CValidationState& state, const CBlock& block, CBlockIndex
         return false;
     if (!CheckBlock(block, state, fCheckPOW, fCheckMerkleRoot))
         return false;
+	///AAAA
+	if( pindexPrev->nHeight +1 > Params().LAST_POW_BLOCK()){
     if (!ContextualCheckBlock(block, state, pindexPrev))
         return false;
+	}
     if (!ConnectBlock(block, state, &indexDummy, viewNew, true))
         return false;
     assert(state.IsValid());

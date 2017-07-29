@@ -1188,7 +1188,7 @@ Address: %4
     </message>
     <message>
         <location line="+5"/>
-        <source>DS Rounds</source>
+        <source>MIX Rounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

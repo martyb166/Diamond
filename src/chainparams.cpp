@@ -112,8 +112,9 @@ public:
         nMinerThreads = 0;
         nTargetTimespan = 1 * 135; // DMD: 3 hours // 1 day
         nTargetSpacing = 1 * 135;  // DMD: 135 sec
-        nLastPOWBlock = 320;
-        nMaturity = 100;
+        nLastPOWBlock = 300;
+        nMaturity = 200;
+		nMaturityMAX = 365*10*640;// Ten Years
         nMasternodeCountDrift = 20;
 		nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd

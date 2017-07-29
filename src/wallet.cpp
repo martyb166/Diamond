@@ -3324,6 +3324,8 @@ void CWallet::AutoCombineDust()
     if (IsInitialBlockDownload() || IsLocked()) {
         return;
     }
+	
+	
 
     map<CBitcoinAddress, vector<COutput> > mapCoinsByAddress = AvailableCoinsByAddress(true, 0);
 
@@ -3331,13 +3333,15 @@ void CWallet::AutoCombineDust()
     for (map<CBitcoinAddress, vector<COutput> >::iterator it = mapCoinsByAddress.begin(); it != mapCoinsByAddress.end(); it++) {
         vector<COutput> vCoins, vRewardCoins;
         vCoins = it->second;
+		
+		//MilliSleep(5000);
 
         //find masternode rewards that need to be combined
         CCoinControl* coinControl = new CCoinControl();
         CAmount nTotalRewardsValue = 0;
         BOOST_FOREACH (const COutput& out, vCoins) {
             //no coins should get this far if they dont have proper maturity, this is double checking
-            if (out.tx->IsCoinStake() && out.tx->GetDepthInMainChain() < COINBASE_MATURITY + 1)
+            if (out.tx->IsCoinStake() && out.tx->GetDepthInMainChain() < Params().COINBASE_MATURITY() + 1 )
                 continue;
 
             if (out.Value() > nAutoCombineThreshold * COIN)
@@ -3391,6 +3395,7 @@ void CWallet::AutoCombineDust()
 bool CWallet::MultiSend()
 {
     if (IsInitialBlockDownload() || IsLocked()) {
+		LogPrintf("Multisend Locked or Sync not complete - Limx Dev wallet.cpp L3394\n");
         return false;
     }
 
@@ -3405,7 +3410,7 @@ bool CWallet::MultiSend()
     int mnSent = 0;
     BOOST_FOREACH (const COutput& out, vCoins) {
         //need output with precise confirm count - this is how we identify which is the output to send
-        if (out.tx->GetDepthInMainChain() != COINBASE_MATURITY + 1)
+        if (out.tx->GetDepthInMainChain() != Params().COINBASE_MATURITY() + 1)
             continue;
 
         COutPoint outpoint(out.tx->GetHash(), out.i);

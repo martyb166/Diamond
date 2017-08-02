@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
 #ifndef BITCOIN_QT_COINMIX_H
-#define BITCOIN_QT__COINMIX_H
+#define BITCOIN_QT_COINMIX_H
 
 #include "amount.h"
 

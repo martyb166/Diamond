@@ -39,7 +39,7 @@ bool bSpendZeroConfChange = true;
 bool fSendFreeTransactions = false;
 bool fPayAtLeastCustomFee = true;
 
-/** 
+/**
  * Fees smaller than this (in duffs) are considered zero fee (for transaction creation)
  * We are ~100 times smaller then bitcoin now (2015-06-23), set minTxFee 10 times higher
  * so it's still 10 times lower comparing to bitcoin.
@@ -219,7 +219,7 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase, bool anonymizeOnly
     }
 
     strWalletPassphraseFinal = strWalletPassphrase;
-    
+
 
     CCrypter crypter;
     CKeyingMaterial vMasterKey;
@@ -244,7 +244,7 @@ bool CWallet::ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase,
 {
     bool fWasLocked = IsLocked();
     SecureString strOldWalletPassphraseFinal = strOldWalletPassphrase;
-    
+
     {
         LOCK(cs_wallet);
         Lock();
@@ -2317,9 +2317,9 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, const CAmount& nValue, CWa
 // ppcoin: create coin stake transaction
 bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction& txNew, unsigned int& nTxNewTime)
 {
-    // The following split & combine thresholds are important to security
-    // Should not be adjusted if you don't understand the consequences
-    //int64_t nCombineThreshold = 0;
+    // The following thresholds should not be adjusted if you don't understand the consequences
+    int64_t nCombineThreshold = 200 * COIN;
+    int64_t nDustThreshold = 50 * COIN;
 
     txNew.vin.clear();
     txNew.vout.clear();
@@ -2446,6 +2446,49 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
     if (nCredit == 0 || nCredit > nBalance - nReserveBalance)
         return false;
+
+    if (GetBoolArg("-autodustthreshold", true))
+    {
+        BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
+        {
+            // Attempt to add more inputs
+            // Only add coins of the same key/address as kernel
+            if (txNew.vout.size() <= 3 && ((pcoin.first->vout[pcoin.second].scriptPubKey == scriptPubKeyKernel || pcoin.first->vout[pcoin.second].scriptPubKey == txNew.vout[1].scriptPubKey))
+                && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
+            {
+                // Stop adding more inputs if already too many inputs
+                if (txNew.vin.size() >= 100)
+                    break;
+
+                // Stop adding more inputs if value is already pretty significant
+                if (nCredit >= nCombineThreshold)
+                    break;
+
+                // Stop adding inputs if reached reserve limit
+                if (nCredit + pcoin.first->vout[pcoin.second].nValue > nBalance - nReserveBalance)
+                    break;
+
+                if (nCredit + pcoin.first->vout[pcoin.second].nValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
+                    break;
+
+                // Do not add additional significant input
+                if (pcoin.first->vout[pcoin.second].nValue >= nDustThreshold)
+                    continue;
+
+                // Do not add input that is still too young
+                if (pcoin.first->GetTxTime() + nStakeMinAge > GetTime())
+                    continue;
+
+                //check that it is matured
+                if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
+                    continue;
+
+                txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
+                nCredit += pcoin.first->vout[pcoin.second].nValue;
+                vwtxPrev.push_back(pcoin.first);
+            }
+        }
+    }
 
     // Calculate reward
     uint64_t nReward;
@@ -2819,7 +2862,7 @@ bool CWallet::SetDefaultKey(const CPubKey& vchPubKey)
 
 /**
  * Mark old keypool keys as used,
- * and generate all new keys 
+ * and generate all new keys
  */
 bool CWallet::NewKeyPool()
 {
@@ -3324,8 +3367,8 @@ void CWallet::AutoCombineDust()
     if (IsInitialBlockDownload() || IsLocked()) {
         return;
     }
-	
-	
+
+
 
     map<CBitcoinAddress, vector<COutput> > mapCoinsByAddress = AvailableCoinsByAddress(true, 0);
 
@@ -3333,7 +3376,7 @@ void CWallet::AutoCombineDust()
     for (map<CBitcoinAddress, vector<COutput> >::iterator it = mapCoinsByAddress.begin(); it != mapCoinsByAddress.end(); it++) {
         vector<COutput> vCoins, vRewardCoins;
         vCoins = it->second;
-		
+
 		//MilliSleep(5000);
 
         //find masternode rewards that need to be combined

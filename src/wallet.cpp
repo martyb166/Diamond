@@ -2447,43 +2447,46 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     if (nCredit == 0 || nCredit > nBalance - nReserveBalance)
         return false;
 
-    BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
+    if (GetBoolArg("-autodustthreshold", false))
     {
-        // Attempt to add more inputs
-        // Only add coins of the same key/address as kernel
-        if (txNew.vout.size() <= 3 && ((pcoin.first->vout[pcoin.second].scriptPubKey == scriptPubKeyKernel || pcoin.first->vout[pcoin.second].scriptPubKey == txNew.vout[1].scriptPubKey))
-            && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
+        BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
         {
-            // Stop adding more inputs if already too many inputs
-            if (txNew.vin.size() >= 100)
-                break;
+            // Attempt to add more inputs
+            // Only add coins of the same key/address as kernel
+            if (txNew.vout.size() <= 3 && ((pcoin.first->vout[pcoin.second].scriptPubKey == scriptPubKeyKernel || pcoin.first->vout[pcoin.second].scriptPubKey == txNew.vout[1].scriptPubKey))
+                && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
+            {
+                // Stop adding more inputs if already too many inputs
+                if (txNew.vin.size() >= 100)
+                    break;
 
-            // Stop adding more inputs if value is already pretty significant
-            if (nCredit >= nCombineThreshold)
-                break;
+                // Stop adding more inputs if value is already pretty significant
+                if (nCredit >= nCombineThreshold)
+                    break;
 
-            // Stop adding inputs if reached reserve limit
-            if (nCredit + pcoin.first->vout[pcoin.second].nValue > nBalance - nReserveBalance)
-                break;
+                // Stop adding inputs if reached reserve limit
+                if (nCredit + pcoin.first->vout[pcoin.second].nValue > nBalance - nReserveBalance)
+                    break;
 
-            if (nCredit + pcoin.first->vout[pcoin.second].nValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
-                break;
+                if (nCredit + pcoin.first->vout[pcoin.second].nValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
+                    break;
 
-            // Do not add additional significant input
-            if (pcoin.first->vout[pcoin.second].nValue >= nDustThreshold)
-                continue;
+                // Do not add additional significant input
+                if (pcoin.first->vout[pcoin.second].nValue >= nDustThreshold)
+                    continue;
 
-            // Do not add input that is still too young
-            if (pcoin.first->GetTxTime() + nStakeMinAge > GetTime())
-                continue;
+                // Do not add input that is still too young
+                if (pcoin.first->GetTxTime() + nStakeMinAge > GetTime())
+                    continue;
 
-            //check that it is matured
-            if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
-                continue;
+                //check that it is matured
+                if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
+                    continue;
 
-            txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
-            nCredit += pcoin.first->vout[pcoin.second].nValue;
-            vwtxPrev.push_back(pcoin.first);
+                txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
+                nCredit += pcoin.first->vout[pcoin.second].nValue;
+                vwtxPrev.push_back(pcoin.first);
+            }
         }
     }
 

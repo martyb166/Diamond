@@ -2447,7 +2447,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     if (nCredit == 0 || nCredit > nBalance - nReserveBalance)
         return false;
 
-    if (GetBoolArg("-autodustthreshold", false))
+    if (GetBoolArg("-autodustthreshold", true))
     {
         BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
         {

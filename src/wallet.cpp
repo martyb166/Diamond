@@ -2318,8 +2318,8 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, const CAmount& nValue, CWa
 bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction& txNew, unsigned int& nTxNewTime)
 {
     // The following thresholds should not be adjusted if you don't understand the consequences
-    int64_t nCombineThreshold = 200 * COIN;
-    int64_t nDustThreshold = 50 * COIN;
+    int64_t nCombineThreshold = 30 * COIN;
+    int64_t nDustThreshold = 5 * COIN;
 
     txNew.vin.clear();
     txNew.vout.clear();

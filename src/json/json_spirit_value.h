@@ -179,10 +179,6 @@ namespace json_spirit
         {
             return pair.second;
         }
-		static Value_type get_value( const Pair_type& pair )
-        {
-            return pair.drei;
-        }
     };
 
     // typedefs for ASCII

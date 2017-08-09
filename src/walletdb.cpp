@@ -210,14 +210,29 @@ bool CWalletDB::EraseMSDisabledAddresses(std::vector<std::string> vDisabledAddre
     }
     return ret;
 }
-bool CWalletDB::WriteAutoCombineSettings(bool fEnable, CAmount nCombineThreshold)
+/*
+bool CWalletDB::WriteAutoCombineSettings(bool fEnable, CAmount nCombineThreshold, CAmount nThresholdnAutoCombineThresholdTime)
 {
     nWalletDBUpdated++;
     std::pair<bool, CAmount> pSettings;
     pSettings.first = fEnable;
     pSettings.second = nCombineThreshold;
+	pSettings.second = nThresholdnAutoCombineThresholdTime;
     return Write(std::string("autocombinesettings"), pSettings, true);
 }
+*/
+
+bool CWalletDB::WriteAutoCombineSettings(bool fEnable, CAmount nCombineThreshold, int nThresholdnAutoCombineThresholdTime)
+{
+    nWalletDBUpdated++;
+	std::pair<bool, CAmount> enabledMS1(fEnable, nCombineThreshold);
+    std::pair<std::pair<bool, CAmount>,int> pSettings(enabledMS1, nThresholdnAutoCombineThresholdTime);
+	//std::pair<bool, CAmount> pSettings;
+    //pSettings.first = fEnable;
+    //pSettings.second = nCombineThreshold;
+	//	wert.first = nThresholdnAutoCombineThresholdTime;
+    return Write(std::string("autocombinesettings"), pSettings, true);
+} 
 
 bool CWalletDB::WriteDefaultKey(const CPubKey& vchPubKey)
 {
@@ -620,11 +635,22 @@ bool ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue, CW
             ssValue >> strDisabledAddress;
             pwallet->vDisabledAddresses.push_back(strDisabledAddress);
         } else if (strType == "autocombinesettings") {
+			
+			/*
             std::pair<bool, CAmount> pSettings;
             ssValue >> pSettings;
             pwallet->fCombineDust = pSettings.first;
             pwallet->nAutoCombineThreshold = pSettings.second;
-        } else if (strType == "destdata") {
+			pwallet->nAutoCombineThresholdTime = pSettings.second;
+			*/
+			
+			std::pair<std::pair<bool, CAmount>,int> pSettings;
+			ssValue >> pSettings;
+			pwallet->fCombineDust = pSettings.first.first;
+			pwallet->nAutoCombineThreshold = pSettings.first.second;
+			pwallet->nAutoCombineThresholdTime = pSettings.second;
+			
+			} else if (strType == "destdata") {
             std::string strAddress, strKey, strValue;
             ssKey >> strAddress;
             ssKey >> strKey;

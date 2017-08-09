@@ -103,7 +103,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
         {"reservebalance", 1},
         {"setstakesplitthreshold", 0},
         {"autocombinerewards", 0},
-        {"autocombinerewards", 1}};
+        {"autocombinerewards", 1},
+		{"autocombinerewards", 2}};
 
 class CRPCConvertTable
 {

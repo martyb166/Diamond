@@ -164,7 +164,8 @@ Coinmix::~Coinmix()
     if (!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(miXtxStatus()));
     delete ui;
 }
-/*
+
+
 void Coinmix::setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance, const CAmount& anonymizedBalance, const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
 {
     currentBalance = balance;
@@ -175,7 +176,7 @@ void Coinmix::setBalance(const CAmount& balance, const CAmount& unconfirmedBalan
     currentWatchUnconfBalance = watchUnconfBalance;
     currentWatchImmatureBalance = watchImmatureBalance;
 
-
+/*	
     ui->labelBalance->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, balance - immatureBalance, false, BitcoinUnits::separatorAlways));
     ui->labelUnconfirmed->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, unconfirmedBalance, false, BitcoinUnits::separatorAlways));
     ui->labelImmature->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, immatureBalance, false, BitcoinUnits::separatorAlways));
@@ -187,7 +188,7 @@ void Coinmix::setBalance(const CAmount& balance, const CAmount& unconfirmedBalan
     ui->labelWatchPending->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, watchUnconfBalance, false, BitcoinUnits::separatorAlways));
     ui->labelWatchImmature->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, watchImmatureBalance, false, BitcoinUnits::separatorAlways));
     ui->labelWatchTotal->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, BitcoinUnits::separatorAlways));
-
+ 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
@@ -197,18 +198,19 @@ void Coinmix::setBalance(const CAmount& balance, const CAmount& unconfirmedBalan
     ui->labelImmature->setVisible(showImmature || showWatchOnlyImmature);
     ui->labelImmatureText->setVisible(showImmature || showWatchOnlyImmature);
     ui->labelWatchImmature->setVisible(showWatchOnlyImmature); // show watch-only immature balance
-
+*/
     updatemixTXProgress();
-
+/*
     static int cachedTxLocks = 0;
 
     if (cachedTxLocks != nCompleteTXLocks) {
         cachedTxLocks = nCompleteTXLocks;
         ui->listTransactions->update();
     }
+	*/
 }
 
-*/
+
 // show/hide watch-only labels
 /*
 void Coinmix::updateWatchOnlyLabels(bool showWatchOnly)

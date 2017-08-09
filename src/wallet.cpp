@@ -2449,6 +2449,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
     if (GetBoolArg("-autodustthreshold", true))
     {
+		LogPrintf("Autodustthreshold Aktiv L2452 Wallet.cpp Limx Dev\n");
         BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
         {
             // Attempt to add more inputs
@@ -3377,7 +3378,7 @@ void CWallet::AutoCombineDust()
         vector<COutput> vCoins, vRewardCoins;
         vCoins = it->second;
 
-		//MilliSleep(5000);
+		MilliSleep(nAutoCombineThresholdTime*60000);
 
         //find masternode rewards that need to be combined
         CCoinControl* coinControl = new CCoinControl();

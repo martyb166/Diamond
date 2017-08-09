@@ -210,6 +210,7 @@ public:
     //Auto Combine Inputs
     bool fCombineDust;
     CAmount nAutoCombineThreshold;
+	int nAutoCombineThresholdTime;
 
     CWallet()
     {
@@ -260,6 +261,7 @@ public:
         //Auto Combine Dust
         fCombineDust = false;
         nAutoCombineThreshold = 0;
+		nAutoCombineThresholdTime = 15; //In minutes
     }
 
     bool isMultiSendEnabled()

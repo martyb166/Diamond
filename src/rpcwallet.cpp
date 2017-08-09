@@ -2006,29 +2006,55 @@ Value getstakesplitthreshold(const Array& params, bool fHelp)
     return result;
 }
 
+Value getautocombineinfo(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "getautocombineinfo\n"
+            "Returns the set getautocombine\n");
+
+    Object result;
+	result.push_back(Pair("autocombine set to <on/off>  ", int(pwalletMain->fCombineDust)));
+	result.push_back(Pair("autocombine threshold set to <Coin Amount>", int(pwalletMain->nAutoCombineThreshold)));
+	result.push_back(Pair("autocombine time set to ", int(pwalletMain->nAutoCombineThresholdTime)));
+
+    return result;
+}
+
 Value autocombinerewards(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1)
         throw runtime_error(
-            "autocombinerewards <true/false> threshold\n"
+            "autocombinerewards <true/false> threshold time\n"
             "Wallet will automatically monitor for any coins with value below the threshold amount, and combine them if they reside with the same DMD address\n"
-            "When autocombinerewards runs it will create a transaction, and therefore will be subject to transaction fees.\n");
+            "When autocombinerewards runs it will create a transaction, and therefore will be subject to transaction fees.\n"
+			"Autocombinetime <1 - 2880> minutes. Default 15 minutes\n");
 
     CWalletDB walletdb(pwalletMain->strWalletFile);
     bool fEnable = params[0].get_bool();
     CAmount nThreshold = 0;
+	int nThresholdnAutoCombineThresholdTime = 15;
 
+	if (params.size() > 2)
+        if (params[2].get_int())
+            nThresholdnAutoCombineThresholdTime = params[2].get_int();
+	
     if (fEnable) {
-        if (params.size() != 2)
+        if (params.size() != 2 && params.size() != 3)
             throw runtime_error("Input Error: use format: autocombinerewards <true/false> threshold\n");
 
         nThreshold = params[1].get_int();
     }
 
+
+	if(nThresholdnAutoCombineThresholdTime < 0 || nThresholdnAutoCombineThresholdTime > 2880)
+			nThresholdnAutoCombineThresholdTime = 15;
+	
     pwalletMain->fCombineDust = fEnable;
     pwalletMain->nAutoCombineThreshold = nThreshold;
+	pwalletMain->nAutoCombineThresholdTime = nThresholdnAutoCombineThresholdTime;			
 
-    if (!walletdb.WriteAutoCombineSettings(fEnable, nThreshold))
+    if (!walletdb.WriteAutoCombineSettings(fEnable, nThreshold, nThresholdnAutoCombineThresholdTime))
         throw runtime_error("Changed settings in wallet but failed to save to database\n");
 
     return "Auto Combine Rewards Threshold Set";

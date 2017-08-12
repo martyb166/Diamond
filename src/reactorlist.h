@@ -9,7 +9,7 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
 		{
          set<COutPoint> vInOutPoints;
          BOOST_FOREACH (const CTxIn& txin, tx.vin) {
-	         if (txin.prevout == COutPoint(uint256("0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e"), 0))
+	         if (txin.prevout == COutPoint(uint256("0x7b8149e133d9cbf4d2649f282ae0dfe4c5bba2661e5ec3abb31dea9e956671b8"), 0))
              return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
 	         REJECT_INVALID, "moved_reactornode");
         }

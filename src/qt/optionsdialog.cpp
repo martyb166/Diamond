@@ -83,6 +83,7 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     /* Theme selector static themes */
     ui->theme->addItem(QString("Default"), QVariant("default"));
 	ui->theme->addItem(QString("Dark"), QVariant("dark"));
+	ui->theme->addItem(QString("Bitcoin Classic"), QVariant("trad"));
 
     /* Theme selector external themes */
     boost::filesystem::path pathAddr = GetDataDir() / "themes";

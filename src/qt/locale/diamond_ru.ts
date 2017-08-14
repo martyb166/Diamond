@@ -1913,7 +1913,7 @@ https://www.transifex.com/diamond-crypto/diamond-wallet-translations/</translati
     </message>
     <message>
         <source>Rescan blockchain files</source>
-        <translation>Пересканировать цепочку блоков</translation>
+        <translation>Пересканировать блоки</translation>
     </message>
     <message>
         <source>Recover transactions 1</source>

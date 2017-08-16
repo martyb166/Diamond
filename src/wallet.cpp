@@ -2318,9 +2318,17 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, const CAmount& nValue, CWa
 bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction& txNew, unsigned int& nTxNewTime)
 {
     // The following thresholds should not be adjusted if you don't understand the consequences
+    int64_t var1 =0;
+    if( nStakeSplitThreshold <=	0)
+    {
+    var1 = 150;
 	} 
 	else
 	{
+    var1 = nStakeSplitThreshold;	
+    }
+    int64_t nCombineThreshold = var1 * 2 * COIN;
+    int64_t nDustThreshold = var1 * COIN;  
 	
 	LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
 	/*

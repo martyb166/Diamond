@@ -2447,9 +2447,9 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     if (nCredit == 0 || nCredit > nBalance - nReserveBalance)
         return false;
 
-    if (GetBoolArg("-autodustthreshold", true))
+    if (GetBoolArg("-autoposdustmerge", true))
     {
-		LogPrintf("Autodustthreshold Aktiv L2452 Wallet.cpp Limx Dev\n");
+		LogPrintf("autoposdustmerge Aktiv L2452 Wallet.cpp Limx Dev\n");
         BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
         {
             // Attempt to add more inputs

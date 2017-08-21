@@ -1588,9 +1588,10 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
 bool CWallet::MintableCoins()
 {
     int64_t nBalance = GetBalance();
+    int64_t varuBalance = GetUnconfirmedBalance();
     if (mapArgs.count("-reservebalance") && !ParseMoney(mapArgs["-reservebalance"], nReserveBalance))
         return error("MintableCoins() : invalid reserve balance amount");
-    if (nBalance <= nReserveBalance)
+    if (nBalance <= (nReserveBalance+varuBalance))
         return false;
 
     vector<COutput> vCoins;

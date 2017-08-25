@@ -114,9 +114,9 @@ public:
         nTargetSpacing = 1 * 135;  // DMD: 135 sec
         nLastPOWBlock = 300;
         nMaturity = 200;
-		nMaturityMAX = 365*10*640;// Ten Years
+	nMaturityMAX = 365*10*640;// Ten Years
         nMasternodeCountDrift = 20;
-		nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
+	nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
 
         /**
@@ -162,9 +162,9 @@ public:
         assert(hashGenesisBlock == uint256("0x00000654645809080ffd315f13be34d4989c3a4cf2e0099e1621face740337a4"));
         assert(genesis.hashMerkleRoot == uint256("0xdc6c10ad2a26613ae9b8a156ed9ca15e3e355a994a7e32cd7a4c3d7a478f57d2"));
 
-		vSeeds.push_back(CDNSSeedData("188.68.52.172", "188.68.52.172"));
-		vSeeds.push_back(CDNSSeedData("37.120.186.85", "37.120.186.85"));
-        vSeeds.push_back(CDNSSeedData("37.120.190.76", "37.120.190.76"));
+        vFixedSeeds.clear();
+        vSeeds.clear();
+	vSeeds.push_back(CDNSSeedData("dnsseed.bit.diamonds", "dnsseed.bit.diamonds"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 90);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 8);
@@ -186,7 +186,7 @@ public:
         fTestnetToBeDeprecatedFieldRPC = false;
         fHeadersFirstSyncingActive = false;
 		
-		/*
+	/*
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
         fAllowMinDifficultyBlocks = true;
@@ -194,7 +194,7 @@ public:
         fRequireStandard = false;
         fMineBlocksOnDemand = false; 
         fTestnetToBeDeprecatedFieldRPC = true;
-		*/
+	*/
 
         nPoolMaxTransactions = 3;
         strSporkKey = "049DAC995F6CF5A3ECFC63BF1BA51DEDE08ED42F3713075F145853C8CA51D3374870C2D32FFD76B5D754EB9BFDF5B1C01B0666D2A71EDE10166094063FBE010C87";
@@ -245,9 +245,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-		vSeeds.push_back(CDNSSeedData("188.68.52.172", "188.68.52.172"));
-		vSeeds.push_back(CDNSSeedData("37.120.186.85", "37.120.186.85"));
-        vSeeds.push_back(CDNSSeedData("37.120.190.76", "37.120.190.76"));
+	vSeeds.push_back(CDNSSeedData("dnsseed.bit.diamonds", "dnsseed.bit.diamonds"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet diamond addresses start with 'x' or 'y'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet diamond script addresses start with '8' or '9'
@@ -261,7 +259,6 @@ public:
 
         convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
 
-		
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
         fAllowMinDifficultyBlocks = true;
@@ -269,8 +266,6 @@ public:
         fRequireStandard = false;
         fMineBlocksOnDemand = false; 
         fTestnetToBeDeprecatedFieldRPC = true;
-		
-
 
         nPoolMaxTransactions = 2;
         strSporkKey = "04348C2F50F90267E64FACC65BFDC9D0EB147D090872FB97ABAE92E9A36E6CA60983E28E741F8E7277B11A7479B626AC115BA31463AC48178A5075C5A9319D4A38";

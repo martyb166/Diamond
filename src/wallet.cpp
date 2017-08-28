@@ -2329,9 +2329,12 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     var1 = nStakeSplitThreshold;	
     }
     int64_t nCombineThreshold = var1 * 2 * COIN;
-    int64_t nDustThreshold = var1 * COIN;  
-	
-	LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
+   // int64_t nDustThreshold = var1 * COIN;  
+//nDustThreshold is not needed 
+// the not add significant input line2494 work by check original input + additional input is not bigger
+// than nStakeSplitThreshold if its bigger continue means ignore this additional input 
+//	and continue with next possible input in loop
+//	LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
 	/*
 	int64_t nCombineThreshold = 300 * COIN;
     int64_t nDustThreshold = 50 * COIN;  // Faktor 6
@@ -2489,7 +2492,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                     break;
 
                 // Do not add additional significant input
-                if (pcoin.first->vout[pcoin.second].nValue >= nDustThreshold)
+                if (pcoin.first->vout[pcoin.second].nValue >= nCombineThreshold)
                     continue;
 
                 // Do not add input that is still too young

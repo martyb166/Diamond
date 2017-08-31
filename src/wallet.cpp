@@ -2492,7 +2492,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                     break;
 
                 // Do not add additional significant input
-                if (pcoin.first->vout[pcoin.second].nValue >= nCombineThreshold)
+                if (nCredit + pcoin.first->vout[pcoin.second].nValue >= nCombineThreshold)
                     continue;
 
                 // Do not add input that is still too young

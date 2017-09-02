@@ -2329,6 +2329,8 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     var1 = nStakeSplitThreshold;	
     }
     int64_t nCombineThreshold = var1 * 2 * COIN;
+	unsigned int nCombineMinAge = 60 * 60 * 24 * 5;
+LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
    // int64_t nDustThreshold = var1 * COIN;  
 //nDustThreshold is not needed 
 // the not add significant input line2494 work by check original input + additional input is not bigger
@@ -2465,7 +2467,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
     if (nCredit == 0 || nCredit > nBalance - nReserveBalance)
         return false;
-
+/*
     if (GetBoolArg("-autoposdustmerge", true))
     {
 		LogPrintf("autoposdustmerge Aktiv L2452 Wallet.cpp Limx Dev\n");
@@ -2505,6 +2507,57 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
                 txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
                 nCredit += pcoin.first->vout[pcoin.second].nValue;
+                vwtxPrev.push_back(pcoin.first);
+            }
+        }
+    }
+*/
+	
+if (GetBoolArg("-autoposdustmerge", true))
+    {
+	int64_t posaddinputloop =0;
+		LogPrintf("autoposdustmerge Aktiv L2452 Wallet.cpp Limx Dev\n");
+        BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
+        {
+            // Attempt to add more inputs
+            // Only add coins of the same key/address as kernel
+            if (txNew.vout.size() <= 3 && ((pcoin.first->vout[pcoin.second].scriptPubKey == scriptPubKeyKernel || pcoin.first->vout[pcoin.second].scriptPubKey == txNew.vout[1].scriptPubKey))
+                && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
+            {
+		 posaddinputloop += 1;
+LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
+                // Stop adding more inputs if already too many inputs
+                if (txNew.vin.size() >= 100)
+                    break;
+
+                // Stop adding more inputs if value is already pretty significant
+                if (nCredit >= nCombineThreshold)
+                    break;
+		    
+		int64 nCoinStakeValue = pcoin.first->vout[pcoin.second].nValue;
+LogPrintf("cryptonit nCoinStakeValue : %d \n", nCoinStakeValue);
+                // Stop adding inputs if reached reserve limit
+                if (nCredit + nCoinStakeValue > nBalance - nReserveBalance)
+                    break;
+
+                if (nCredit + nCoinStakeValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
+                    break;
+
+                // Do not add additional significant input
+                if (nCoinStakeValue >= nCombineThreshold)
+                    continue;
+
+                // Do not add input that is still too young
+                if (pcoin.first->GetTxTime() + nCombineMinAge > GetTime())
+                    continue;
+
+                //check that it is matured
+                if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
+                    continue;
+
+                txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
+                nCredit += nCoinStakeValue;
+LogPrintf("cryptonit nCredit : %d \n", nCredit);
                 vwtxPrev.push_back(pcoin.first);
             }
         }

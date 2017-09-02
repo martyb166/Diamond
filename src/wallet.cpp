@@ -2330,7 +2330,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
     int64_t nCombineThreshold = var1 * 2 * COIN;
 	unsigned int nCombineMinAge = 60 * 60 * 24 * 5;
-LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
+LogPrintf("LimxDev nCombineThreshold: %d  \n", nCombineThreshold );
    // int64_t nDustThreshold = var1 * COIN;  
 //nDustThreshold is not needed 
 // the not add significant input line2494 work by check original input + additional input is not bigger
@@ -2534,8 +2534,8 @@ LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
                 if (nCredit >= nCombineThreshold)
                     break;
 		    
-		int64 nCoinStakeValue = pcoin.first->vout[pcoin.second].nValue;
-LogPrintf("cryptonit nCoinStakeValue : %d \n", nCoinStakeValue);
+				int64_t nCoinStakeValue = pcoin.first->vout[pcoin.second].nValue;
+				LogPrintf("cryptonit nCoinStakeValue : %d \n", nCoinStakeValue);
                 // Stop adding inputs if reached reserve limit
                 if (nCredit + nCoinStakeValue > nBalance - nReserveBalance)
                     break;

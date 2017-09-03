@@ -2512,7 +2512,7 @@ LogPrintf("LimxDev nCombineThreshold: %d  \n", nCombineThreshold );
         }
     }
 */
-	
+LogPrintf("cryptonit: initial Blockfinder nCredit : %d \n", nCredit);	
 if (GetBoolArg("-autoposdustmerge", true))
     {
 	int64_t posaddinputloop =0;
@@ -2525,7 +2525,6 @@ if (GetBoolArg("-autoposdustmerge", true))
                 && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
             {
 		 posaddinputloop += 1;
-LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
                 // Stop adding more inputs if already too many inputs
                 if (txNew.vin.size() >= 100)
                     break;
@@ -2535,7 +2534,7 @@ LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
                     break;
 		    
 				int64_t nCoinStakeValue = pcoin.first->vout[pcoin.second].nValue;
-				LogPrintf("cryptonit nCoinStakeValue : %d \n", nCoinStakeValue);
+		    
                 // Stop adding inputs if reached reserve limit
                 if (nCredit + nCoinStakeValue > nBalance - nReserveBalance)
                     break;
@@ -2543,13 +2542,17 @@ LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
                 if (nCredit + nCoinStakeValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
                     break;
 
-                // Do not add additional significant input
-                if (nCoinStakeValue >= nCombineThreshold)
-                    continue;
+
 
                 // Do not add input that is still too young
                 if (pcoin.first->GetTxTime() + nCombineMinAge > GetTime())
                     continue;
+LogPrintf("cryptonit: check if small enough loop: %d nCoinStakeValue + %d nCredit: %d < nCombineThreshold %d \n", posaddinputloop, nCoinStakeValue, nCredit, nCombineThreshold);		    
+
+		// Do not add additional significant input
+                if (nCoinStakeValue + nCredit >= nCombineThreshold)
+                    continue;
+LogPrintf("cryptonit: its Small Enough loop: %d \n", posaddinputloop);
 
                 //check that it is matured
                 if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
@@ -2557,7 +2560,7 @@ LogPrintf("cryptonit posaddinputloop : %d \n", posaddinputloop);
 
                 txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
                 nCredit += nCoinStakeValue;
-LogPrintf("cryptonit nCredit : %d \n", nCredit);
+LogPrintf("cryptonit: New nCredit : %d \n", nCredit);
                 vwtxPrev.push_back(pcoin.first);
             }
         }
@@ -2568,6 +2571,7 @@ LogPrintf("cryptonit nCredit : %d \n", nCredit);
     const CBlockIndex* pIndex0 = chainActive.Tip();
     nReward = GetBlockValue(pIndex0->nHeight);
     nCredit += nReward;
+LogPrintf("cryptonit Final nCredit with reward: %d \n", nCredit);
 
     int64_t nMinFee = 0;
     while (true) {

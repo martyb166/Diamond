@@ -2542,7 +2542,10 @@ if (GetBoolArg("-autoposdustmerge", true))
                 if (nCredit + nCoinStakeValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
                     break;
 
-
+// Do not add additional significant input
+// Do not delete any function ^^ use // please
+//                if (nCoinStakeValue >= nCombineThreshold)
+//                 continue;
 
                 // Do not add input that is still too young
                 if (pcoin.first->GetTxTime() + nCombineMinAge > GetTime())

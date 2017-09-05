@@ -3609,7 +3609,9 @@ bool CWallet::MultiSend()
             LogPrintf("%s: fee of %s is too large to insert into last output\n");
             return false;
         }
-        vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet - 500;
+        // vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet - 500;
+	// Danbai remove 500 
+        vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet;
 
         // Create the transaction and commit it to the network
         if (!CreateTransaction(vecSend, wtx, keyChange, nFeeRet, strErr, cControl, ALL_COINS, false, CAmount(0))) {

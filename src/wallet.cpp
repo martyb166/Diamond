@@ -2314,33 +2314,35 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, const CAmount& nValue, CWa
     vecSend.push_back(make_pair(scriptPubKey, nValue));
     return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, coinControl, coin_type, useIX, nFeePay);
 }
-
+// Change it to true or false for debug dustfunction
+bool dustdebug = true;
 // ppcoin: create coin stake transaction
 bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction& txNew, unsigned int& nTxNewTime)
-{
+    {
     // The following thresholds should not be adjusted if you don't understand the consequences
     int64_t var1 =0;
     if( nStakeSplitThreshold <=	0)
-    {
-    var1 = 150;
+        {
+        var1 = 150;
 	} 
 	else
 	{
     var1 = nStakeSplitThreshold;	
-    }
-    	int64_t nCombineThreshold = var1 * 2 * COIN;
-	unsigned int nCombineMinAge = 60 * 60 * 24 * 5; //we want to combine only coins older then 5 days to remove a nothing to stake risk and have always enough POS competition
-LogPrintf("LimxDev nCombineThreshold: %d  \n", nCombineThreshold );
-   // int64_t nDustThreshold = var1 * COIN;  
-//nDustThreshold is not needed 
-// the not add significant input line2494 work by check original input + additional input is not bigger
-// than nStakeSplitThreshold if its bigger continue means ignore this additional input 
-//	and continue with next possible input in loop
-//	LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
-	/*
-	int64_t nCombineThreshold = 300 * COIN;
+        }
+    int64_t nCombineThreshold = var1 * 2 * COIN;
+    unsigned int nCombineMinAge = 60 * 60 * 24 * 5; //we want to combine only coins older then 5 days to remove a nothing to stake risk and have always enough POS competition
+    if (dustdebug)LogPrintf("L:2334 LimxDev nCombineThreshold: %d  \n", nCombineThreshold );
+    // int64_t nDustThreshold = var1 * COIN;  
+    //nDustThreshold is not needed 
+    // the not add significant input line2494 work by check original input + additional input is not bigger
+    // than nStakeSplitThreshold if its bigger continue means ignore this additional input 
+    //	and continue with next possible input in loop
+    //	LogPrintf("LimxDev nCombineThreshold: %d nDustThreshold %d \n", nCombineThreshold, nDustThreshold );
+    
+    /*
+    int64_t nCombineThreshold = 300 * COIN;
     int64_t nDustThreshold = 50 * COIN;  // Faktor 6
-	*/
+    */
 
     txNew.vin.clear();
     txNew.vout.clear();
@@ -2512,11 +2514,11 @@ LogPrintf("LimxDev nCombineThreshold: %d  \n", nCombineThreshold );
         }
     }
 */
-LogPrintf("cryptonit: initial Blockfinder size nCredit : %d \n", nCredit);	
+if (dustdebug) LogPrintf("cryptonit: initial Blockfinder size nCredit : %d \n", nCredit);	
 if (GetBoolArg("-autoposdustmerge", true))
     {
 	int64_t posaddinputloop =0;
-		LogPrintf("autoposdustmerge Aktiv L2452 Wallet.cpp Limx Dev\n");
+		LogPrintf("autoposdustmerge Aktiv L:2521 Wallet.cpp Limx Dev\n");
         BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setStakeCoins)
         {
             // Attempt to add more inputs
@@ -2526,60 +2528,60 @@ if (GetBoolArg("-autoposdustmerge", true))
             {
 		 posaddinputloop += 1;
 		 int64_t nCoinStakeValue = pcoin.first->vout[pcoin.second].nValue;
-LogPrintf("cryptonit: loop %d - actual potential input size: nCoinStakeValue:  %d  \n", posaddinputloop, nCoinStakeValue);
+                       if (dustdebug) LogPrintf("cryptonit: loop %d - actual potential input size: nCoinStakeValue:  %d  \n", posaddinputloop, nCoinStakeValue);
                 // Stop adding more inputs if already too many inputs
                 if (txNew.vin.size() >= 100)
 	    	{
-LogPrintf("cryptonit: STOP seeking more possible inputs because 100 found already\n");                    
+                       if (dustdebug) LogPrintf("L:2535 cryptonit: STOP seeking more possible inputs because 100 found already\n");                    
 		break;
 		}
 		    
                 // Stop adding more inputs if value is already pretty significant
                 if (nCredit >= nCombineThreshold)
 		{
-LogPrintf("cryptonit: STOP seeking more possible inputs because nCredit is over nCombineThreshold \n");  	
+                       if (dustdebug) LogPrintf("L:2542 cryptonit: STOP seeking more possible inputs because nCredit is over nCombineThreshold \n");  	
 		break;
 		}
 		    
                 // Stop adding inputs if reached reserve limit
                 if (nCredit + nCoinStakeValue > nBalance - nReserveBalance)
 		{
-LogPrintf("cryptonit: STOP seeking more possible inputs because it exceed reservebalance \n");			
+                       if (dustdebug) LogPrintf("L:2549 cryptonit: STOP seeking more possible inputs because it exceed reservebalance \n");			
 		break;
 		}
 		    
                 if (nCredit + nCoinStakeValue == nBalance) // always leave 2 blocks min - don't combine entire wallet into one block! (TK)
 		{
-LogPrintf("cryptonit: STOP seeking more possible inputs because it would combine whole wallet into one block \n");		
+                       if (dustdebug) LogPrintf("L:2555 cryptonit: STOP seeking more possible inputs because it would combine whole wallet into one block \n");		
 		break;
 		}
                 // Do not add input that is still too young
                 if (pcoin.first->GetTxTime() + nCombineMinAge > GetTime())
 		{
-LogPrintf("cryptonit: SKIP this input because below nCombineMinAge \n");			
+                       if (dustdebug) LogPrintf("L:2561 cryptonit: SKIP this input because below nCombineMinAge \n");			
                 continue;
 		}
-LogPrintf("cryptonit: check if small enough loop: %d nCoinStakeValue + %d nCredit: %d < nCombineThreshold %d \n", posaddinputloop, nCoinStakeValue, nCredit, nCombineThreshold);		    
+                       if (dustdebug) LogPrintf("L:2564 cryptonit: check if small enough loop: %d nCoinStakeValue + %d nCredit: %d < nCombineThreshold %d \n", posaddinputloop, nCoinStakeValue, nCredit, nCombineThreshold);		    
 
 		// Do not add additional significant input
                 if (nCoinStakeValue + nCredit >= nCombineThreshold)
 		{
-LogPrintf("cryptonit: SKIP this input because with it nCredit would exceed nCombineThreshold \n");			
+                       if (dustdebug) LogPrintf("L:2569 cryptonit: SKIP this input because with it nCredit would exceed nCombineThreshold \n");			
 		continue;
 		}   
 		    
-LogPrintf("cryptonit: its Small Enough loop: %d \n", posaddinputloop);
+                       if (dustdebug) LogPrintf("L:2873 cryptonit: its Small Enough loop: %d \n", posaddinputloop);
 
                 //check that it is matured
                 if (pcoin.first->GetDepthInMainChain() < (pcoin.first->IsCoinStake() ? Params().COINBASE_MATURITY() : 10))
 		{
-LogPrintf("cryptonit: SKIP this input because its not Mature \n");			
+                       if (dustdebug) LogPrintf("L:2578 cryptonit: SKIP this input because its not Mature \n");			
 		continue;
 		}
 		    
                 txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
                 nCredit += nCoinStakeValue;
-LogPrintf("cryptonit: New nCredit : %d \n", nCredit);
+                       if (dustdebug) LogPrintf("L:2584 cryptonit: New nCredit : %d \n", nCredit);
                 vwtxPrev.push_back(pcoin.first);
             }
         }
@@ -2590,7 +2592,7 @@ LogPrintf("cryptonit: New nCredit : %d \n", nCredit);
     const CBlockIndex* pIndex0 = chainActive.Tip();
     nReward = GetBlockValue(pIndex0->nHeight);
     nCredit += nReward;
-LogPrintf("cryptonit Final nCredit with reward: %d \n", nCredit);
+    if (dustdebug) LogPrintf("L:2595 cryptonit Final nCredit with reward: %d \n", nCredit);
 
     int64_t nMinFee = 0;
     while (true) {

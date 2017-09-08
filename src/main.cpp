@@ -1620,37 +1620,36 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
- 
+    int64_t pow_basicreward = 0.1563 * COIN;
+    int64_t nSubsidy = 2.35 * COIN;
+    int64_t var1 = 320000;
+    int64_t var2 = 360000;
+
     if (Params().NetworkID() == CBaseChainParams::TESTNET) {
         if (nHeight < 200 && nHeight > 0)
-            return 250000 * COIN;
+            nSubsidy = 250000 * COIN;
     }
-	
-	int64_t pow_basicreward = 0.1563 * COIN;
-	int64_t nSubsidy = 2.35 * COIN;
-	int64_t var1 = 320000;
-	int64_t var2 = 360000;
-	if( nHeight == 0 ) return 2500000 * COIN;
-	if( nHeight <= 1920 ) return nSubsidy / 100 ;
-	if( nHeight > 1920 && nHeight <= 115200 )
-        {
-			return nSubsidy;
-		}
-	if( nHeight > 115200 && nHeight <= 691200 )
-        {
+
+    else if ( nHeight == 0 ) {
+        nSubsidy = 2500000 * COIN;
+    }
+    else if ( nHeight <= 1920 ) {
+        nSubsidy = nSubsidy / 100 ;
+    }
+    else if ( nHeight > 1920 && nHeight <= 115200 ) {
+        // default subsidy
+    }
+    else if ( nHeight > 115200 && nHeight <= 691200 ) {
         nSubsidy = nSubsidy - ((nHeight - 115200 )/var1)*COIN;
-		return nSubsidy;
-		}
-	if( nHeight > 691200 && nHeight <= 2284800 )
-        {
+    }
+    else if ( nHeight > 691200 && nHeight <= 2284800 ) {
         nSubsidy = (var2 / nHeight)*COIN;
-		return nSubsidy;
-		}
-	if( nHeight > 2284800 )
-		{
-		nSubsidy= pow_basicreward;
-        return nSubsidy;
-		}
+    }
+    else if ( nHeight > 2284800 ) {
+        nSubsidy= pow_basicreward;
+    }
+    return nSubsidy;
+
 	/*
     if (nHeight == 0) {
         nSubsidy = 60001 * COIN;
@@ -3791,8 +3790,8 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
             pwalletMain->MultiSend();
 
         //If turned on Auto Combine will scan wallet for dust to combine
-        if (pwalletMain->fCombineDust)
-            pwalletMain->AutoCombineDust();
+//        if (pwalletMain->fCombineDust)
+//            pwalletMain->AutoCombineDust();
     }
 
     LogPrintf("%s : ACCEPTED\n", __func__);

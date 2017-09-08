@@ -49,8 +49,8 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
 //## WriteReactorAddr(std::string("dW4mnJLQZwFExTBFTBdGSNte71TfvqC8LX");
 */
     /* De Beers Centenary.
-     * Some Things Are Better Left Unsaid
-     * 
+     * Be content with what you have, rejoice in the way things are. 
+     * When you realize there is nothing lacking, the whole world belongs to you.
 //## WriteReactorAddr(std::string("dQE5Hkgutynx5dWfnMWqEf2fBNtKWSBkBq");
 */
     /* The Moussaieff Red.

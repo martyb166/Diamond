@@ -3475,8 +3475,10 @@ void CWallet::AutoCombineDust()
         vector<COutput> vCoins, vRewardCoins;
         vCoins = it->second;
 
-		MilliSleep(nAutoCombineThresholdTime*60000);
-
+		//Todo open
+		//MilliSleep(nAutoCombineThresholdTime*60000);
+		MilliSleep(5000);
+        
         //find masternode rewards that need to be combined
         CCoinControl* coinControl = new CCoinControl();
         CAmount nTotalRewardsValue = 0;

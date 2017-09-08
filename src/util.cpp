@@ -423,7 +423,7 @@ boost::filesystem::path GetDefaultDataDir()
 // Unix: ~/.diamond
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "DMDTEST";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "DMDTEST2";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -435,7 +435,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     TryCreateDirectory(pathRet);
-    return pathRet / "DMDTEST";
+    return pathRet / "DMDTEST2";
 #else
     // Unix
     return pathRet / ".diamond";

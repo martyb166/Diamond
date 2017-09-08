@@ -41,7 +41,7 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
     /* The Allnatt.
      * Watch your thoughts, thoughts become words and words become actions.
      * Actions build character and character defines your destiny.
-//## WriteReactorAddr(std::string("dTKsf6qD7BeVN7bNZpBM2M1iXfbrt5vvak");
+//## WriteReactorAddr(std::string("dLgDfmmqMYsjL4RErF7CRvWd2A8rcauJPh");
 */
     /* The Steinmetz Pink.
      * Kishore Now That You Are One Of The Legends, May You Be Immortalized In

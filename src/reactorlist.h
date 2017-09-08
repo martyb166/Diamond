@@ -40,7 +40,7 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
 */
     /* The Allnatt.
      * Watch your thoughts, thoughts become words and words become actions.
-     * Actions build character and character defines your destiny.
+     * Actions build character and character defines your destiny. CK
 //## WriteReactorAddr(std::string("dLgDfmmqMYsjL4RErF7CRvWd2A8rcauJPh");
 */
     /* The Steinmetz Pink.

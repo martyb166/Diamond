@@ -112,7 +112,7 @@ public:
         nMinerThreads = 0;
         nTargetTimespan = 1 * 135; // DMD: 3 hours // 1 day
         nTargetSpacing = 1 * 135;  // DMD: 135 sec
-        nLastPOWBlock = 300;
+        nLastPOWBlock = 750;
         nMaturity = 640;
 	nMaturityMAX = 365*10*640;// Ten Years
         nMasternodeCountDrift = 20;

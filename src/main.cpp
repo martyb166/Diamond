@@ -1621,8 +1621,6 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nHeight)
 {
     /*
-	It is not correct.
-	
 	int64_t pow_basicreward = 0.1563 * COIN;
     int64_t nSubsidy = 2.35 * COIN;
     int64_t var1 = 320000;
@@ -1664,9 +1662,10 @@ int64_t GetBlockValue(int nHeight)
 	int64_t nSubsidy = 2.35 * COIN;
 	int64_t var1 = 320000;
 	int64_t var2 = 360000;
-	if( nHeight == 0 ) return 2500000 * COIN;
-	if( nHeight <= 1920 ) return nSubsidy / 100 ;
-	if( nHeight > 1920 && nHeight <= 115200 )
+	if( nHeight == 0 ) return 2428500 * COIN;
+	// Snapshotbalance from block 2366375 and 15 x ghoastnode (150K)
+	if( nHeight <= 4480 ) return nSubsidy / 100 ;
+	if( nHeight > 4480 && nHeight <= 115200 )
         {
 			return nSubsidy;
 		}

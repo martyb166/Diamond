@@ -226,6 +226,7 @@ RES_ICONS = \
   qt/res/icons/tx_input.png \
   qt/res/icons/tx_output.png \
   qt/res/icons/tx_mined.png \
+  qt/res/icons/tx_mn.png \
   qt/res/icons/unit_diamond.png \
   qt/res/icons/unit_mdiamond.png \
   qt/res/icons/unit_udiamond.png \

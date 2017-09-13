@@ -103,7 +103,7 @@ public:
         pchMessageStart[3] = 0xfd;
         vAlertPubKey = ParseHex("0000098d3ba6ba6e7423fa5cbd6a89e0a9a5348f88d332b44a5cb1a8b7ed2c1eaa335fc8dc4f012cb8241cc0bdafd6ca70c5f5448916e4e6f511bcd746ed57dc50");
         nDefaultPort = 17771;  //17771
-        bnProofOfWorkLimit = ~uint256(0) >> 4; // DMD starting difficulty is 1 / 2^12  //20
+        bnProofOfWorkLimit = ~uint256(0) >> 10; // DMD starting difficulty is 1 / 2^12  //20
         nSubsidyHalvingInterval = 210000;
         nMaxReorganizationDepth = 100;
         nEnforceBlockUpgradeMajority = 1250;
@@ -114,9 +114,9 @@ public:
         nTargetSpacing = 1 * 135;  // DMD: 135 sec
         nLastPOWBlock = 750;
         nMaturity = 640;
-	nMaturityMAX = 365*10*640;// Ten Years
+        nMaturityMAX = 365*10*640;// Ten Years
         nMasternodeCountDrift = 20;
-	nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
+        nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
 
         /**
@@ -164,7 +164,11 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-	vSeeds.push_back(CDNSSeedData("dnsseed.bit.diamonds", "dnsseed.bit.diamonds"));
+	    vSeeds.push_back(CDNSSeedData("dnsseed.bit.diamonds", "dnsseed.bit.diamonds"));
+		vSeeds.push_back(CDNSSeedData("37.120.186.85", "37.120.186.85"));
+		vSeeds.push_back(CDNSSeedData("185.194.140.60", "185.194.140.60"));
+		vSeeds.push_back(CDNSSeedData("188.68.39.1", "188.68.39.1"));
+		vSeeds.push_back(CDNSSeedData("188.68.52.172", "188.68.52.172"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 90);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 8);

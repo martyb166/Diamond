@@ -119,31 +119,22 @@ public:
         nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
 
-        /**
-         * Build the genesis block. Note that the output of the genesis coinbase cannot
-         * be spent as it did not originally exist in the database.
-         *
-         * CBlock(hash=00000ffd590b14, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=e0028e, nTime=1390095618, nBits=1e0ffff0, nNonce=28917698, vtx=1)
-         *   CTransaction(hash=e0028e, ver=1, vin.size=1, vout.size=1, nLockTime=0)
-         *     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d01044c5957697265642030392f4a616e2f3230313420546865204772616e64204578706572696d656e7420476f6573204c6976653a204f76657273746f636b2e636f6d204973204e6f7720416363657074696e6720426974636f696e73)
-         *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
-         *   vMerkleTree: e0028e
-		 //Testblock
-		 python genesis.py -a quark -z "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks" -n 2083236893 -t 1497555571 -v 0
-		 Z:\VMS\Gen\genquark>python genesis.py -a quark -z "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks" -n 2083236893 -t 1497555571 -v 0 
-         04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73
-         algorithm: quark
-         merkle hash: dc6c10ad2a26613ae9b8a156ed9ca15e3e355a994a7e32cd7a4c3d7a478f57d2
-         pszTimestamp: The Times 03/Jan/2009 Chancellor on brink of second bailout for banks
-         pubkey: 04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f
-         time: 1497555571
-         bits: 0x1e0ffff0
-         Searching for genesis hash..
-         genesis hash found!
-         nonce: 2083357381
-         genesis hash: 9040cc1d8375a6463ddc023c5f983abb0fe06789209334ab98b70c237297a2c5
-         */
-        const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+        /*
+        Z:\VMS\Gen\genquark>python genesis.py -a quark -z "Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem" -n 2083236893 -t 1505328322 -v 0
+        04ffff001d01044c654672696461792c204a756c792031322c2031313a313920414d2054494d455741525020444d44763320313530353332383332322031353020546f6e6e656e2046657474626572672076657273746f706674204c6f6e646f6e73204b616e616c73797374656d
+        algorithm: quark
+        merkle hash: 4bc521d09b2d4a774ca97d69cbfede91fd9da2cc6662569824d36c89fb2a2578
+        pszTimestamp: Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem
+        pubkey: 04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f
+        time: 1505328322
+        bits: 0x1e0ffff0
+        Searching for genesis hash..
+        20894.0 hash/s, estimate: 57.1 hgenesis hash found!
+        nonce: 2084038383
+        genesis hash: 11298cfe767eb63ca47898a56d05b85ff7f89506f94c61d64bbe7177cae53b8a
+        */
+		 
+        const char* pszTimestamp = "Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -154,13 +145,13 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1497555571;
+        genesis.nTime = 1505328322;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 2083357381;
+        genesis.nNonce = 2084038383;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000654645809080ffd315f13be34d4989c3a4cf2e0099e1621face740337a4"));
-        assert(genesis.hashMerkleRoot == uint256("0xdc6c10ad2a26613ae9b8a156ed9ca15e3e355a994a7e32cd7a4c3d7a478f57d2"));
+        assert(hashGenesisBlock == uint256("0x0000029b550c0095513d9bb9dd14f88442573baca94d70e49018a510979c0f9b"));
+        assert(genesis.hashMerkleRoot == uint256("0x4bc521d09b2d4a774ca97d69cbfede91fd9da2cc6662569824d36c89fb2a2578"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -241,11 +232,11 @@ public:
         nModifierUpdateBlock = 51197; //approx Mon, 17 Apr 2017 04:00:00 GMT
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1497555571;
-        genesis.nNonce = 2083357381;
+        genesis.nTime = 1505328322;
+        genesis.nNonce = 2084038383;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000654645809080ffd315f13be34d4989c3a4cf2e0099e1621face740337a4"));
+        assert(hashGenesisBlock == uint256("0x0000029b550c0095513d9bb9dd14f88442573baca94d70e49018a510979c0f9b"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -306,13 +297,13 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Diamond: 1 day
         nTargetSpacing = 1 * 60;        // Diamond: 1 minutes
         bnProofOfWorkLimit = ~uint256(0) >> 1;
-        genesis.nTime = 1497555571;
+        genesis.nTime = 1505328322;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 2083357381;
+        genesis.nNonce = 2084038383;
 
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 51476;
-        assert(hashGenesisBlock == uint256("0x00000654645809080ffd315f13be34d4989c3a4cf2e0099e1621face740337a4"));
+        assert(hashGenesisBlock == uint256("0x0000029b550c0095513d9bb9dd14f88442573baca94d70e49018a510979c0f9b"));
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Testnet mode doesn't have any DNS seeds.

@@ -2315,7 +2315,7 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, const CAmount& nValue, CWa
     return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, coinControl, coin_type, useIX, nFeePay);
 }
 // Change it to true or false for debug dustfunction
-bool dustdebug = true;
+bool dustdebug = false;
 // ppcoin: create coin stake transaction
 bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction& txNew, unsigned int& nTxNewTime)
     {

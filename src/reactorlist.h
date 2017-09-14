@@ -5,18 +5,142 @@
 
 bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
     {
-		if (pindexBestHeader->nHeight > 10000)
+		if (pindexBestHeader->nHeight > 1000)
 		{
          set<COutPoint> vInOutPoints;
          BOOST_FOREACH (const CTxIn& txin, tx.vin) {
-	         if (txin.prevout == COutPoint(uint256("0xfd1d5cad3e77e35235111f0c2fcdbe98587e2c0d7f896f65e40a7e3760896b6e"), 0)|| \
-			 txin.prevout == COutPoint(uint256("0x3709968a75b89a9dedb223cb4815bbf419dbcf579994942d6f7da5cd3c766659"), 0))
+		if (txin.prevout == COutPoint(uint256("0xec0eb8393c28bb6c548d9c50399594ec59c9c92cf4f625df9cdc6434454f9ee1"), 0))
              return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
 	         REJECT_INVALID, "moved_reactornode");
+			 
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 1))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 2))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+	    
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 3))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 4))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+        
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 5))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 6))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 7))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+	    
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 8))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 9))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+        
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 10))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 11))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 12))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+	    
+		if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 13))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+			 
+        if (txin.prevout == COutPoint(uint256("0x2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1"), 14))
+             return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
+	         REJECT_INVALID, "moved_reactornode");
+  
                                                    }
         }
     return true;
 }
+
+/*
+Mainnet
+2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1
+
+0 
+unknown
+dasHERZmwgtvWGNRxs55GPrXsAKwY7bX85
+10 000.00000000 DMD
+1
+unknown
+dEB799gGhnG89b8bkcPUitgXiJWc7ggNCM
+10 000.00000000 DMD
+2
+unknown
+dMdjuF7xcsUvkYy2ikaQkx5z5viqNvhzxz
+10 000.00000000 DMD
+3
+unknown
+dLgDfmmqMYsjL4RErF7CRvWd2A8rcauJPh
+10 000.00000000 DMD
+4
+unknown
+dW4mnJLQZwFExTBFTBdGSNte71TfvqC8LX
+10 000.00000000 DMD
+5
+unknown
+dQE5Hkgutynx5dWfnMWqEf2fBNtKWSBkBq
+10 000.00000000 DMD
+6
+unknown
+dMbc7KM7cDy487C9FrWwvyaquprTgtCWZ8
+10 000.00000000 DMD
+7
+unknown
+dJWVbYhykxPwJQ1PxxjtQjBoGc1abhfQh7
+10 000.00000000 DMD
+8
+unknown
+dFKNwDWexXFapBBxRh5FsYtj3GkG8TyS75
+10 000.00000000 DMD
+9
+unknown
+dZTEMvLjwWjtiH3k1LCCX2soLXhQcUDLyZ
+10 000.00000000 DMD
+10
+unknown
+dK67huCV2Yiy7LvNwAthvuezDb8HvQw4jx
+10 000.00000000 DMD
+11
+unknown
+daERWYLbYM6jW314Nx62DRLGXP1kiv1yRL
+10 000.00000000 DMD
+12
+unknown
+dbnDAZxhhQGfZY4KEMDjREzoL5WSXCNCbK
+10 000.00000000 DMD
+13
+unknown
+dbnhwPwse7Ph6rrS2XQnuUdysa3rST7XHV
+10 000.00000000 DMD
+14
+unknown
+dSekVow8PvDgoSecrJEdAWHwwUeqqHigGt
+10 000.00000000 DMD
+
+*/
+
 //0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e
 
 //https://github.com/DMDcoin/Diamond/blob/master/src/reactorlist.cpp

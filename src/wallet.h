@@ -245,7 +245,7 @@ public:
 
         // Stake Settings
         nHashDrift = 45;
-        nStakeSplitThreshold = 200;
+        nStakeSplitThreshold = 30;
         nHashInterval = 22;
         nStakeSetUpdateTime = 300; // 5 minutes
 
@@ -261,7 +261,7 @@ public:
         //Auto Combine Dust
         fCombineDust = false;
         nAutoCombineThreshold = 0;
-		nAutoCombineThresholdTime = 15; //In minutes
+		nAutoCombineThresholdTime = 15; //In minutes // not used
     }
 
     bool isMultiSendEnabled()

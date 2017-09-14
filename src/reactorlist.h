@@ -5,7 +5,7 @@
 
 bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
     {
-		if (pindexBestHeader->nHeight > 1000)
+		if (pindexBestHeader->nHeight > 10000)
 		{
          set<COutPoint> vInOutPoints;
          BOOST_FOREACH (const CTxIn& txin, tx.vin) {

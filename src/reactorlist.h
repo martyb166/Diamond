@@ -9,11 +9,11 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
 		{
          set<COutPoint> vInOutPoints;
          BOOST_FOREACH (const CTxIn& txin, tx.vin) {
-	         if (txin.prevout == COutPoint(uint256("0xfd1d5cad3e77e35235111f0c2fcdbe98587e2c0d7f896f65e40a7e3760896b6e"), 0))
+	         if (txin.prevout == COutPoint(uint256("0xfd1d5cad3e77e35235111f0c2fcdbe98587e2c0d7f896f65e40a7e3760896b6e"), 0)|| txin.prevout == COutPoint(uint25"0x3709968a75b89a9dedb223cb4815bbf419dbcf579994942d6f7da5cd3c766659"), 0))
              return state.DoS(100, error("CheckTransaction() : It is not possible to move a Reactornode"),
 	         REJECT_INVALID, "moved_reactornode");
+                                                   }
         }
-    }
     return true;
 }
 //0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e
@@ -27,6 +27,7 @@ bool CheckTransactionReactor(const CTransaction& tx, CValidationState& state)
      * Every great dream begins with a dreamer. Within him lies the strength,
      * the patience, and the passion to reach for the stars to change the world.
 //## WriteReactorAddr(std::string("dasHERZmwgtvWGNRxs55GPrXsAKwY7bX85");
+// 0x3709968a75b89a9dedb223cb4815bbf419dbcf579994942d6f7da5cd3c766659 for this masternode only
 */
     /* The Cullinan.
      * Cowards die many times before their deaths; The valiant never taste of

@@ -11,6 +11,7 @@ DMD is a cutting edge cryptocurrency, with many features not available in most o
   with collateral of 10000 DMD
 
 More information at http://bit.diamonds/ Visit our ANN thread at [BitcoinTalk](https://bitcointalk.org/index.php?topic=580725.0)
+--
 
 ### Coin Specs
 <table>

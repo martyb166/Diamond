@@ -2212,6 +2212,12 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, CAmount> >& vecSend,
                     // TODO: pass in scriptChange instead of reservekey so
                     // change transaction isn't always pay-to-diamond-address
                     CScript scriptChange;
+					
+					if (CBitcoinAddress(changeAddress).IsValid())
+                    //scriptChange.SetDestination(changeAddress);
+				    scriptChange = GetScriptForDestination(changeAddress);
+                    else
+                    {
 
                     // coin control: send change to custom address
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
@@ -2234,6 +2240,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, CAmount> >& vecSend,
 
                         scriptChange = GetScriptForDestination(vchPubKey.GetID());
                     }
+					}
 
                     CTxOut newTxOut(nChange, scriptChange);
 

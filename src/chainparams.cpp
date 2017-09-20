@@ -1,7 +1,8 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The DMD developers
+// Copyright (c) 2015-2017 The PIVX developers 
+// Copyright (c) 2015-2017 The DMD Diamond developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -118,6 +119,7 @@ public:
         nMasternodeCountDrift = 20;
         nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
+		nMaxMoneyOut = 21000000 * COIN;
 
         /*
         Z:\VMS\Gen\genquark>python genesis.py -a quark -z "Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem" -n 2083236893 -t 1505328322 -v 0
@@ -230,6 +232,8 @@ public:
         nLastPOWBlock = 200;
         nMaturity = 15;
         nModifierUpdateBlock = 51197; //approx Mon, 17 Apr 2017 04:00:00 GMT
+        nMaxMoneyOut = 43199500 * COIN;
+		
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1505328322;

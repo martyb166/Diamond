@@ -141,7 +141,7 @@ dSekVow8PvDgoSecrJEdAWHwwUeqqHigGt
 
 */
 
-//0xac087308fa106f388e559321641d7b6c66d8813ede54ebbdbe09a664eeba272e
+//2be7fa805a334ecd2925ff08ad9c2f475cf19e820700695bf5808b9b304287a1
 
 //https://github.com/DMDcoin/Diamond/blob/master/src/reactorlist.cpp
 
@@ -152,7 +152,6 @@ dSekVow8PvDgoSecrJEdAWHwwUeqqHigGt
      * Every great dream begins with a dreamer. Within him lies the strength,
      * the patience, and the passion to reach for the stars to change the world.
 //## WriteReactorAddr(std::string("dasHERZmwgtvWGNRxs55GPrXsAKwY7bX85");
-// 0x3709968a75b89a9dedb223cb4815bbf419dbcf579994942d6f7da5cd3c766659 for this masternode only
 */
     /* The Cullinan.
      * Cowards die many times before their deaths; The valiant never taste of

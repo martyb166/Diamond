@@ -1,6 +1,7 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The DMD developers
+// Copyright (c) 2015-2017 The PIVX developers 
+// Copyright (c) 2015-2017 The DMD Diamond developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -894,6 +895,10 @@ QString formatServicesStr(quint64 mask)
             switch (check) {
             case NODE_NETWORK:
                 strList.append(QObject::tr("NETWORK"));
+                break;
+            case NODE_BLOOM:
+            case NODE_BLOOM_WITHOUT_MN:
+                strList.append(QObject::tr("BLOOM"));
                 break;
             default:
                 strList.append(QString("%1[%2]").arg(QObject::tr("UNKNOWN")).arg(check));

@@ -1,7 +1,8 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The DMD developers
+// Copyright (c) 2015-2017 The PIVX developers 
+// Copyright (c) 2015-2017 The DMD Diamond developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,6 +32,8 @@ using namespace json_spirit;
 
 int64_t nWalletUnlockTime;
 static CCriticalSection cs_nWalletUnlockTime;
+
+CTxDestination changeAddress = CNoDestination();
 
 std::string HelpRequiringPassphrase()
 {
@@ -2019,6 +2022,46 @@ Value getautocombineinfo(const Array& params, bool fHelp)
 	result.push_back(Pair("autocombine time set to ", int(pwalletMain->nAutoCombineThresholdTime)));
 
     return result;
+}
+
+Value setchangeaddress(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "setchangeaddress <Diamondaddress>\n"
+            "Sets the change deposit address.");
+
+    if (params[0].get_str() == "")
+    {
+        changeAddress = CNoDestination();
+    }
+    else
+    {
+        CBitcoinAddress address(params[0].get_str());
+        if (!address.IsValid())
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Diamond address");
+        changeAddress = address.Get();
+    }
+
+    return Value::null;
+}
+
+
+Value getchangeaddress(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "getchangeaddress\n"
+            "Returns the change deposit address.");
+
+    Value ret;
+
+    if (!CBitcoinAddress(changeAddress).IsValid())
+       ret = "";
+    else
+       ret = CBitcoinAddress(changeAddress).ToString();
+
+    return ret;
 }
 
 Value autocombinerewards(const Array& params, bool fHelp)

@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The DMD developers
+// Copyright (c) 2015-2017 The PIVX developers 
+// Copyright (c) 2015-2017 The DMD Diamond developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -195,6 +196,34 @@ CMasternodeMan::CMasternodeMan()
 {
     nDsqCount = 0;
 }
+
+int CMasternodeMan::stable_size ()
+{
+    int nStable_size = 0;
+    int nMinProtocol = ActiveProtocol();
+    int64_t nMasternode_Min_Age = GetSporkValue(SPORK_16_MN_WINNER_MINIMUM_AGE);
+    int64_t nMasternode_Age = 0;
+
+    BOOST_FOREACH (CMasternode& mn, vMasternodes) {
+        if (mn.protocolVersion < nMinProtocol) {
+            continue; // Skip obsolete versions
+        }
+        if (IsSporkActive (SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
+            nMasternode_Age = mn.lastPing.sigTime - mn.sigTime;
+            if ((nMasternode_Age) < nMasternode_Min_Age) {
+                continue; // Skip masternodes younger than (default) 8000 sec (MUST be > MASTERNODE_REMOVAL_SECONDS)
+            }
+        }
+        mn.Check ();
+        if (!mn.IsEnabled ())
+            continue; // Skip not-enabled masternodes
+
+        nStable_size++;
+    }
+
+    return nStable_size;
+}
+
 
 bool CMasternodeMan::Add(CMasternode& mn)
 {
@@ -540,6 +569,10 @@ CMasternode* CMasternodeMan::GetCurrentMasterNode(int mod, int64_t nBlockHeight,
 int CMasternodeMan::GetMasternodeRank(const CTxIn& vin, int64_t nBlockHeight, int minProtocol, bool fOnlyActive)
 {
     std::vector<pair<int64_t, CTxIn> > vecMasternodeScores;
+    int64_t nMasternode_Min_Age = GetSporkValue(SPORK_16_MN_WINNER_MINIMUM_AGE);
+    int64_t nMasternode_Age = 0;
+ 
+ 
 
     //make sure we know about this block
     uint256 hash = 0;
@@ -547,7 +580,18 @@ int CMasternodeMan::GetMasternodeRank(const CTxIn& vin, int64_t nBlockHeight, in
 
     // scan for winner
     BOOST_FOREACH (CMasternode& mn, vMasternodes) {
-        if (mn.protocolVersion < minProtocol) continue;
+        if (mn.protocolVersion < minProtocol) {
+            LogPrintf("Skipping Masternode with obsolete version %d\n", mn.protocolVersion);
+            continue;                                                       // Skip obsolete versions
+        }
+
+        if (IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
+            nMasternode_Age = mn.lastPing.sigTime - mn.sigTime;
+            if ((nMasternode_Age) < nMasternode_Min_Age) {
+                LogPrintf("Skipping just activated Masternode. Age: %ld\n", nMasternode_Age);
+                continue;                                                   // Skip masternodes younger than (default) 1 hour
+            }
+}
         if (fOnlyActive) {
             mn.Check();
             if (!mn.IsEnabled()) continue;

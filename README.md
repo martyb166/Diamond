@@ -41,7 +41,7 @@ More information at http://bit.diamonds/ Visit our ANN thread at [BitcoinTalk](h
 ### PoS Rewards Breakdown
 
 <table>
-<th>Phase</th><th>Block Height</th><th>Reward</th><th>Masternodes & Stakers</th>
+<th>Phase</th><th>Block Height</th><th>Reward</th><th>Masternodes</th><th>Stakers</th>
 <tr><td>slow startup</td><td>750-4480 </td><td>0,0235 DMD</td><td>65% </td><td>35% </td></tr>
 <tr><td>Phase 1</td><td>4480-115200 </td><td>2,35 DMD</td><td>65% </td><td>35% </td></tr>
 <tr><td>Phase 2</td><td>115200-691200 </td><td>2,35 - 0,5 DMD</td><td>65% </td><td>35% </td></tr>

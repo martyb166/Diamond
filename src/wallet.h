@@ -246,7 +246,7 @@ public:
 
         // Stake Settings
         nHashDrift = 45;
-        nStakeSplitThreshold = 30;
+        nStakeSplitThreshold = 200;
         nHashInterval = 22;
         nStakeSetUpdateTime = 300; // 5 minutes
 

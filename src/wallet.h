@@ -248,7 +248,7 @@ public:
         nHashDrift = 45;
         nStakeSplitThreshold = 200;
         nHashInterval = 22;
-        nStakeSetUpdateTime = 300; // 5 minutes
+        nStakeSetUpdateTime = 60; // changed from 5 minutes to 1 minute to have a new set of hashes at below half average blocktime
 
         //MultiSend
         vMultiSend.clear();

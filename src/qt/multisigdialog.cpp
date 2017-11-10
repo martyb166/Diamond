@@ -197,9 +197,9 @@ bool MultisigDialog::addMultisig(int m, vector<string> keys){
             throw runtime_error(error.data());
         }
 
-        if (::IsMine(*pwalletMain, redeem) == ISMINE_SPENDABLE){
-            throw runtime_error("The wallet already contains this script");
-        }
+       // if (::IsMine(*pwalletMain, redeem) == ISMINE_SPENDABLE){
+        //    throw runtime_error("The wallet already contains this script");
+       // }
 
         if(!pwalletMain->AddCScript(redeem)){
             throw runtime_error("Failure: address invalid or already exists");

@@ -1,5 +1,5 @@
 /* XPM */
-static char *_d168252_32x32_bitcoin32[] = {
+static char *bitcoin32[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 180 2 ",
 "   c #000409",

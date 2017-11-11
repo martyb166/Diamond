@@ -1,5 +1,5 @@
 /* XPM */
-static char *a06a4752_64x64_bitcoin64[] = {
+static char *bitcoin64[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 231 2 ",
 "   c #030709",

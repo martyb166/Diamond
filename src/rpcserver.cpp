@@ -489,7 +489,6 @@ static void RPCListen(boost::shared_ptr< basic_socket_acceptor<Protocol> > accep
                     ssl::context& context,
                     const bool fUseSSL)
 {
-{
     // Accept connection
     boost::shared_ptr<AcceptedConnectionImpl<Protocol> > conn(new AcceptedConnectionImpl<Protocol>(acceptor->get_io_service(), context, fUseSSL));
 

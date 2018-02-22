@@ -117,7 +117,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
 
     GUIUtil::restoreWindowGeometry("nWindow", QSize(880, 550), this);
 
-    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.15") + " - ";
+    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.16") + " - ";
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
     enableWallet = !GetBoolArg("-disablewallet", false);
@@ -579,7 +579,7 @@ void BitcoinGUI::createToolBars()
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
-		toolbar->addAction(coinmixAction);
+		//toolbar->addAction(coinmixAction);
 		toolbar->addAction(unlockWalletAction);
 		toolbar->addAction(lockWalletAction2);
         toolbar->setMovable(false); // remove unused icon in upper left corner
@@ -666,7 +666,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
 	////AAAAA
-	coinmixAction->setEnabled(enabled);
+	//coinmixAction->setEnabled(enabled);
 	unlockWalletAction->setEnabled(enabled);
 	lockWalletAction2->setEnabled(enabled);
 	sendCoinsAction->setEnabled(enabled);

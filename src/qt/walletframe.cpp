@@ -112,14 +112,14 @@ void WalletFrame::gotoOverviewPage()
 }
 
 // AAAA
-
+/*
 void WalletFrame::gotocoinmixPage()
 {
     QMap<QString, WalletView*>::const_iterator i;
     for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
         i.value()->gotocoinmixPage();
 }
-
+*/
 void WalletFrame::gotoHistoryPage()
 {
     QMap<QString, WalletView*>::const_iterator i;

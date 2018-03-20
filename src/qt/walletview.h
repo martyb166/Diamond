@@ -63,7 +63,7 @@ private:
     OverviewPage* overviewPage;
 	//AAAA
 	//QWidget* coinmix;
-	Coinmix* coinmix;
+	//Coinmix* coinmix;
     QWidget* transactionsPage;
     ReceiveCoinsDialog* receiveCoinsPage;
     SendCoinsDialog* sendCoinsPage;
@@ -80,7 +80,7 @@ public slots:
     void gotoOverviewPage();
 	///AAAA
 	/** Switch to overview (home) page */
-    void gotocoinmixPage();
+   // void gotocoinmixPage();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to masternode page */

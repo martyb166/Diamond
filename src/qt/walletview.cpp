@@ -43,7 +43,7 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
     // Create tabs
     overviewPage = new OverviewPage();
 	//AAAA
-	coinmix = new Coinmix();
+	//coinmix = new Coinmix();
 	
 	//coinmix = new QWidget(this);
     explorerWindow = new BlockExplorer(this);
@@ -81,7 +81,7 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
 
     addWidget(overviewPage);
 	////AAAA
-	addWidget(coinmix);
+	//addWidget(coinmix);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
@@ -158,7 +158,7 @@ void WalletView::setWalletModel(WalletModel* walletModel)
     transactionView->setModel(walletModel);
     overviewPage->setWalletModel(walletModel);
 	//AAAA
-	coinmix->setWalletModel(walletModel);
+	//coinmix->setWalletModel(walletModel);
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setWalletModel(walletModel);
@@ -209,12 +209,12 @@ void WalletView::gotoOverviewPage()
     setCurrentWidget(overviewPage);
 }
 ///AAAA
-
+/*
 void WalletView::gotocoinmixPage()
 {
     setCurrentWidget(coinmix);
 }
-
+*/
 
 void WalletView::gotoHistoryPage()
 {
@@ -302,7 +302,7 @@ bool WalletView::handlePaymentRequest(const SendCoinsRecipient& recipient)
 void WalletView::showOutOfSyncWarning(bool fShow)
 {
     overviewPage->showOutOfSyncWarning(fShow);
-	coinmix->showOutOfSyncWarning(fShow);
+	//coinmix->showOutOfSyncWarning(fShow);
 }
 
 void WalletView::updateEncryptionStatus()

@@ -55,7 +55,7 @@ public slots:
 	
 	////AAAA
 	  /** Switch to overview (home) page */
-    void gotocoinmixPage();
+   // void gotocoinmixPage();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to masternode page */

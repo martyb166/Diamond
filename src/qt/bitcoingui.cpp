@@ -81,7 +81,6 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             overviewAction(0),
                                                                             historyAction(0),
                                                                             masternodeAction(0),
-																			coinmixAction(0),
                                                                             quitAction(0),
                                                                             sendCoinsAction(0),
                                                                             usedSendingAddressesAction(0),
@@ -117,7 +116,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
 
     GUIUtil::restoreWindowGeometry("nWindow", QSize(880, 550), this);
 
-    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.16") + " - ";
+    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.0.99") + " - ";
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
     enableWallet = !GetBoolArg("-disablewallet", false);
@@ -329,7 +328,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     tabGroup->addAction(historyAction);
 
 //AAAA LimxDev Coinmix Tab	
-
+/*
     coinmixAction = new QAction(QIcon(":/icons/coinmix"), tr("&Coinmix"), this);
     coinmixAction->setStatusTip(tr("Show general coinmixview of wallet"));
     coinmixAction->setToolTip(coinmixAction->statusTip());
@@ -342,7 +341,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     coinmixAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
 	tabGroup->addAction(coinmixAction);
-	
+*/
 	///	Unlock
 	unlockWalletAction = new QAction(QIcon(":/icons/blueunlock"),tr("&Unlock Wallet..."), this);
     unlockWalletAction->setStatusTip(tr("Unlock wallet"));
@@ -387,9 +386,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
 	// AAAA
-	connect(coinmixAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+	//connect(coinmixAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
 	
-    connect(coinmixAction, SIGNAL(triggered()), this, SLOT(gotocoinmixPage()));
+   // connect(coinmixAction, SIGNAL(triggered()), this, SLOT(gotocoinmixPage()));
 	connect(unlockWalletAction, SIGNAL(triggered()),this, SLOT(unlockWallet()));
 	connect(lockWalletAction2, SIGNAL(triggered()),this, SLOT(unlockWallet()));
 	
@@ -801,13 +800,13 @@ void BitcoinGUI::gotoOverviewPage()
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 ////AAAAA
-
+/*
 void BitcoinGUI::gotocoinmixPage()
 {
     coinmixAction->setChecked(true);
     if (walletFrame) walletFrame->gotocoinmixPage();
 }
-
+*/
 void BitcoinGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);

@@ -67,7 +67,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget* parent) : QDialog(parent),
     if (!settings.contains("bUsequickTX"))
         settings.setValue("bUsequickTX", false);
 
-    //bool usemiXtx = settings.value("bUsemiXtx").toBool();
+    bool usemiXtx = settings.value("bUsemiXtx").toBool();
         ui->checkUsemixTX->setChecked(false);
         ui->checkUsemixTX->setVisible(false);
     bool usequickTX = settings.value("bUsequickTX").toBool();

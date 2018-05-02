@@ -246,7 +246,20 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     connect(quitAction, SIGNAL(triggered()), rpcConsole, SLOT(hide()));
 
     connect(openBlockExplorerAction, SIGNAL(triggered()), explorerWindow, SLOT(show()));
-
+    ///CCCC
+    ///Links
+    connect(openWebsite1, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot1()));
+    connect(openWebsite2, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot2()));
+    connect(openWebsite3, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot3()));
+    connect(openWebsite4, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot4()));
+    connect(openWebsite5, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot5()));
+    connect(openWebsite6, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot6()));
+    connect(openWebsite7, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot7()));
+    connect(openWebsite8, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot8()));
+    connect(openWebsite9, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot9()));
+    connect(openWebsite10, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot10()));
+    connect(openWebsite11, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot11()));
+	
     // prevents an open debug window from becoming stuck/unusable on client shutdown
     connect(quitAction, SIGNAL(triggered()), explorerWindow, SLOT(hide()));
 
@@ -471,6 +484,21 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     openAction->setStatusTip(tr("Open a DMD: URI or payment request"));
     openBlockExplorerAction = new QAction(QIcon(":/icons/explorer"), tr("&Blockchain explorer"), this);
     openBlockExplorerAction->setStatusTip(tr("Block explorer window"));
+	
+	//CCCC
+    //Links
+    openWebsite1 = new QAction(QIcon(":/icons/send"), tr("&WebSite"), this);
+	openWebsite1->setStatusTip(tr("Website from Diamond DMD"));
+    openWebsite2 = new QAction(QIcon(":/icons/connect_4"), tr("&Facebook"), this);
+    openWebsite3 = new QAction(QIcon(":/icons/connect_4"), tr("&Twitter"), this);
+    openWebsite4 = new QAction(QIcon(":/icons/connect_4"), tr("&Reddit"), this);
+    openWebsite5 = new QAction(QIcon(":/icons/connect_4"), tr("&Discord"), this);
+    openWebsite6 = new QAction(QIcon(":/icons/remove"), tr("&Slack invite"), this);
+    openWebsite7 = new QAction(QIcon(":/icons/connect_4"), tr("&Slack"), this);
+    openWebsite8 = new QAction(QIcon(":/icons/address-book"), tr("&Bitcointalk"), this);
+    openWebsite9 = new QAction(QIcon(":/icons/coinmix"), tr("&Bittrex"), this);
+    openWebsite10 = new QAction(QIcon(":/icons/coinmix"), tr("&Livecoin"), this);
+    openWebsite11 = new QAction(QIcon(":/icons/coinmix"), tr("&Cryptobridge"), this);
 
     showHelpMessageAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
@@ -543,7 +571,25 @@ void BitcoinGUI::createMenuBar()
         settings->addSeparator();
     }
     settings->addAction(optionsAction);
+	///CCCC
+    if (walletFrame) {
+        QMenu* hyperlinks = appMenuBar->addMenu(tr("&Links"));
+        hyperlinks->addAction(openWebsite1);
+        hyperlinks->addSeparator();
+        hyperlinks->addAction(openWebsite2);
+        hyperlinks->addAction(openWebsite3);
+        hyperlinks->addAction(openWebsite4);
+        hyperlinks->addAction(openWebsite5);
+        hyperlinks->addAction(openWebsite6);
+        hyperlinks->addAction(openWebsite7);
+        hyperlinks->addAction(openWebsite8);
+		hyperlinks->addSeparator();
+        hyperlinks->addAction(openWebsite9);
+        hyperlinks->addAction(openWebsite10);
+        hyperlinks->addAction(openWebsite11);
 
+    }
+	
     if (walletFrame) {
         QMenu* tools = appMenuBar->addMenu(tr("&Tools"));
         tools->addAction(openInfoAction);
@@ -743,6 +789,19 @@ void BitcoinGUI::createTrayIconMenu()
     trayIconMenu->addAction(openMNConfEditorAction);
     trayIconMenu->addAction(showBackupsAction);
     trayIconMenu->addAction(openBlockExplorerAction);
+	    //CCCC
+    //Links
+    trayIconMenu->addAction(openWebsite1);
+    trayIconMenu->addAction(openWebsite2);
+	trayIconMenu->addAction(openWebsite3);
+	trayIconMenu->addAction(openWebsite4);
+	trayIconMenu->addAction(openWebsite5);
+	trayIconMenu->addAction(openWebsite6);
+	trayIconMenu->addAction(openWebsite7);
+	trayIconMenu->addAction(openWebsite8);
+	trayIconMenu->addAction(openWebsite9);
+	trayIconMenu->addAction(openWebsite10);
+	trayIconMenu->addAction(openWebsite11);
 #ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);

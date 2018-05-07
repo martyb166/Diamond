@@ -112,8 +112,9 @@ public slots:
     void hyperlinks_slot7();
     void hyperlinks_slot8();
     void hyperlinks_slot9();
-    void hyperlinks_slot10();
-    void hyperlinks_slot11();
+    void hyperlinks2_slot1();
+    void hyperlinks2_slot2();
+	void hyperlinks2_slot3();
 
 signals:
     // For RPC command executor

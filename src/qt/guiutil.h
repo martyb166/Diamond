@@ -126,8 +126,10 @@ void hyperlinks_slot6();
 void hyperlinks_slot7();
 void hyperlinks_slot8();
 void hyperlinks_slot9();
-void hyperlinks_slot10();
-void hyperlinks_slot11();
+void hyperlinks2_slot1();
+void hyperlinks2_slot2();
+void hyperlinks2_slot3();
+
 
 /** Qt event filter that intercepts ToolTipChange events, and replaces the tooltip with a rich text
       representation if needed. This assures that Qt can word-wrap long tooltip messages.

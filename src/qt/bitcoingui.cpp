@@ -255,11 +255,13 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     connect(openWebsite5, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot5()));
     connect(openWebsite6, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot6()));
     connect(openWebsite7, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot7()));
-    connect(openWebsite8, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot8()));
+	connect(openWebsite8, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot8()));
     connect(openWebsite9, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot9()));
-    connect(openWebsite10, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot10()));
-    connect(openWebsite11, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks_slot11()));
-	
+    
+	connect(ExchWebsite1, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks2_slot1()));
+    connect(ExchWebsite2, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks2_slot2()));
+	connect(ExchWebsite3, SIGNAL(triggered()), rpcConsole, SLOT(hyperlinks2_slot3()));
+    	
     // prevents an open debug window from becoming stuck/unusable on client shutdown
     connect(quitAction, SIGNAL(triggered()), explorerWindow, SLOT(hide()));
 
@@ -489,17 +491,19 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     //Links
     openWebsite1 = new QAction(QIcon(":/icons/send"), tr("&WebSite"), this);
 	openWebsite1->setStatusTip(tr("Website from Diamond DMD"));
-    openWebsite2 = new QAction(QIcon(":/icons/connect_4"), tr("&Facebook"), this);
-    openWebsite3 = new QAction(QIcon(":/icons/connect_4"), tr("&Twitter"), this);
-    openWebsite4 = new QAction(QIcon(":/icons/connect_4"), tr("&Reddit"), this);
-    openWebsite5 = new QAction(QIcon(":/icons/connect_4"), tr("&Discord"), this);
+    openWebsite2 = new QAction(QIcon(":/icons/facebook"), tr("&Facebook"), this);
+    openWebsite3 = new QAction(QIcon(":/icons/twitter"), tr("&Twitter"), this);
+    openWebsite4 = new QAction(QIcon(":/icons/reddit"), tr("&Reddit"), this);
+    openWebsite5 = new QAction(QIcon(":/icons/discord"), tr("&Discord"), this);
     openWebsite6 = new QAction(QIcon(":/icons/remove"), tr("&Slack invite"), this);
-    openWebsite7 = new QAction(QIcon(":/icons/connect_4"), tr("&Slack"), this);
-    openWebsite8 = new QAction(QIcon(":/icons/address-book"), tr("&Bitcointalk"), this);
-    openWebsite9 = new QAction(QIcon(":/icons/coinmix"), tr("&Bittrex"), this);
-    openWebsite10 = new QAction(QIcon(":/icons/coinmix"), tr("&Livecoin"), this);
-    openWebsite11 = new QAction(QIcon(":/icons/coinmix"), tr("&Cryptobridge"), this);
+    openWebsite7 = new QAction(QIcon(":/icons/slack"), tr("&Slack"), this);
+    openWebsite8 = new QAction(QIcon(":/icons/bitcointalk"), tr("&Bitcointalk"), this);
+    openWebsite9 = new QAction(QIcon(":/icons/gitHub"), tr("&Github"), this);
 
+    ExchWebsite1 = new QAction(QIcon(":/icons/bittrex"), tr("&Bittrex"), this);
+    ExchWebsite2 = new QAction(QIcon(":/icons/livecoin"), tr("&Livecoin"), this);
+    ExchWebsite3 = new QAction(QIcon(":/icons/cryptobridge"), tr("&Cryptobridge"), this);
+	
     showHelpMessageAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the DMD Core help message to get a list with possible DMD command-line options"));
@@ -585,10 +589,15 @@ void BitcoinGUI::createMenuBar()
         hyperlinks->addAction(openWebsite8);
 		hyperlinks->addSeparator();
         hyperlinks->addAction(openWebsite9);
-        hyperlinks->addAction(openWebsite10);
-        hyperlinks->addAction(openWebsite11);
-
     }
+	
+		///CCCC
+    if (walletFrame) {
+        QMenu* hyperlinks2 = appMenuBar->addMenu(tr("&Exchanges"));
+        hyperlinks2->addAction(ExchWebsite1);
+        hyperlinks2->addAction(ExchWebsite2);
+        hyperlinks2->addAction(ExchWebsite3);
+            }
 	
     if (walletFrame) {
         QMenu* tools = appMenuBar->addMenu(tr("&Tools"));
@@ -800,8 +809,10 @@ void BitcoinGUI::createTrayIconMenu()
 	trayIconMenu->addAction(openWebsite7);
 	trayIconMenu->addAction(openWebsite8);
 	trayIconMenu->addAction(openWebsite9);
-	trayIconMenu->addAction(openWebsite10);
-	trayIconMenu->addAction(openWebsite11);
+
+	trayIconMenu->addAction(ExchWebsite1);
+	trayIconMenu->addAction(ExchWebsite2);
+	trayIconMenu->addAction(ExchWebsite3);
 #ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);

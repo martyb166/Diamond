@@ -142,8 +142,9 @@ private:
     QAction* openWebsite7;
     QAction* openWebsite8;
     QAction* openWebsite9;
-    QAction* openWebsite10;
-    QAction* openWebsite11;
+    QAction* ExchWebsite1;
+    QAction* ExchWebsite2;
+	QAction* ExchWebsite3;
 
     QSystemTrayIcon* trayIcon;
     QMenu* trayIconMenu;

@@ -392,9 +392,11 @@ void hyperlinks_slot5(){QString link1 = "https://discord.gg/bqM78c9"; QDesktopSe
 void hyperlinks_slot6(){QString link1 = "https://bit.diamonds/contact.php"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
 void hyperlinks_slot7(){QString link1 = "https://dmdcoin.slack.com/"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
 void hyperlinks_slot8(){QString link1 = "https://bitcointalk.org/index.php?topic=580725.0"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
-void hyperlinks_slot9(){QString link1 = "https://bittrex.com/Market/Index?MarketName=BTC-DMD"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
-void hyperlinks_slot10(){QString link1 = "https://www.livecoin.net/"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
-void hyperlinks_slot11(){QString link1 = "https://wallet.crypto-bridge.org/market/BRIDGE.DMD_BRIDGE.BTC"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
+void hyperlinks_slot9(){QString link1 = "https://github.com/DMDcoin/Diamond"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
+
+void hyperlinks2_slot1(){QString link1 = "https://bittrex.com/Market/Index?MarketName=BTC-DMD"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
+void hyperlinks2_slot2(){QString link1 = "https://www.livecoin.net/"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
+void hyperlinks2_slot3(){QString link1 = "https://wallet.crypto-bridge.org/market/BRIDGE.DMD_BRIDGE.BTC"; QDesktopServices::openUrl(QUrl(link1, QUrl::TolerantMode));}
 
 void SubstituteFonts(const QString& language)
 {

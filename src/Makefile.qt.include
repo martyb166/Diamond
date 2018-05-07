@@ -235,8 +235,18 @@ RES_ICONS = \
   qt/res/icons/unit_udiamond.png \
   qt/res/icons/unit_tdiamond.png \
   qt/res/icons/unit_tmdiamond.png \
+  qt/res/icons/Facebook.png \
+  qt/res/icons/Twitter.png \
+  qt/res/icons/Reddit.png \
+  qt/res/icons/discord.png \
+  qt/res/icons/slack.png \
+  qt/res/icons/Bitcointalk.png \
+  qt/res/icons/GitHub.png \
+  qt/res/icons/bittrex.png \
+  qt/res/icons/livecoin.png \
+  qt/res/icons/CryptoBridgeB.png \
   qt/res/icons/unit_tudiamond.png
-
+ 
 BITCOIN_QT_CPP = \
   qt/bitcoinaddressvalidator.cpp \
   qt/bitcoinamountfield.cpp \

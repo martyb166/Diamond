@@ -69,7 +69,6 @@ private:
         COLUMN_LABEL,
         COLUMN_ADDRESS,
 		COLUMN_TYPE,
-        COLUMN_MIXTX_ROUNDS,
         COLUMN_DATE,
         COLUMN_CONFIRMATIONS,
         COLUMN_PRIORITY,

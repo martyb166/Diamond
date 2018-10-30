@@ -12,7 +12,7 @@
 #include "utilstrencodings.h"
 #include "uint256.h"
 #include <assert.h>
-
+#include "util.h"
 #include <boost/assign/list_of.hpp>
 
 using namespace std;

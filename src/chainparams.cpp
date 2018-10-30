@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers 
+// Copyright (c) 2015-2017 The PIVX developers
 // Copyright (c) 2015-2017 The DMD Diamond developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -9,9 +9,8 @@
 #include "chainparams.h"
 
 #include "random.h"
-#include "util.h"
 #include "utilstrencodings.h"
-
+#include "uint256.h"
 #include <assert.h>
 
 #include <boost/assign/list_of.hpp>
@@ -61,7 +60,7 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
 */
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of(0, uint256("0x001"));
-	
+
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
     1493667067, // * UNIX timestamp of last checkpoint block
@@ -106,7 +105,7 @@ public:
         nDefaultPort = 17771;  //17771
         bnProofOfWorkLimit = ~uint256(0) >> 15; // DMD starting difficulty is 1 / 2^12  //20
         nSubsidyHalvingInterval = 210000;
-        nMaxReorganizationDepth = 100;
+        nMaxReorganizationDepth = 200;
         nEnforceBlockUpgradeMajority = 1250;
         nRejectBlockOutdatedMajority = 1450;
         nToCheckBlockUpgradeMajority = 1500;
@@ -119,7 +118,7 @@ public:
         nMasternodeCountDrift = 20;
         nMasternodeColleteralLimxDev = 10000; //Params().MasternodeColleteralLimxDev()
         nModifierUpdateBlock = 1; // we use the version 2 for dmd
-		nMaxMoneyOut = 21000000 * COIN;
+		nMaxMoneyOut = 43800000 * COIN;
 
         /*
         Z:\VMS\Gen\genquark>python genesis.py -a quark -z "Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem" -n 2083236893 -t 1505328322 -v 0
@@ -135,7 +134,7 @@ public:
         nonce: 2084038383
         genesis hash: 11298cfe767eb63ca47898a56d05b85ff7f89506f94c61d64bbe7177cae53b8a
         */
-		 
+
         const char* pszTimestamp = "Friday, July 12, 11:19 AM TIMEWARP DMDv3 1505328322 150 Tonnen Fettberg verstopft Londons Kanalsystem";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
@@ -182,14 +181,14 @@ public:
         fSkipProofOfWorkCheck = false;
         fTestnetToBeDeprecatedFieldRPC = false;
         fHeadersFirstSyncingActive = false;
-		
+
 	/*
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
         fAllowMinDifficultyBlocks = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
-        fMineBlocksOnDemand = false; 
+        fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
 	*/
 
@@ -233,7 +232,7 @@ public:
         nMaturity = 15;
         nModifierUpdateBlock = 51197; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 43199500 * COIN;
-		
+
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1505328322;
@@ -263,7 +262,7 @@ public:
         fAllowMinDifficultyBlocks = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
-        fMineBlocksOnDemand = false; 
+        fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
 
         nPoolMaxTransactions = 2;

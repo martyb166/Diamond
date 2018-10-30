@@ -116,7 +116,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
 
     GUIUtil::restoreWindowGeometry("nWindow", QSize(880, 550), this);
 
-    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.1.2") + " - ";
+    QString windowTitle = tr("DMD Diamond Core - Wallet 3.0.1.3") + " - ";
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
     enableWallet = !GetBoolArg("-disablewallet", false);
